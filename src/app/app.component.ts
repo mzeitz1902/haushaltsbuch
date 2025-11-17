@@ -8,9 +8,6 @@ import { BottomNavComponent } from '@haushaltsbuch/shared/ui-components';
   selector: 'app-root',
   imports: [RouterOutlet, LucideAngularModule, BottomNavComponent],
   templateUrl: './app.component.html',
-  host: {
-    class: 'h-screen block',
-  },
 })
 export class AppComponent {
   private readonly facade = inject(UsersFacade);

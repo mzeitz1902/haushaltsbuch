@@ -1,6 +1,6 @@
-<main class="h-[calc(100vh-56px)]">
+<main class="grid h-dvh grid-rows-[auto_1fr_auto]">
   <router-outlet />
+  @if (isLoggedIn()) {
+    <app-bottom-nav />
+  }
 </main>
-@if (isLoggedIn()) {
-  <app-bottom-nav />
-}
