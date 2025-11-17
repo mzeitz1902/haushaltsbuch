@@ -47,7 +47,8 @@
               }
             ],
             "styles": ["src/styles.css", "src/styles.scss", "src/styles.scss"],
-            "outputPath": "dist/haushaltsbuch"
+            "outputPath": "dist/haushaltsbuch",
+            "baseHref": "https://mzeitz1902.github.io/haushaltsbuch/"
           },
           "configurations": {
             "production": {
