@@ -1,0 +1,61 @@
+<section class="flex flex-col items-center justify-center p-8">
+  <mat-card
+    class="flex w-full max-w-[420px] flex-col items-center justify-center gap-3"
+  >
+    <mat-card-header>
+      <mat-card-title class="text-lg font-semibold">Anmeldung</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="w-3/4">
+      <form
+        [formGroup]="form"
+        (submit)="login()"
+        novalidate
+        class="flex w-full flex-col space-y-4"
+      >
+        <mat-form-field class="w-full">
+          <mat-label>E-Mail</mat-label>
+          <mat-error>E-Mail ungültig</mat-error>
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            autocomplete="username"
+            required
+            aria-required="true"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Passwort</mat-label>
+          <mat-error>Passwort ungültig</mat-error>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword() ? 'password' : 'text'"
+            autocomplete="current-password"
+            required
+            aria-required="true"
+          />
+          <button
+            mat-icon-button
+            type="button"
+            matSuffix
+            (click)="toggleVisibility()"
+            [attr.aria-label]="
+              hidePassword() ? 'Passwort anzeigen' : 'Passwort verbergen'
+            "
+          >
+            <i-lucide [name]="hidePassword() ? 'eye' : 'eye-off'" />
+          </button>
+        </mat-form-field>
+
+        @if (loginError()) {
+          <mat-error class="text-center">{{ loginError() }}</mat-error>
+        }
+
+        <button maffiButton type="submit" class="self-center">Anmelden</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

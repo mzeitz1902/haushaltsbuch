@@ -1,0 +1,22 @@
+<section class="flex flex-col gap-2">
+  <header class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <h2 class="text-lg font-semibold">Einnahmen</h2>
+      @if (isSaving()) {
+        <mat-spinner diameter="20" />
+      }
+    </div>
+
+    <button maffiButton (click)="addRevenue()" icon="CirclePlus">
+      Hinzufügen
+    </button>
+  </header>
+
+  <app-money-table
+    [data]="revenue()"
+    [isLoading]="isLoading()"
+    [isAdded]="isAdded()"
+    (updateRow)="updateRevenue($event)"
+    (deleteRow)="deleteRevenue($event)"
+  />
+</section>

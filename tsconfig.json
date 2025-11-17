@@ -1,0 +1,63 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "paths": {
+      "@haushaltsbuch/base/features": ["libs/base/features/index.ts"],
+      "@haushaltsbuch/fixed-costs/domain": ["libs/fixed-costs/domain/index.ts"],
+      "@haushaltsbuch/fixed-costs/features": ["libs/fixed-costs/features/index.ts"],
+      "@haushaltsbuch/revenue/domain": ["libs/revenue/domain/index.ts"],
+      "@haushaltsbuch/revenue/features": ["libs/revenue/features/index.ts"],
+      "@haushaltsbuch/weekly-check/domain": ["libs/weekly-check/domain/index.ts"],
+      "@haushaltsbuch/weekly-check/features": [
+        "libs/weekly-check/features/index.ts"
+      ],
+      "@haushaltsbuch/user/domain": ["libs/user/domain/index.ts"],
+      "@haushaltsbuch/user/features": ["libs/user/features/index.ts"],
+
+      "@haushaltsbuch/monthly-check/domain": ["libs/monthly-check/domain/index.ts"],
+      "@haushaltsbuch/monthly-check/features": ["libs/monthly-check/features/index.ts"],
+
+      "@haushaltsbuch/shared/sdks": ["libs/shared/sdks/index.ts"],
+      "@haushaltsbuch/shared/ui-components": [
+        "libs/shared/ui-components/index.ts"
+      ],
+      "@haushaltsbuch/shared/util-icons": ["libs/shared/util-icons/index.ts"],
+      "@haushaltsbuch/shared/util-types": ["libs/shared/util-types/index.ts"],
+      "@haushaltsbuch/shared/util-pipes": [
+        "libs/shared/util-pipes/index.ts"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

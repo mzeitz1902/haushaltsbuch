@@ -1,0 +1,86 @@
+@if (isLoading()) {
+  <mat-spinner class="self-center" />
+} @else {
+  <div class="flex w-full items-center justify-center rounded-lg bg-sky-50 p-1">
+    <table
+      mat-table
+      [dataSource]="data()"
+      [trackBy]="trackByFn"
+      [formGroup]="form"
+      class="!min-w-[95%] !bg-transparent !p-4"
+    >
+      <ng-container matColumnDef="category">
+        <td
+          mat-cell
+          *matCellDef="let row"
+          (click)="setForm(row)"
+          class="!p-0 !pl-2"
+        >
+          @if (form.controls.id.value === row.id) {
+            <input
+              #category
+              class="w-full outline-none"
+              formControlName="category"
+            />
+          } @else {
+            <span class="w-full whitespace-nowrap" (click)="focusCategory()">
+              {{ row.category }}
+            </span>
+          }
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="!p-0 !pl-2 font-semibold">
+          Summe
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <td
+          mat-cell
+          *matCellDef="let row"
+          (click)="setForm(row)"
+          class="w-32 !p-0"
+        >
+          @if (form.controls.id.value === row.id) {
+            <input #value class="w-full outline-none" formControlName="value" />
+          } @else {
+            <span (click)="focusValue()">{{ row.value | safeNumber }}</span>
+          }
+        </td>
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          class="!p-0 text-right font-semibold"
+        >
+          {{ total() | safeNumber }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete_button">
+        <td mat-cell *matCellDef="let row" class="w-1 text-right">
+          <button
+            maffiButton
+            icon="Trash"
+            size="small"
+            theme="secondary"
+            (click)="deleteRow.emit(row.id)"
+          ></button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      @for (col of customColumns(); track $index) {
+        <ng-container [matColumnDef]="col.name">
+          <td mat-cell *matCellDef="let row">
+            <ng-template
+              [ngTemplateOutlet]="col.template"
+              [ngTemplateOutletContext]="{ $implicit: row }"
+            />
+          </td>
+        </ng-container>
+      }
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns()"></tr>
+    </table>
+  </div>
+}

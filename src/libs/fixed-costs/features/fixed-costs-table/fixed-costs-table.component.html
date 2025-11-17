@@ -1,0 +1,22 @@
+<section class="flex flex-col gap-2">
+  <header class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <h2 class="text-lg font-semibold">Fixe Ausgaben</h2>
+      @if (isSaving()) {
+        <mat-spinner diameter="20" />
+      }
+    </div>
+
+    <button maffiButton (click)="addFixedCost()" icon="CirclePlus">
+      Hinzufügen
+    </button>
+  </header>
+
+  <app-money-table
+    [data]="fixedCosts()"
+    [isLoading]="isLoading()"
+    [isAdded]="isAdded()"
+    (updateRow)="updateFixedCost($event)"
+    (deleteRow)="deleteFixedCost($event)"
+  />
+</section>

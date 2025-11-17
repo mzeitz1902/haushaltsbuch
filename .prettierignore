@@ -1,0 +1,4 @@
+.prettierignore
+tsconfig.base.json
+
+.angular
