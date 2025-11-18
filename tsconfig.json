@@ -41,6 +41,9 @@
       "@haushaltsbuch/shared/util-types": ["libs/shared/util-types/index.ts"],
       "@haushaltsbuch/shared/util-pipes": [
         "libs/shared/util-pipes/index.ts"
+      ],
+      "@haushaltsbuch/shared/util-functions": [
+        "libs/shared/util-functions/index.ts"
       ]
     }
   },

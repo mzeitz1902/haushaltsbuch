@@ -10,25 +10,21 @@
       class="!min-w-[95%] !bg-transparent !p-4"
     >
       <ng-container matColumnDef="category">
-        <td
-          mat-cell
-          *matCellDef="let row"
-          (click)="setForm(row)"
-          class="!p-0 !pl-2"
-        >
+        <td mat-cell *matCellDef="let row" class="!h-1 !w-24 !p-0.5 !text-xs">
           @if (form.controls.id.value === row.id) {
             <input
               #category
-              class="w-full outline-none"
+              class="w-24 rounded border-1 border-blue-400 bg-sky-100 p-1 outline-none"
               formControlName="category"
+              (blur)="resetForm()"
             />
           } @else {
-            <span class="w-full whitespace-nowrap" (click)="focusCategory()">
+            <span class="block w-full" (click)="focusCategory(row)">
               {{ row.category }}
             </span>
           }
         </td>
-        <td mat-footer-cell *matFooterCellDef class="!p-0 !pl-2 font-semibold">
+        <td mat-footer-cell *matFooterCellDef class="!h-1 !p-0 font-semibold">
           Summe
         </td>
       </ng-container>
@@ -37,30 +33,40 @@
         <td
           mat-cell
           *matCellDef="let row"
-          (click)="setForm(row)"
-          class="w-32 !p-0"
+          class="!h-1 !w-12 !p-0 !text-right !text-xs"
         >
           @if (form.controls.id.value === row.id) {
-            <input #value class="w-full outline-none" formControlName="value" />
+            <input
+              #value
+              class="w-12 rounded border-1 border-blue-400 bg-sky-100 p-1 text-right outline-none"
+              formControlName="value"
+              (blur)="resetForm()"
+            />
           } @else {
-            <span (click)="focusValue()">{{ row.value | safeNumber }}</span>
+            <span class="block w-full" (click)="focusValue(row)">{{
+              row.value | safeNumber
+            }}</span>
           }
         </td>
         <td
           mat-footer-cell
           *matFooterCellDef
-          class="!p-0 text-right font-semibold"
+          class="!p-0 !text-right font-semibold"
         >
           {{ total() | safeNumber }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="delete_button">
-        <td mat-cell *matCellDef="let row" class="w-1 text-right">
+        <td
+          mat-cell
+          *matCellDef="let row"
+          class="self-right w-1 !p-0 !text-right"
+        >
           <button
             maffiButton
             icon="Trash"
-            size="small"
+            size="mini"
             theme="secondary"
             (click)="deleteRow.emit(row.id)"
           ></button>
@@ -70,17 +76,26 @@
 
       @for (col of customColumns(); track $index) {
         <ng-container [matColumnDef]="col.name">
-          <td mat-cell *matCellDef="let row">
+          <td mat-cell *matCellDef="let row" class="!p-0 !text-right !text-xs">
             <ng-template
               [ngTemplateOutlet]="col.template"
               [ngTemplateOutletContext]="{ $implicit: row }"
             />
           </td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
       }
 
-      <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
-      <tr mat-footer-row *matFooterRowDef="displayedColumns()"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns()"
+        class="!h-1"
+      ></tr>
+      <tr
+        mat-footer-row
+        *matFooterRowDef="displayedColumns()"
+        class="!h-1"
+      ></tr>
     </table>
   </div>
 }

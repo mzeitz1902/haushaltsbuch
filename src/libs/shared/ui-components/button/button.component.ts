@@ -25,7 +25,7 @@ export class ButtonComponent {
   theme = input<ButtonTheme>('primary');
   isLoading = input<boolean>(false);
   disabled = input<boolean>(false);
-  size = input<'small' | 'medium' | 'large'>('small');
+  size = input<'mini' | 'small' | 'medium' | 'large'>('small');
 
   noContentFallback = viewChild('noContentFallback');
 
@@ -35,6 +35,8 @@ export class ButtonComponent {
 
   _size = computed(() => {
     switch (this.size()) {
+      case 'mini':
+        return 12;
       case 'small':
         return 18;
       case 'medium':

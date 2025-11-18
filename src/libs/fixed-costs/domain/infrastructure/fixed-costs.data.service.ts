@@ -6,12 +6,13 @@ import {
   FixedCost,
   UpdateFixedCostPayload,
 } from '../entities/fixed-cost.model';
+import { toNormalizedMoneyValue } from '@haushaltsbuch/shared/util-functions';
 
 @Injectable()
 export class FixedCostsDataService {
   getFixedCosts(): Observable<FixedCost[] | null> {
     return from(supabase.from('fixed_costs').select('*').order('id')).pipe(
-      map((res) => res.data)
+      map((res) => res.data?.map(toNormalizedMoneyValue) ?? null)
     );
   }
 

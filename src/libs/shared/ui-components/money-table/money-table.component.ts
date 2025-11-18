@@ -78,32 +78,28 @@ export class MoneyTableComponent<
 
   total = computed(() =>
     this.data().reduce((acc, r) => {
-      const isNumber = Number.isFinite(+r.value);
-      return acc + (isNumber ? +r.value : 0);
+      const value = Number(r.value);
+      const isNumber = Number.isFinite(value);
+      return acc + (isNumber ? value : 0);
     }, 0)
   );
 
   displayedColumns = computed(() =>
-    ['category', 'value', 'delete_button'].concat(
-      this.customColumns().map((c) => c.name)
-    )
+    ['category', 'value']
+      .concat(this.customColumns().map((c) => c.name))
+      .concat('delete_button')
   );
 
   focusCategoryOnAdd = effect(() => {
     if (this.isAdded()) {
       untracked(() => {
         const newData = this.data().at(-1);
-        this.setForm(newData!);
-        this.focusCategory();
+        this.focusCategory(newData!);
       });
     }
   });
 
-  form = this.fb.group<Form>({
-    id: this.fb.control(null!),
-    category: this.fb.control(''),
-    value: this.fb.control(''),
-  });
+  form = this.initForm();
 
   trackByFn(index: number, item: DATA) {
     return item?.id;
@@ -121,12 +117,26 @@ export class MoneyTableComponent<
     });
   }
 
-  focusCategory() {
+  focusCategory(row: DATA) {
+    this.setForm(row);
     setTimeout(() => this.category()?.nativeElement.select());
   }
 
-  focusValue() {
+  focusValue(row: DATA) {
+    this.setForm(row);
     setTimeout(() => this.value()?.nativeElement.select());
+  }
+
+  resetForm() {
+    this.form = this.initForm();
+  }
+
+  private initForm() {
+    return this.fb.group<Form>({
+      id: this.fb.control(null!),
+      category: this.fb.control(''),
+      value: this.fb.control(''),
+    });
   }
 }
 
@@ -136,7 +146,7 @@ interface Form {
   value: FormControl<string>;
 }
 
-interface Column {
+export interface Column {
   name: string;
   template: TemplateRef<unknown>;
 }

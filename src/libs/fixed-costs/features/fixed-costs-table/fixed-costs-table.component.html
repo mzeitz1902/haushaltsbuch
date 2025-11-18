@@ -16,7 +16,12 @@
     [data]="fixedCosts()"
     [isLoading]="isLoading()"
     [isAdded]="isAdded()"
+    [customColumns]="additionalColumns()"
     (updateRow)="updateFixedCost($event)"
     (deleteRow)="deleteFixedCost($event)"
   />
 </section>
+
+<ng-template #dueInMonths let-row>
+  <span class="block w-12 whitespace-pre-line">{{ row.due_in }}</span>
+</ng-template>

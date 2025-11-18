@@ -1,4 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import {
   ButtonComponent,
   MoneyTableComponent,
@@ -19,14 +25,18 @@ export class FixedCostsTableComponent {
   isSaving = this.facade.isSaving;
   isAdded = this.facade.isAdded;
 
-  additionalColumns = ['due_in_months'];
+  dueInMonthsTmp = viewChild.required<TemplateRef<unknown>>('dueInMonths');
+
+  additionalColumns = computed(() => [
+    { name: 'due_in_month', template: this.dueInMonthsTmp() },
+  ]);
 
   constructor() {
     this.facade.loadFixedCosts();
   }
 
   addFixedCost() {
-    this.facade.addFixedCost({ category: '', value: '0' });
+    this.facade.addFixedCost({ category: '', value: '0', due_in: ['Alle'] });
   }
 
   updateFixedCost(fixedCost: FixedCost) {
