@@ -11,10 +11,16 @@ import {
 } from '@haushaltsbuch/shared/ui-components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-fixed-costs-table',
-  imports: [ButtonComponent, MatProgressSpinnerModule, MoneyTableComponent],
+  imports: [
+    ButtonComponent,
+    MatProgressSpinnerModule,
+    MoneyTableComponent,
+    NgSelectComponent,
+  ],
   templateUrl: './fixed-costs-table.component.html',
 })
 export class FixedCostsTableComponent {
@@ -30,6 +36,8 @@ export class FixedCostsTableComponent {
   additionalColumns = computed(() => [
     { name: 'due_in_month', template: this.dueInMonthsTmp() },
   ]);
+
+  items = [1, 2, 3];
 
   constructor() {
     this.facade.loadFixedCosts();
