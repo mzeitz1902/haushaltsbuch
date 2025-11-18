@@ -19,6 +19,8 @@ export class FixedCostsTableComponent {
   isSaving = this.facade.isSaving;
   isAdded = this.facade.isAdded;
 
+  additionalColumns = ['due_in_months'];
+
   constructor() {
     this.facade.loadFixedCosts();
   }
