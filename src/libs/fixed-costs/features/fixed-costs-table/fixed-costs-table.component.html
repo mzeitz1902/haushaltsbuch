@@ -23,5 +23,21 @@
 </section>
 
 <ng-template #dueInMonths let-row>
-  <span class="block w-12 whitespace-pre-line">{{ row.due_in }}</span>
+  <div class="flex h-5 justify-end">
+    @if (selectedRow() === row.id) {
+      <ng-select
+        #select
+        [items]="dueInItems"
+        class="h-5 w-24"
+        [formControl]="dueInControl"
+        [clearable]="false"
+        (change)="updateFixedCost(row)"
+        (close)="selectedRow.set(null)"
+      />
+    } @else {
+      <span class="block h-5 w-24 pl-3" (click)="selectRow(row.id, row.due_in)">
+        {{ row.due_in }}
+      </span>
+    }
+  </div>
 </ng-template>

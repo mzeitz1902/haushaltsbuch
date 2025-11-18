@@ -10,3 +10,25 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.ng-select .ng-select-container {
+  background-color: var(--color-sky-100) !important;
+  border-color: var(--color-blue-400) !important;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  min-height: calc(var(--spacing) * 5);
+  height: calc(var(--spacing) * 5);
+}
+
+.ng-dropdown-panel {
+  border-color: var(--color-blue-400) !important;
+}
+
+.ng-dropdown-panel .ng-option {
+  background-color: var(--color-sky-100) !important;
+}
+
+.ng-dropdown-panel .ng-option-marked {
+  background-color: var(--color-sky-200) !important;
+}

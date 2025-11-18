@@ -6,6 +6,7 @@ import {
   inject,
   input,
   output,
+  signal,
   TemplateRef,
   untracked,
   viewChild,
@@ -76,6 +77,9 @@ export class MoneyTableComponent<
   category = viewChild<ElementRef>('category');
   value = viewChild<ElementRef>('value');
 
+  selectedRow = signal<number | null>(null);
+  selectedField = signal<'category' | 'value' | null>(null);
+
   total = computed(() =>
     this.data().reduce((acc, r) => {
       const value = Number(r.value);
@@ -94,7 +98,7 @@ export class MoneyTableComponent<
     if (this.isAdded()) {
       untracked(() => {
         const newData = this.data().at(-1);
-        this.focusCategory(newData!);
+        this.editCategory(newData!);
       });
     }
   });
@@ -117,18 +121,29 @@ export class MoneyTableComponent<
     });
   }
 
-  focusCategory(row: DATA) {
+  editCategory(row: DATA) {
     this.setForm(row);
+    this.selectedRow.set(row.id);
+    this.selectedField.set('category');
     setTimeout(() => this.category()?.nativeElement.select());
   }
 
-  focusValue(row: DATA) {
+  editValue(row: DATA) {
     this.setForm(row);
+    this.selectedRow.set(row.id);
+    this.selectedField.set('value');
     setTimeout(() => this.value()?.nativeElement.select());
   }
 
   resetForm() {
+    this.selectedRow.set(null);
+    this.selectedField.set(null);
     this.form = this.initForm();
+  }
+
+  onCategoryEnterPressed() {
+    this.selectedField.set('value');
+    setTimeout(() => this.value()?.nativeElement.select());
   }
 
   private initForm() {

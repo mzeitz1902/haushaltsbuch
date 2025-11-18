@@ -11,20 +11,25 @@
     >
       <ng-container matColumnDef="category">
         <td mat-cell *matCellDef="let row" class="!h-1 !w-24 !p-0.5 !text-xs">
-          @if (form.controls.id.value === row.id) {
+          @if (selectedRow() === row.id && selectedField() === 'category') {
             <input
               #category
               class="w-24 rounded border-1 border-blue-400 bg-sky-100 p-1 outline-none"
               formControlName="category"
               (blur)="resetForm()"
+              (keyup.enter)="onCategoryEnterPressed()"
             />
           } @else {
-            <span class="block w-full" (click)="focusCategory(row)">
+            <span class="block h-5 w-full" (click)="editCategory(row)">
               {{ row.category }}
             </span>
           }
         </td>
-        <td mat-footer-cell *matFooterCellDef class="!h-1 !p-0 font-semibold">
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          class="!h-1 !p-0 !pt-2 font-semibold"
+        >
           Summe
         </td>
       </ng-container>
@@ -35,23 +40,24 @@
           *matCellDef="let row"
           class="!h-1 !w-12 !p-0 !text-right !text-xs"
         >
-          @if (form.controls.id.value === row.id) {
+          @if (selectedRow() === row.id && selectedField() === 'value') {
             <input
               #value
               class="w-12 rounded border-1 border-blue-400 bg-sky-100 p-1 text-right outline-none"
               formControlName="value"
               (blur)="resetForm()"
+              (keyup.enter)="selectedRow.set(null)"
             />
           } @else {
-            <span class="block w-full" (click)="focusValue(row)">{{
-              row.value | safeNumber
-            }}</span>
+            <span class="block h-5 w-full" (click)="editValue(row)">
+              {{ row.value | safeNumber }}
+            </span>
           }
         </td>
         <td
           mat-footer-cell
           *matFooterCellDef
-          class="!p-0 !text-right font-semibold"
+          class="!p-0 !pt-2 !text-right font-semibold"
         >
           {{ total() | safeNumber }}
         </td>
@@ -76,7 +82,11 @@
 
       @for (col of customColumns(); track $index) {
         <ng-container [matColumnDef]="col.name">
-          <td mat-cell *matCellDef="let row" class="!p-0 !text-right !text-xs">
+          <td
+            mat-cell
+            *matCellDef="let row"
+            class="!overflow-visible !p-0 !text-xs"
+          >
             <ng-template
               [ngTemplateOutlet]="col.template"
               [ngTemplateOutletContext]="{ $implicit: row }"

@@ -6,12 +6,13 @@ import {
   Revenue,
   UpdateRevenuePayload,
 } from '../entities/revenue.model';
+import { toNormalizedMoneyValue } from '@haushaltsbuch/shared/util-functions';
 
 @Injectable()
 export class RevenueDataService {
   getRevenue(): Observable<Revenue[] | null> {
     return from(supabase.from('revenue').select('*').order('id')).pipe(
-      map((res) => res.data)
+      map((res) => res.data?.map(toNormalizedMoneyValue) ?? null)
     );
   }
 
