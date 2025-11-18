@@ -1,1 +1,0 @@
-import{Wb as l,bb as o,wb as n,xb as c}from"./chunk-L7P7ONIE.js";var m=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=o({type:t,selectors:[["app-weekly-check"]],decls:2,vars:0,template:function(e,i){e&1&&(n(0,"p"),l(1,"weekly-check works!"),c())},encapsulation:2})};export{m as WeeklyCheckComponent};
