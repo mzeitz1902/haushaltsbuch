@@ -7,13 +7,16 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "type": "component"
+          "type": "component",
+          "skipTests": true,
+          "inlineStyle": true
         },
         "@schematics/angular:directive": {
           "type": "directive"
         },
         "@schematics/angular:service": {
-          "type": "service"
+          "type": "service",
+          "skipTests": true
         },
         "@schematics/angular:guard": {
           "typeSeparator": "."
