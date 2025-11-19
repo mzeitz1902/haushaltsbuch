@@ -1,0 +1,26 @@
+import { inject } from '@angular/core';
+import { Events } from '@ngrx/signals/events';
+import { MonthlyCheckDataService } from '../infrastructure/monthly-check.data.service';
+import { monthlyCheckEvents } from './monthly-check.events';
+import { switchMap } from 'rxjs';
+import { mapResponse } from '@ngrx/operators';
+
+export function monthlyCheckEffects() {
+  const events = inject(Events);
+  const dataService = inject(MonthlyCheckDataService);
+
+  return {
+    $create: events.on(monthlyCheckEvents.create).pipe(
+      switchMap(({ payload: month }) => {
+        return dataService.createMonth(month).pipe(
+          mapResponse({
+            next: (res) => {
+              return monthlyCheckEvents.createSuccess(res);
+            },
+            error: (error) => monthlyCheckEvents.createFailure(error),
+          })
+        );
+      })
+    ),
+  };
+}

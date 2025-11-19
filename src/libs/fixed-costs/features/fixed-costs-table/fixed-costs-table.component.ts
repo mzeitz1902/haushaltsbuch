@@ -6,10 +6,7 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import {
-  ButtonComponent,
-  MoneyTableComponent,
-} from '@haushaltsbuch/shared/ui-components';
+import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
 import { DueIn } from '@haushaltsbuch/shared/sdks';
@@ -19,7 +16,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-fixed-costs-table',
   imports: [
-    ButtonComponent,
     MatProgressSpinnerModule,
     MoneyTableComponent,
     NgSelectComponent,

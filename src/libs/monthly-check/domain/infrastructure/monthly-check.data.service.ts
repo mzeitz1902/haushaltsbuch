@@ -5,6 +5,10 @@ import { from } from 'rxjs';
 @Injectable()
 export class MonthlyCheckDataService {
   createMonth(month: string) {
-    return from(supabase.functions.invoke(''));
+    return from(
+      supabase.rpc('create_monthly_snapshot', {
+        p_month: month,
+      })
+    );
   }
 }

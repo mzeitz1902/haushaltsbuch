@@ -1,1 +1,8 @@
-<p>monthly-check works!</p>
+<form [formGroup]="form">
+  <ng-select [items]="months" bindLabel="label" bindValue="value" [clearable]="false" formControlName="month" />
+  <ng-select [items]="years" [clearable]="false" formControlName="year" />
+</form>
+
+<button maffiButton icon="CirclePlus" (click)="createMonth()">
+  Monat anlegen
+</button>

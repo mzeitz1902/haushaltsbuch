@@ -1,3 +1,28 @@
+@if (headerTitle() || showAddButton()) {
+  <header
+    class="sticky top-16 z-10 mb-2 flex items-center justify-between bg-gray-900/80 px-3 py-2 backdrop-blur"
+  >
+    <div class="flex gap-1">
+      @if (headerTitle()) {
+        <h2 class="text-sm font-semibold text-gray-100">{{ headerTitle() }}</h2>
+      }
+      @if (isSaving()) {
+        <mat-spinner class="self-center" diameter="18" />
+      }
+    </div>
+    @if (showAddButton()) {
+      <button
+        maffiButton
+        icon="CirclePlus"
+        size="small"
+        (click)="addRow.emit()"
+      >
+        Hinzufügen
+      </button>
+    }
+  </header>
+}
+
 @if (isLoading()) {
   <mat-spinner class="self-center" />
 } @else {

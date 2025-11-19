@@ -1,8 +1,10 @@
-export function normalizeMoneyValue(value: string) {
-  return value.replace(/,/g, '.');
+export function normalizeMoneyValue(value: string | null) {
+  return value?.replace(/,/g, '.') ?? null;
 }
 
-export function toNormalizedMoneyValue<T extends { value: string }>(item: T) {
+export function toNormalizedMoneyValue<T extends { value: string | null }>(
+  item: T
+) {
   return {
     ...item,
     value: normalizeMoneyValue(item.value),

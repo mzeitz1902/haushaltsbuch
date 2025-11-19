@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -58,21 +59,27 @@ import { SafeNumberPipe } from '@haushaltsbuch/shared/util-pipes';
   host: {
     class: 'md:self-center md:w-2/3',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyTableComponent<
-  DATA extends { id: number; category: string; value: string },
+  DATA extends { id: number; category: string | null; value: string | null },
 > {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly safeNumberPipe = inject(SafeNumberPipe);
 
   data = input.required<DATA[]>();
   isLoading = input.required<boolean>();
+  isSaving = input.required<boolean>();
   isAdded = input.required<boolean>();
+  scrollOnAdd = input.required<boolean>();
 
   customColumns = input<Column[]>([]);
+  headerTitle = input<string>('');
+  showAddButton = input<boolean>(true);
 
   updateRow = output<DATA>();
   deleteRow = output<number>();
+  addRow = output<void>();
 
   category = viewChild<ElementRef>('category');
   value = viewChild<ElementRef>('value');
@@ -95,10 +102,13 @@ export class MoneyTableComponent<
   );
 
   focusCategoryOnAdd = effect(() => {
-    if (this.isAdded()) {
+    if (this.isAdded() && this.scrollOnAdd()) {
       untracked(() => {
         const newData = this.data().at(-1);
         this.editCategory(newData!);
+        setTimeout(() =>
+          this.category()?.nativeElement.scrollIntoView({ behavior: 'smooth' })
+        );
       });
     }
   });
@@ -113,7 +123,7 @@ export class MoneyTableComponent<
     this.form = this.fb.group<Form>({
       id: this.fb.control(data.id),
       category: this.fb.control(data.category),
-      value: this.fb.control(this.safeNumberPipe.transform(data.value)!),
+      value: this.fb.control(this.safeNumberPipe.transform(data.value!)!),
     });
 
     this.form.valueChanges.pipe(auditTime(500)).subscribe(() => {
@@ -125,10 +135,7 @@ export class MoneyTableComponent<
     this.setForm(row);
     this.selectedRow.set(row.id);
     this.selectedField.set('category');
-    setTimeout(() => {
-      this.category()?.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      return this.category()?.nativeElement.select();
-    });
+    setTimeout(() => this.category()?.nativeElement.select());
   }
 
   editValue(row: DATA) {
@@ -160,8 +167,8 @@ export class MoneyTableComponent<
 
 interface Form {
   id: FormControl<number>;
-  category: FormControl<string>;
-  value: FormControl<string>;
+  category: FormControl<string | null>;
+  value: FormControl<string | null>;
 }
 
 export interface Column {
