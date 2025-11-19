@@ -125,7 +125,10 @@ export class MoneyTableComponent<
     this.setForm(row);
     this.selectedRow.set(row.id);
     this.selectedField.set('category');
-    setTimeout(() => this.category()?.nativeElement.select());
+    setTimeout(() => {
+      this.category()?.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      return this.category()?.nativeElement.select();
+    });
   }
 
   editValue(row: DATA) {

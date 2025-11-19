@@ -91,20 +91,20 @@ export class ButtonComponent {
 
       case 'secondary':
         return `
-        text-neutral-900
-        hover:bg-neutral-200
-        active:bg-neutral-200
+        text-gray-100
+        hover:bg-gray-700
+        active:bg-gray-700
         `;
 
       case 'plain':
         return `
-          text-neutral-900
+          text-gray-100
         `;
 
       case 'inactive':
         return `
           text-neutral-400
-          hover:text-neutral-900
+          hover:text-gray-100
         `;
 
       default:

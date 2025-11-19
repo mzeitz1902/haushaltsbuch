@@ -9,6 +9,7 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--color-gray-900);
 }
 
 .ng-select .ng-select-container {

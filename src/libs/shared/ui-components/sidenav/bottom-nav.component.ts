@@ -8,7 +8,7 @@ import { MatToolbar } from '@angular/material/toolbar';
   imports: [ButtonComponent, RouterLink, RouterLinkActive, MatToolbar],
   template: `
     <mat-toolbar
-      class="flex w-full! items-center justify-center border-t-1 bg-indigo-100!"
+      class="flex w-full! items-center justify-center border-t-1 border-gray-100 bg-gray-800!"
     >
       <div class="flex items-center justify-center gap-3">
         <button
