@@ -4,6 +4,7 @@ import { provideUsersDomain } from '../libs/user/domain';
 import { provideRevenueDomain } from '../libs/revenue/domain';
 import { authGuard } from '../libs/user/domain/application/auth.guard';
 import { loginRedirectGuard } from '../libs/user/domain/application/login-redirect.guard';
+import { provideMonthlyCheckDomain } from '@haushaltsbuch/monthly-check/domain';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,6 @@ export const routes: Routes = [
         (m) => m.MonthlyCheckComponent
       ),
     canActivate: [authGuard],
+    providers: [provideMonthlyCheckDomain()],
   },
 ];
