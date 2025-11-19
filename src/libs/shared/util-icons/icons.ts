@@ -1,5 +1,9 @@
 import {
+  BadgeMinus,
+  BadgePlus,
   Calendar,
+  ChevronDown,
+  ChevronUp,
   CirclePlus,
   EllipsisVertical,
   Eye,
@@ -20,6 +24,10 @@ export const icons = {
   CirclePlus,
   Trash,
   LogOut,
+  ChevronDown,
+  ChevronUp,
+  BadgePlus,
+  BadgeMinus,
 };
 
 export type Icon = keyof typeof icons;

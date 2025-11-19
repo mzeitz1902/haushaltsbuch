@@ -38,7 +38,7 @@ export class ButtonComponent {
       case 'mini':
         return 12;
       case 'small':
-        return 18;
+        return 16;
       case 'medium':
         return 24;
       case 'large':
@@ -54,8 +54,8 @@ export class ButtonComponent {
       inline-flex
       gap-2
       items-center
-      min-h-10
-      text-sm
+      min-h-8
+      text-xs
     `;
 
     const interactionClasses = `

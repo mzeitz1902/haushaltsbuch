@@ -34,6 +34,9 @@ import {
 import { auditTime } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SafeNumberPipe } from '@haushaltsbuch/shared/util-pipes';
+import { CdkAccordionItem } from '@angular/cdk/accordion';
+import { LucideAngularModule } from 'lucide-angular';
+import { Icon } from '@haushaltsbuch/shared/util-icons';
 
 @Component({
   selector: 'app-money-table',
@@ -53,6 +56,8 @@ import { SafeNumberPipe } from '@haushaltsbuch/shared/util-pipes';
     MatFooterCellDef,
     NgTemplateOutlet,
     SafeNumberPipe,
+    CdkAccordionItem,
+    LucideAngularModule,
   ],
   providers: [DecimalPipe, SafeNumberPipe],
   templateUrl: './money-table.component.html',
@@ -74,7 +79,8 @@ export class MoneyTableComponent<
   scrollOnAdd = input.required<boolean>();
 
   customColumns = input<Column[]>([]);
-  headerTitle = input<string>('');
+  headerIcon = input<Icon>();
+  headerTitle = input<string>();
   showAddButton = input<boolean>(true);
 
   updateRow = output<DATA>();

@@ -9,6 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "generate:types": "npx supabase gen types typescript --project-id wxltfyevnqrmqrtszpkp > src/libs/shared/sdks/model/database.ts",
     "deploy": "ng deploy"
   },
@@ -21,7 +22,6 @@
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
     "@angular/material": "^20.2.12",
-    "@angular/material-moment-adapter": "^20.2.13",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@ng-select/ng-select": "^20.7.0",
