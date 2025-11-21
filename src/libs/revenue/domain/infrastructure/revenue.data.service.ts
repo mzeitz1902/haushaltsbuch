@@ -6,19 +6,19 @@ import {
   Revenue,
   UpdateRevenuePayload,
 } from '../entities/revenue.model';
-import { toNormalizedMoneyValue } from '@haushaltsbuch/shared/util-functions';
 
 @Injectable()
 export class RevenueDataService {
   getRevenue(): Observable<Revenue[] | null> {
     return from(supabase.from('revenue').select('*').order('id')).pipe(
-      map((res) => res.data?.map(toNormalizedMoneyValue) ?? null)
+      map((res) => res.data ?? null)
+      // map((res) => res.data?.map((item) => toGermanMoney(item)) ?? null)
     );
   }
 
-  addRevenue(revenue: AddRevenuePayload): Observable<Revenue> {
+  addRevenue(payload: AddRevenuePayload): Observable<Revenue> {
     return from(
-      supabase.from('revenue').insert(revenue).select('*').single()
+      supabase.from('revenue').insert(payload).select('*').single()
     ).pipe(map((res) => res.data!));
   }
 
@@ -29,6 +29,7 @@ export class RevenueDataService {
         .update({
           category: payload.category,
           value: payload.value,
+          // value: toEnglishMoneyValue(payload.value),
         })
         .eq('id', payload.id)
         .select('*')

@@ -56,11 +56,11 @@ import { MatCard, MatCardContent } from '@angular/material/card';
     ReactiveFormsModule,
     MatFooterCellDef,
     NgTemplateOutlet,
-    SafeNumberPipe,
     CdkAccordionItem,
     LucideAngularModule,
     MatCard,
     MatCardContent,
+    DecimalPipe,
   ],
   providers: [DecimalPipe, SafeNumberPipe],
   templateUrl: './money-table.component.html',
@@ -70,7 +70,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyTableComponent<
-  DATA extends { id: number; category: string | null; value: string | null },
+  DATA extends { id: number; category: string | null; value: number | null },
 > {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly safeNumberPipe = inject(SafeNumberPipe);
@@ -131,7 +131,7 @@ export class MoneyTableComponent<
     this.form = this.fb.group<Form>({
       id: this.fb.control(data.id),
       category: this.fb.control(data.category),
-      value: this.fb.control(this.safeNumberPipe.transform(data.value!)!),
+      value: this.fb.control(data.value!),
     });
 
     this.form.valueChanges.pipe(auditTime(500)).subscribe(() => {
@@ -168,7 +168,7 @@ export class MoneyTableComponent<
     return this.fb.group<Form>({
       id: this.fb.control(null!),
       category: this.fb.control(''),
-      value: this.fb.control(''),
+      value: this.fb.control(null!),
     });
   }
 }
@@ -176,7 +176,7 @@ export class MoneyTableComponent<
 interface Form {
   id: FormControl<number>;
   category: FormControl<string | null>;
-  value: FormControl<string | null>;
+  value: FormControl<number | null>;
 }
 
 export interface Column {

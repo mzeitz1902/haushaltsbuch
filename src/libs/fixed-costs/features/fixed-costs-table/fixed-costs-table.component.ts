@@ -8,7 +8,11 @@ import {
 } from '@angular/core';
 import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
+import {
+  FixedCost,
+  FixedCostsFacade,
+  UpdateFixedCostPayload,
+} from '@haushaltsbuch/fixed-costs/domain';
 import { DueIn } from '@haushaltsbuch/shared/sdks';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -48,14 +52,14 @@ export class FixedCostsTableComponent {
   }
 
   addFixedCost() {
-    this.facade.addFixedCost({ category: '', value: '0', due_in: 'Alle' });
+    this.facade.addFixedCost({ category: '', value: 0, due_in: 'Alle' });
   }
 
   updateFixedCost(fixedCost: FixedCost) {
-    const _fixedCost: FixedCost = {
+    const _fixedCost: UpdateFixedCostPayload = {
       ...fixedCost,
       due_in: this.dueInControl.value ?? fixedCost.due_in,
-    };
+    } as UpdateFixedCostPayload;
     this.facade.updateFixedCost(_fixedCost);
     this.selectedRow.set(null);
     this.dueInControl.setValue(null);

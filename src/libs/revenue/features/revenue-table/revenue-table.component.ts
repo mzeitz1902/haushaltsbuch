@@ -1,6 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
-import { Revenue, RevenueFacade } from '@haushaltsbuch/revenue/domain';
+import {
+  Revenue,
+  RevenueFacade,
+  UpdateRevenuePayload,
+} from '@haushaltsbuch/revenue/domain';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -22,11 +26,12 @@ export class RevenueTableComponent {
   }
 
   addRevenue() {
-    this.facade.addRevenue({ category: '', value: '0' });
+    this.facade.addRevenue({ category: '', value: 0 });
   }
 
   updateRevenue(revenue: Revenue) {
-    this.facade.updateRevenue(revenue);
+    const payload = revenue as unknown as UpdateRevenuePayload;
+    this.facade.updateRevenue(payload);
   }
 
   deleteRevenue(id: number) {

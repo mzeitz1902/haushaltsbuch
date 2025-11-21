@@ -12,6 +12,18 @@ body {
   background-color: var(--color-gray-900);
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield !important;
+}
+
 .ng-select .ng-select-container {
   color: var(--color-gray-100) !important;
   background-color: var(--color-gray-600) !important;

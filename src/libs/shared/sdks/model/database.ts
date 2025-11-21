@@ -21,7 +21,7 @@ export interface Database {
           due_in: Database['public']['Enums']['due_in'] | null;
           id: number;
           remark: string | null;
-          value: string | null;
+          value: number | null;
         };
         Insert: {
           category?: string | null;
@@ -29,7 +29,7 @@ export interface Database {
           due_in?: Database['public']['Enums']['due_in'] | null;
           id?: number;
           remark?: string | null;
-          value?: string | null;
+          value?: number | null;
         };
         Update: {
           category?: string | null;
@@ -37,7 +37,7 @@ export interface Database {
           due_in?: Database['public']['Enums']['due_in'] | null;
           id?: number;
           remark?: string | null;
-          value?: string | null;
+          value?: number | null;
         };
         Relationships: [];
       };
@@ -81,17 +81,17 @@ export interface Database {
         Row: {
           category: string | null;
           id: number;
-          value: string | null;
+          value: number | null;
         };
         Insert: {
           category?: string | null;
           id?: number;
-          value?: string | null;
+          value?: number | null;
         };
         Update: {
           category?: string | null;
           id?: number;
-          value?: string | null;
+          value?: number | null;
         };
         Relationships: [];
       };
@@ -125,7 +125,7 @@ export interface Database {
     };
     Enums: {
       due_date: '15' | '1';
-      due_in: 'Alle' | 'Quartal';
+      due_in: 'Alle' | 'Quartal' | 'Sonder';
     };
     CompositeTypes: Record<never, never>;
   };
@@ -255,7 +255,7 @@ export const Constants = {
   public: {
     Enums: {
       due_date: ['15', '1'],
-      due_in: ['Alle', 'Quartal'],
+      due_in: ['Alle', 'Quartal', 'Sonder'],
     },
   },
 } as const;

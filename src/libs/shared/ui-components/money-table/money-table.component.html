@@ -14,25 +14,21 @@
               <h2 class="text-sm font-semibold text-gray-100">
                 {{ headerTitle() }}
               </h2>
+              @if (isSaving()) {
+                <mat-spinner diameter="18" />
+              }
             </div>
 
             <div class="flex items-center">
-              @if (isLoading()) {
-                <mat-spinner diameter="18" />
-              }
               <h1
                 class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
               >
-                {{ total() | safeNumber }}€
+                {{ total() | number }}€
               </h1>
               <i-lucide
                 [name]="accItem.expanded ? 'chevron-up' : 'chevron-down'"
               />
             </div>
-
-            @if (isSaving()) {
-              <mat-spinner class="self-center" diameter="18" />
-            }
           </div>
           @if (showAddButton() && accItem.expanded) {
             <button
@@ -108,6 +104,7 @@
                     selectedRow() === row.id && selectedField() === 'value'
                   ) {
                     <input
+                      type="number"
                       #value
                       class="w-12 rounded border-1 border-blue-400 bg-gray-600 p-1 text-right outline-none"
                       formControlName="value"
@@ -116,7 +113,7 @@
                     />
                   } @else {
                     <span class="block h-5 w-full" (click)="editValue(row)">
-                      {{ row.value | safeNumber }}
+                      {{ row.value | number }}
                     </span>
                   }
                 </td>
@@ -125,7 +122,7 @@
                   *matFooterCellDef
                   class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
                 >
-                  {{ total() | safeNumber }}
+                  {{ total() | number }}
                 </td>
               </ng-container>
 

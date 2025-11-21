@@ -1,14 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MonthlyCheckFacade } from '../../domain/application/monthly-check.facade';
-import {
-  FormControl,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
+import {
+  AppHeaderComponent,
+  ButtonComponent,
+} from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { Field, form } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-monthly-check',
@@ -17,6 +17,8 @@ import { NgSelectComponent } from '@ng-select/ng-select';
     ReactiveFormsModule,
     ButtonComponent,
     NgSelectComponent,
+    AppHeaderComponent,
+    Field,
   ],
   templateUrl: './monthly-check.component.html',
 })
@@ -24,10 +26,12 @@ export class MonthlyCheckComponent {
   private readonly facade = inject(MonthlyCheckFacade);
   private readonly fb = inject(NonNullableFormBuilder);
 
-  readonly form = this.fb.group<Form>({
-    month: this.fb.control(dayjs().format('MM')),
-    year: this.fb.control(dayjs().year()),
+  formModel = signal<Form>({
+    month: dayjs().format('MM'),
+    year: dayjs().year(),
   });
+
+  readonly form = form(this.formModel);
 
   readonly months = Array.from({ length: 12 }, (_, i) => {
     const d = dayjs().month(i);
@@ -36,7 +40,7 @@ export class MonthlyCheckComponent {
   readonly years = [dayjs().year()];
 
   createMonth() {
-    const { month, year } = this.form.getRawValue();
+    const { month, year } = this.formModel();
     if (!month || !year) return;
     const dateString = `${year}-${month}-01`;
     this.facade.createMonth(dateString);
@@ -44,6 +48,6 @@ export class MonthlyCheckComponent {
 }
 
 interface Form {
-  month: FormControl<string>;
-  year: FormControl<number>;
+  month: string;
+  year: number;
 }
