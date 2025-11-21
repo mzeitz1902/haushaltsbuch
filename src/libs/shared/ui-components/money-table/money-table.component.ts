@@ -79,7 +79,6 @@ export class MoneyTableComponent<
   isLoading = input.required<boolean>();
   isSaving = input.required<boolean>();
   isAdded = input.required<boolean>();
-  scrollOnAdd = input.required<boolean>();
 
   customColumns = input<Column[]>([]);
   headerIcon = input<Icon>();
@@ -111,7 +110,7 @@ export class MoneyTableComponent<
   );
 
   focusCategoryOnAdd = effect(() => {
-    if (this.isAdded() && this.scrollOnAdd()) {
+    if (this.isAdded()) {
       untracked(() => {
         const newData = this.data().at(-1);
         this.editCategory(newData!);
