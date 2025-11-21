@@ -37,6 +37,7 @@ import { SafeNumberPipe } from '@haushaltsbuch/shared/util-pipes';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { LucideAngularModule } from 'lucide-angular';
 import { Icon } from '@haushaltsbuch/shared/util-icons';
+import { MatCard, MatCardContent } from '@angular/material/card';
 
 @Component({
   selector: 'app-money-table',
@@ -58,6 +59,8 @@ import { Icon } from '@haushaltsbuch/shared/util-icons';
     SafeNumberPipe,
     CdkAccordionItem,
     LucideAngularModule,
+    MatCard,
+    MatCardContent,
   ],
   providers: [DecimalPipe, SafeNumberPipe],
   templateUrl: './money-table.component.html',
