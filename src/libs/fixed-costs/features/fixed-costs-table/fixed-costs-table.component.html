@@ -32,36 +32,3 @@
     }
   </div>
 </ng-template>
-<!--<section class="flex flex-col gap-2">-->
-<!--  <app-money-table-->
-<!--    headerTitle="Fixe Ausgaben"-->
-<!--    [data]="fixedCosts()"-->
-<!--    [isLoading]="isLoading()"-->
-<!--    [isSaving]="isSaving()"-->
-<!--    [isAdded]="isAdded()"-->
-<!--    [scrollOnAdd]="true"-->
-<!--    [customColumns]="additionalColumns()"-->
-<!--    (addRow)="addFixedCost()"-->
-<!--    (updateRow)="updateFixedCost($event)"-->
-<!--    (deleteRow)="deleteFixedCost($event)"-->
-<!--  />-->
-<!--</section>-->
-
-<!--<ng-template #dueInMonths let-row>-->
-<!--  <div class="flex h-5 justify-end">-->
-<!--    @if (selectedRow() === row.id) {-->
-<!--      <ng-select-->
-<!--        [items]="dueInItems"-->
-<!--        class="h-5 w-24"-->
-<!--        [formControl]="dueInControl"-->
-<!--        [clearable]="false"-->
-<!--        (change)="updateFixedCost(row)"-->
-<!--        (close)="selectedRow.set(null)"-->
-<!--      />-->
-<!--    } @else {-->
-<!--      <span class="block h-5 w-24 pl-3" (click)="selectRow(row.id, row.due_in)">-->
-<!--        {{ row.due_in }}-->
-<!--      </span>-->
-<!--    }-->
-<!--  </div>-->
-<!--</ng-template>-->
