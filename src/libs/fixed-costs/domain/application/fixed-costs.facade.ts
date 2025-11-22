@@ -6,6 +6,7 @@ import {
   AddFixedCostPayload,
   UpdateFixedCostPayload,
 } from '../entities/fixed-cost.model';
+import { DueIn } from '@haushaltsbuch/shared/sdks';
 
 @Injectable()
 export class FixedCostsFacade {
@@ -16,24 +17,38 @@ export class FixedCostsFacade {
   saveProcessStatus = this.store.saveProcessStatus;
   addProcessStatus = this.store.addProcessStatus;
   fixedCosts = this.store.fixedCosts;
+  quarterlyCosts = this.store.quarterlyCosts;
+  specialCosts = this.store.specialCosts;
 
   isLoading = computed(() => this.loadProcessStatus() === 'pending');
   isSaving = computed(() => this.saveProcessStatus() === 'pending');
   isAdded = computed(() => this.addProcessStatus() === 'success');
 
+  totalFixedCosts = computed(() =>
+    this.store.fixedCosts().reduce((acc, r) => acc + r.value!, 0)
+  );
+
+  totalQuarterlyCosts = computed(() =>
+    this.quarterlyCosts().reduce((acc, r) => acc + r.value!, 0)
+  );
+
+  totalSpecialCosts = computed(() =>
+    this.specialCosts().reduce((acc, r) => acc + r.value!, 0)
+  );
+
   loadFixedCosts() {
     this.dispatcher.dispatch(fixedCostsEvents.load());
   }
 
-  addFixedCost(fixedCosts: AddFixedCostPayload) {
+  add(fixedCosts: AddFixedCostPayload) {
     this.dispatcher.dispatch(fixedCostsEvents.add(fixedCosts));
   }
 
-  updateFixedCost(payload: UpdateFixedCostPayload) {
+  update(payload: UpdateFixedCostPayload) {
     this.dispatcher.dispatch(fixedCostsEvents.update(payload));
   }
 
-  deleteFixedCost(id: number) {
-    this.dispatcher.dispatch(fixedCostsEvents.delete(id));
+  delete(id: number, dueIn: DueIn) {
+    this.dispatcher.dispatch(fixedCostsEvents.delete({ id, dueIn }));
   }
 }

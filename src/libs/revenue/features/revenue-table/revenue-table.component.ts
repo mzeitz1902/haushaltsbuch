@@ -17,6 +17,7 @@ export class RevenueTableComponent {
   private readonly facade = inject(RevenueFacade);
 
   revenue = this.facade.revenue;
+  total = this.facade.total;
   isLoading = this.facade.isLoading;
   isSaving = this.facade.isSaving;
   isAdded = this.facade.isAdded;

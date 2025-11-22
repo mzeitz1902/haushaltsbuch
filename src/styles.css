@@ -48,3 +48,13 @@ input[type=number] {
 .ng-dropdown-panel .ng-option-marked {
   background-color: var(--color-gray-600) !important;
 }
+
+.mat-mdc-card {
+  background-color: var(--color-gray-800) !important;
+  @apply !py-2;
+}
+
+.mat-mdc-card-content {
+  @apply !py-2;
+  @apply !px-4;
+}

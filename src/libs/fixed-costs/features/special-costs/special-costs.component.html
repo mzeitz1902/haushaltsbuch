@@ -1,0 +1,12 @@
+<app-money-table
+  headerTitle="Sonderkosten"
+  headerIcon="BanknoteArrowDown"
+  [data]="specialCosts()"
+  [total]="total()"
+  [isLoading]="isLoading()"
+  [isSaving]="false"
+  [isAdded]="isAdded()"
+  (addRow)="add()"
+  (updateRow)="update($event)"
+  (deleteRow)="delete($event)"
+/>

@@ -1,12 +1,12 @@
-<mat-card class="!bg-gray-800 !py-2 transition-all duration-100">
-  <mat-card-content class="!p-2">
+<mat-card>
+  <mat-card-content>
     <cdk-accordion-item #accItem="cdkAccordionItem">
       @if (headerTitle() || showAddButton()) {
         <header
-          class="sticky top-14 z-10 flex h-5 items-center justify-between bg-gray-800 px-3 py-2 backdrop-blur transition-all duration-100 md:top-16"
+          class="sticky top-14 z-10 flex h-5 items-center justify-between bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
           (click)="accItem.toggle()"
         >
-          <div class="grid w-full grid-cols-[127px_1fr] items-center gap-4">
+          <div class="grid w-full grid-cols-[8rem_1fr] items-center gap-4">
             <div class="flex items-center gap-1">
               @if (headerIcon()) {
                 <i-lucide [name]="headerIcon()" />
@@ -23,13 +23,14 @@
               <h1
                 class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
               >
-                {{ total() | number }}€
+                {{ total() | currency: 'EUR' }}
               </h1>
               <i-lucide
                 [name]="accItem.expanded ? 'chevron-up' : 'chevron-down'"
               />
             </div>
           </div>
+
           @if (showAddButton() && accItem.expanded) {
             <button
               maffiButton
@@ -80,9 +81,19 @@
                       (keyup.enter)="onCategoryEnterPressed()"
                     />
                   } @else {
-                    <span class="block h-5 w-full" (click)="editCategory(row)">
-                      {{ row.category }}
-                    </span>
+                    <div class="flex h-5 w-full items-center gap-1">
+                      <span (click)="editCategory(row)">
+                        {{ row.category }}
+                      </span>
+                      @if (row.remark) {
+                        <app-icon
+                          class="z-1"
+                          icon="Info"
+                          [matTooltip]="row.remark"
+                          matTooltipPosition="after"
+                        />
+                      }
+                    </div>
                   }
                 </td>
                 <td
@@ -134,6 +145,7 @@
                 >
                   <button
                     maffiButton
+                    class="mb-1"
                     icon="Trash"
                     size="mini"
                     theme="secondary"

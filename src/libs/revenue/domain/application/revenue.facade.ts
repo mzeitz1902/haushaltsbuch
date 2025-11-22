@@ -21,6 +21,10 @@ export class RevenueFacade {
   isSaving = computed(() => this.saveProcessStatus() === 'pending');
   isAdded = computed(() => this.addProcessStatus() === 'success');
 
+  total = computed(() =>
+    this.store.revenue().reduce((acc, r) => acc + r.value!, 0)
+  );
+
   loadRevenue() {
     this.dispatcher.dispatch(revenueEvents.load());
   }

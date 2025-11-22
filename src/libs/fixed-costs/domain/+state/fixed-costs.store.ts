@@ -8,6 +8,8 @@ import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 
 interface State {
   fixedCosts: FixedCost[];
+  quarterlyCosts: FixedCost[];
+  specialCosts: FixedCost[];
   loadProcessStatus: ProcessStatus;
   addProcessStatus: ProcessStatus;
   saveProcessStatus: ProcessStatus;
@@ -16,7 +18,9 @@ interface State {
 export const FixedCostsStore = signalStore(
   withDevtools('fixed-costs'),
   withState<State>({
-    fixedCosts: new Array<FixedCost>(),
+    fixedCosts: [],
+    quarterlyCosts: [],
+    specialCosts: [],
     loadProcessStatus: 'init',
     saveProcessStatus: 'init',
     addProcessStatus: 'init',
@@ -25,26 +29,71 @@ export const FixedCostsStore = signalStore(
   withReducer(
     on(fixedCostsEvents.load, () => ({ loadProcessStatus: 'pending' })),
     on(fixedCostsEvents.loadSuccess, ({ payload: fixedCosts }) => ({
-      fixedCosts: fixedCosts ?? [],
+      fixedCosts: fixedCosts?.filter((el) => el.due_in === 'Alle') ?? [],
+      quarterlyCosts: fixedCosts?.filter((el) => el.due_in === 'Quartal') ?? [],
+      specialCosts: fixedCosts?.filter((el) => el.due_in === 'Sonder') ?? [],
       loadProcessStatus: 'success',
     })),
 
     on(fixedCostsEvents.add, () => ({ addProcessStatus: 'pending' })),
-    on(fixedCostsEvents.addSuccess, ({ payload: fixedCosts }, state) => ({
-      fixedCosts: state.fixedCosts.concat(fixedCosts),
-      addProcessStatus: 'success',
-    })),
+    on(fixedCostsEvents.addSuccess, ({ payload: fixedCosts }, state) => {
+      if (fixedCosts.due_in === 'Quartal') {
+        return {
+          quarterlyCosts: state.quarterlyCosts.concat(fixedCosts),
+          addProcessStatus: 'success',
+        };
+      }
+      if (fixedCosts.due_in === 'Sonder') {
+        return {
+          specialCosts: state.specialCosts.concat(fixedCosts),
+          addProcessStatus: 'success',
+        };
+      }
+      return {
+        fixedCosts: state.fixedCosts.concat(fixedCosts),
+        addProcessStatus: 'success',
+      };
+    }),
 
     on(fixedCostsEvents.update, () => ({ saveProcessStatus: 'pending' })),
-    on(fixedCostsEvents.updateSuccess, ({ payload: fixedCosts }, state) => ({
-      fixedCosts: state.fixedCosts.map((r) =>
-        r.id === fixedCosts.id ? fixedCosts : r
-      ),
-      saveProcessStatus: 'success',
-    })),
+    on(fixedCostsEvents.updateSuccess, ({ payload: fixedCosts }, state) => {
+      if (fixedCosts.due_in === 'Quartal') {
+        return {
+          quarterlyCosts: state.quarterlyCosts.map((r) =>
+            r.id === fixedCosts.id ? fixedCosts : r
+          ),
+          saveProcessStatus: 'success',
+        };
+      }
+      if (fixedCosts.due_in === 'Sonder') {
+        return {
+          specialCosts: state.specialCosts.map((r) =>
+            r.id === fixedCosts.id ? fixedCosts : r
+          ),
+          saveProcessStatus: 'success',
+        };
+      }
+      return {
+        fixedCosts: state.fixedCosts.map((r) =>
+          r.id === fixedCosts.id ? fixedCosts : r
+        ),
+        saveProcessStatus: 'success',
+      };
+    }),
 
-    on(fixedCostsEvents.deleteSuccess, ({ payload: id }, state) => ({
-      fixedCosts: state.fixedCosts.filter((r) => r.id !== id),
-    }))
+    on(fixedCostsEvents.deleteSuccess, ({ payload: { id, dueIn } }, state) => {
+      switch (dueIn) {
+        case 'Quartal':
+          return {
+            quarterlyCosts: state.quarterlyCosts.filter((r) => r.id !== id),
+          };
+        case 'Sonder':
+          return {
+            specialCosts: state.specialCosts.filter((r) => r.id !== id),
+          };
+        default:
+          return { fixedCosts: state.fixedCosts.filter((r) => r.id !== id) };
+      }
+    })
   )
 );

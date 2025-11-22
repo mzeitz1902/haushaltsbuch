@@ -13,7 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
-import { DecimalPipe, NgTemplateOutlet } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -33,11 +33,12 @@ import {
 } from '@angular/forms';
 import { auditTime } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SafeNumberPipe } from '@haushaltsbuch/shared/util-pipes';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { LucideAngularModule } from 'lucide-angular';
 import { Icon } from '@haushaltsbuch/shared/util-icons';
 import { MatCard, MatCardContent } from '@angular/material/card';
+import { IconComponent } from '../icon/icon.component';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-money-table',
@@ -61,8 +62,11 @@ import { MatCard, MatCardContent } from '@angular/material/card';
     MatCard,
     MatCardContent,
     DecimalPipe,
+    CurrencyPipe,
+    IconComponent,
+    MatTooltip,
   ],
-  providers: [DecimalPipe, SafeNumberPipe],
+  providers: [DecimalPipe],
   templateUrl: './money-table.component.html',
   host: {
     class: 'md:self-center md:w-2/3',
@@ -73,12 +77,12 @@ export class MoneyTableComponent<
   DATA extends { id: number; category: string | null; value: number | null },
 > {
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly safeNumberPipe = inject(SafeNumberPipe);
 
   data = input.required<DATA[]>();
   isLoading = input.required<boolean>();
   isSaving = input.required<boolean>();
   isAdded = input.required<boolean>();
+  total = input.required<number>();
 
   customColumns = input<Column[]>([]);
   headerIcon = input<Icon>();
@@ -94,14 +98,6 @@ export class MoneyTableComponent<
 
   selectedRow = signal<number | null>(null);
   selectedField = signal<'category' | 'value' | null>(null);
-
-  total = computed(() =>
-    this.data().reduce((acc, r) => {
-      const value = Number(r.value);
-      const isNumber = Number.isFinite(value);
-      return acc + (isNumber ? value : 0);
-    }, 0)
-  );
 
   displayedColumns = computed(() =>
     ['category', 'value']

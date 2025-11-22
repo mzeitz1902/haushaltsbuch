@@ -1,6 +1,6 @@
 import {
-  BadgeMinus,
-  BadgePlus,
+  BanknoteArrowDown,
+  BanknoteArrowUp,
   Calendar,
   ChevronDown,
   ChevronUp,
@@ -9,8 +9,10 @@ import {
   Eye,
   EyeClosed,
   HandCoins,
+  Info,
   LogOut,
   ReceiptEuro,
+  Scale,
   Trash,
 } from 'lucide-angular';
 
@@ -26,8 +28,10 @@ export const icons = {
   LogOut,
   ChevronDown,
   ChevronUp,
-  BadgePlus,
-  BadgeMinus,
+  BanknoteArrowUp,
+  BanknoteArrowDown,
+  Scale,
+  Info,
 };
 
 export type Icon = keyof typeof icons;

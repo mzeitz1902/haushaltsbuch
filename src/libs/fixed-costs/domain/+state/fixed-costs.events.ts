@@ -5,6 +5,7 @@ import {
   FixedCost,
   UpdateFixedCostPayload,
 } from '../entities/fixed-cost.model';
+import { DueIn } from '@haushaltsbuch/shared/sdks';
 
 const events = eventGroup({
   source: 'Fixed Costs',
@@ -20,8 +21,8 @@ const events = eventGroup({
     updateSuccess: type<FixedCost>(),
     updateFailure: type<unknown>(),
 
-    delete: type<number>(),
-    deleteSuccess: type<number>(),
+    delete: type<{ id: number; dueIn: DueIn }>(),
+    deleteSuccess: type<{ id: number; dueIn: DueIn }>(),
     deleteFailure: type<unknown>(),
   },
 });

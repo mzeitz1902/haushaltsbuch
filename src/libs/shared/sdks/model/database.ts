@@ -21,6 +21,7 @@ export interface Database {
           due_in: Database['public']['Enums']['due_in'] | null;
           id: number;
           remark: string | null;
+          type: Database['public']['Enums']['fixed_cost_type'];
           value: number | null;
         };
         Insert: {
@@ -29,6 +30,7 @@ export interface Database {
           due_in?: Database['public']['Enums']['due_in'] | null;
           id?: number;
           remark?: string | null;
+          type?: Database['public']['Enums']['fixed_cost_type'];
           value?: number | null;
         };
         Update: {
@@ -37,6 +39,7 @@ export interface Database {
           due_in?: Database['public']['Enums']['due_in'] | null;
           id?: number;
           remark?: string | null;
+          type?: Database['public']['Enums']['fixed_cost_type'];
           value?: number | null;
         };
         Relationships: [];
@@ -126,6 +129,7 @@ export interface Database {
     Enums: {
       due_date: '15' | '1';
       due_in: 'Alle' | 'Quartal' | 'Sonder';
+      fixed_cost_type: 'Fix' | 'Budget';
     };
     CompositeTypes: Record<never, never>;
   };
@@ -256,6 +260,7 @@ export const Constants = {
     Enums: {
       due_date: ['15', '1'],
       due_in: ['Alle', 'Quartal', 'Sonder'],
+      fixed_cost_type: ['Fix', 'Budget'],
     },
   },
 } as const;
