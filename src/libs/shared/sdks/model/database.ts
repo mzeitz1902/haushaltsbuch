@@ -19,6 +19,7 @@ export interface Database {
           category: string | null;
           due_date: Database['public']['Enums']['due_date'] | null;
           due_in: Database['public']['Enums']['due_in'] | null;
+          due_in_month: string[] | null;
           id: number;
           remark: string | null;
           type: Database['public']['Enums']['fixed_cost_type'];
@@ -28,6 +29,7 @@ export interface Database {
           category?: string | null;
           due_date?: Database['public']['Enums']['due_date'] | null;
           due_in?: Database['public']['Enums']['due_in'] | null;
+          due_in_month?: string[] | null;
           id?: number;
           remark?: string | null;
           type?: Database['public']['Enums']['fixed_cost_type'];
@@ -37,6 +39,7 @@ export interface Database {
           category?: string | null;
           due_date?: Database['public']['Enums']['due_date'] | null;
           due_in?: Database['public']['Enums']['due_in'] | null;
+          due_in_month?: string[] | null;
           id?: number;
           remark?: string | null;
           type?: Database['public']['Enums']['fixed_cost_type'];

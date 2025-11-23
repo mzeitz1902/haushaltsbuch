@@ -29,6 +29,7 @@ export class FixedCostsDataService {
           category: payload.category,
           value: payload.value,
           due_in: payload.due_in,
+          due_in_month: payload.due_in_month,
         })
         .eq('id', payload.id)
         .select('*')

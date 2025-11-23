@@ -56,7 +56,6 @@ import { debounce, Field, form } from '@angular/forms/signals';
     LucideAngularModule,
     MatCard,
     MatCardContent,
-    DecimalPipe,
     CurrencyPipe,
     IconComponent,
     MatTooltip,

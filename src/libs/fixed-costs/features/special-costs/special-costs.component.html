@@ -6,7 +6,34 @@
   [isLoading]="isLoading()"
   [isSaving]="false"
   [isAdded]="isAdded()"
+  [customColumns]="additionalColumns()"
   (addRow)="add()"
   (updateRow)="update($event)"
   (deleteRow)="delete($event)"
 />
+
+<ng-template #dueInMonth let-row>
+  <div class="flex h-5 justify-end overflow-visible">
+    @if (selectedRow() === row.id) {
+      <ng-select
+        class="w-24"
+        bindLabel="label"
+        bindValue="value"
+        [items]="months"
+        [formControl]="dueInMonthControl"
+        [clearable]="false"
+        [multiple]="true"
+        [appendTo]="'body'"
+        (change)="update(row)"
+        (close)="selectedRow.set(null)"
+      />
+    } @else {
+      <span
+        class="block h-5 w-24 pl-3"
+        (click)="selectRow(row.id, row.due_in_month)"
+      >
+        {{ row.due_in_month | toMonth }}
+      </span>
+    }
+  </div>
+</ng-template>

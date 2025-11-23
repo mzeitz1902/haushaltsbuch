@@ -1,10 +1,26 @@
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import dayjs from 'dayjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ToMonthPipe } from '@haushaltsbuch/shared/util-pipes';
 
 @Component({
   selector: 'app-special-costs',
-  imports: [MoneyTableComponent],
+  imports: [
+    MoneyTableComponent,
+    NgSelectComponent,
+    ReactiveFormsModule,
+    ToMonthPipe,
+  ],
   templateUrl: './special-costs.component.html',
   styles: ``,
 })
@@ -13,9 +29,29 @@ export class SpecialCostsComponent {
 
   specialCosts = this.facade.specialCosts;
   total = this.facade.totalSpecialCosts;
-
   isLoading = this.facade.isLoading;
   isAdded = this.facade.isSpecialAdded;
+
+  dueInMonthsTmp = viewChild.required<TemplateRef<unknown>>('dueInMonth');
+  selectTmpRef = viewChild<NgSelectComponent>(NgSelectComponent);
+
+  selectedRow = signal<number | null>(null);
+  additionalColumns = computed(() => [
+    { name: 'due_in_month', template: this.dueInMonthsTmp() },
+  ]);
+
+  dueInMonthControl = new FormControl<string[]>([], { nonNullable: true });
+
+  readonly months = Array.from({ length: 12 }, (_, i) => {
+    const d = dayjs().month(i);
+    return { label: d.format('MMMM'), value: d.format('YYYY-MM-DD') };
+  });
+
+  selectRow(id: number, dueIn: string[] | null) {
+    this.selectedRow.set(id);
+    this.dueInMonthControl.setValue(dueIn!);
+    setTimeout(() => this.selectTmpRef()?.open());
+  }
 
   add() {
     this.facade.add({
@@ -27,7 +63,16 @@ export class SpecialCostsComponent {
   }
 
   update(cost: FixedCost) {
-    this.facade.update(cost);
+    const _cost: FixedCost = {
+      ...cost,
+      due_in_month: cost.due_in_month
+        ? [...cost.due_in_month, ...this.dueInMonthControl.value]
+        : [...this.dueInMonthControl.value],
+    };
+    _cost.due_in_month = Array.from(new Set(_cost.due_in_month));
+    this.facade.update(_cost);
+    this.selectedRow.set(null);
+    this.dueInMonthControl.setValue(null!);
   }
 
   delete(id: number) {

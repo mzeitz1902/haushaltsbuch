@@ -28,6 +28,7 @@ input[type=number] {
   color: var(--color-gray-100) !important;
   background-color: var(--color-gray-600) !important;
   border-color: var(--color-blue-400) !important;
+  overflow: visible;
 }
 
 .ng-select.ng-select-single .ng-select-container {
@@ -37,11 +38,13 @@ input[type=number] {
 
 .ng-dropdown-panel {
   border-color: var(--color-blue-400) !important;
+  z-index: 10000 !important;
 }
 
 .ng-dropdown-panel .ng-option {
   background-color: var(--color-gray-700) !important;
   color: var(--color-gray-100) !important;
+  @apply !text-xs;
 
 }
 
