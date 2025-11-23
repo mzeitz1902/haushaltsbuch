@@ -15,7 +15,7 @@ export class SpecialCostsComponent {
   total = this.facade.totalSpecialCosts;
 
   isLoading = this.facade.isLoading;
-  isAdded = this.facade.isAdded;
+  isAdded = this.facade.isSpecialAdded;
 
   add() {
     this.facade.add({

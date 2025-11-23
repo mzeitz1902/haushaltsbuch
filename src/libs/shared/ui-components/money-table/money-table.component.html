@@ -61,7 +61,6 @@
               mat-table
               [dataSource]="data()"
               [trackBy]="trackByFn"
-              [formGroup]="form"
               class="mt-2 !min-w-[95%] !bg-transparent !p-4"
             >
               <ng-container matColumnDef="category">
@@ -76,13 +75,16 @@
                     <input
                       #category
                       class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-                      formControlName="category"
+                      [field]="form.category"
                       (blur)="resetForm()"
                       (keyup.enter)="onCategoryEnterPressed()"
                     />
                   } @else {
-                    <div class="flex h-5 w-full items-center gap-1">
-                      <span (click)="editCategory(row)">
+                    <div
+                      class="flex h-5 w-full items-center gap-1"
+                      (click)="editCategory(row)"
+                    >
+                      <span>
                         {{ row.category }}
                       </span>
                       @if (row.remark) {
@@ -118,13 +120,13 @@
                       type="number"
                       #value
                       class="w-12 rounded border-1 border-blue-400 bg-gray-600 p-1 text-right outline-none"
-                      formControlName="value"
+                      [field]="form.value"
                       (blur)="resetForm()"
                       (keyup.enter)="selectedRow.set(null)"
                     />
                   } @else {
                     <span class="block h-5 w-full" (click)="editValue(row)">
-                      {{ row.value | number }}
+                      {{ row.value | currency: 'EUR' }}
                     </span>
                   }
                 </td>
@@ -133,7 +135,7 @@
                   *matFooterCellDef
                   class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
                 >
-                  {{ total() | number }}
+                  {{ total() | currency: 'EUR' }}
                 </td>
               </ng-container>
 

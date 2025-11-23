@@ -11,7 +11,9 @@ interface State {
   quarterlyCosts: FixedCost[];
   specialCosts: FixedCost[];
   loadProcessStatus: ProcessStatus;
-  addProcessStatus: ProcessStatus;
+  addFixedProcessStatus: ProcessStatus;
+  addQuarterlyProcessStatus: ProcessStatus;
+  addSpecialProcessStatus: ProcessStatus;
   saveProcessStatus: ProcessStatus;
 }
 
@@ -23,7 +25,9 @@ export const FixedCostsStore = signalStore(
     specialCosts: [],
     loadProcessStatus: 'init',
     saveProcessStatus: 'init',
-    addProcessStatus: 'init',
+    addFixedProcessStatus: 'init',
+    addQuarterlyProcessStatus: 'init',
+    addSpecialProcessStatus: 'init',
   }),
   withEffects(() => fixedCostsEffects()),
   withReducer(
@@ -35,23 +39,34 @@ export const FixedCostsStore = signalStore(
       loadProcessStatus: 'success',
     })),
 
-    on(fixedCostsEvents.add, () => ({ addProcessStatus: 'pending' })),
+    on(fixedCostsEvents.add, ({ payload: { due_in } }) => {
+      switch (due_in) {
+        case 'Quartal':
+          return { addQuarterlyProcessStatus: 'pending' };
+        case 'Alle':
+          return { addFixedProcessStatus: 'pending' };
+        case 'Sonder':
+          return { addSpecialProcessStatus: 'pending' };
+        default:
+          return {};
+      }
+    }),
     on(fixedCostsEvents.addSuccess, ({ payload: fixedCosts }, state) => {
       if (fixedCosts.due_in === 'Quartal') {
         return {
           quarterlyCosts: state.quarterlyCosts.concat(fixedCosts),
-          addProcessStatus: 'success',
+          addQuarterlyProcessStatus: 'success',
         };
       }
       if (fixedCosts.due_in === 'Sonder') {
         return {
           specialCosts: state.specialCosts.concat(fixedCosts),
-          addProcessStatus: 'success',
+          addSpecialProcessStatus: 'success',
         };
       }
       return {
         fixedCosts: state.fixedCosts.concat(fixedCosts),
-        addProcessStatus: 'success',
+        addFixedProcessStatus: 'success',
       };
     }),
 

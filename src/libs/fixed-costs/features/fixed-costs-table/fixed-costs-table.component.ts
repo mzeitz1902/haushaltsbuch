@@ -1,8 +1,7 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -16,10 +15,8 @@ export class FixedCostsTableComponent {
   fixedCosts = this.facade.fixedCosts;
   isLoading = this.facade.isLoading;
   isSaving = this.facade.isSaving;
-  isAdded = this.facade.isAdded;
+  isAdded = this.facade.isFixedAdded;
   total = this.facade.totalFixedCosts;
-
-  selectTmpRef = viewChild<NgSelectComponent>(NgSelectComponent);
 
   constructor() {
     this.facade.loadFixedCosts();

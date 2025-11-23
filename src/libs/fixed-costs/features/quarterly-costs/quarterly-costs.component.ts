@@ -15,7 +15,7 @@ export class QuarterlyCostsComponent {
   total = this.facade.totalQuarterlyCosts;
 
   isLoading = this.facade.isLoading;
-  isAdded = this.facade.isAdded;
+  isAdded = this.facade.isQuarterlyAdded;
 
   add() {
     this.facade.add({

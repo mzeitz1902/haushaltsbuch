@@ -15,14 +15,20 @@ export class FixedCostsFacade {
 
   loadProcessStatus = this.store.loadProcessStatus;
   saveProcessStatus = this.store.saveProcessStatus;
-  addProcessStatus = this.store.addProcessStatus;
+  addFixedProcessStatus = this.store.addFixedProcessStatus;
+  addQuarterlyProcessStatus = this.store.addQuarterlyProcessStatus;
+  addSpecialProcessStatus = this.store.addSpecialProcessStatus;
   fixedCosts = this.store.fixedCosts;
   quarterlyCosts = this.store.quarterlyCosts;
   specialCosts = this.store.specialCosts;
 
   isLoading = computed(() => this.loadProcessStatus() === 'pending');
   isSaving = computed(() => this.saveProcessStatus() === 'pending');
-  isAdded = computed(() => this.addProcessStatus() === 'success');
+  isFixedAdded = computed(() => this.addFixedProcessStatus() === 'success');
+  isQuarterlyAdded = computed(
+    () => this.addQuarterlyProcessStatus() === 'success'
+  );
+  isSpecialAdded = computed(() => this.addSpecialProcessStatus() === 'success');
 
   totalFixedCosts = computed(() =>
     this.store.fixedCosts().reduce((acc, r) => acc + r.value!, 0)

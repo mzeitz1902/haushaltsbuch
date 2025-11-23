@@ -4,7 +4,6 @@ import {
   computed,
   effect,
   ElementRef,
-  inject,
   input,
   output,
   signal,
@@ -26,12 +25,7 @@ import {
   MatRowDef,
   MatTable,
 } from '@angular/material/table';
-import {
-  FormControl,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { auditTime } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { LucideAngularModule } from 'lucide-angular';
@@ -39,6 +33,7 @@ import { Icon } from '@haushaltsbuch/shared/util-icons';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { IconComponent } from '../icon/icon.component';
 import { MatTooltip } from '@angular/material/tooltip';
+import { debounce, Field, form } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-money-table',
@@ -65,6 +60,7 @@ import { MatTooltip } from '@angular/material/tooltip';
     CurrencyPipe,
     IconComponent,
     MatTooltip,
+    Field,
   ],
   providers: [DecimalPipe],
   templateUrl: './money-table.component.html',
@@ -76,8 +72,6 @@ import { MatTooltip } from '@angular/material/tooltip';
 export class MoneyTableComponent<
   DATA extends { id: number; category: string | null; value: number | null },
 > {
-  private readonly fb = inject(NonNullableFormBuilder);
-
   data = input.required<DATA[]>();
   isLoading = input.required<boolean>();
   isSaving = input.required<boolean>();
@@ -99,6 +93,8 @@ export class MoneyTableComponent<
   selectedRow = signal<number | null>(null);
   selectedField = signal<'category' | 'value' | null>(null);
 
+  formModel = signal<Form>(this.initForm());
+
   displayedColumns = computed(() =>
     ['category', 'value']
       .concat(this.customColumns().map((c) => c.name))
@@ -117,21 +113,27 @@ export class MoneyTableComponent<
     }
   });
 
-  form = this.initForm();
+  form = form(this.formModel, (schema) => {
+    debounce(schema.value, 500);
+    debounce(schema.category, 500);
+  });
+
+  update = effect(() => {
+    const formModel = this.formModel();
+    if (formModel.value || formModel.category) {
+      this.updateRow.emit(formModel as DATA);
+    }
+  });
 
   trackByFn(index: number, item: DATA) {
     return item?.id;
   }
 
   setForm(data: DATA) {
-    this.form = this.fb.group<Form>({
-      id: this.fb.control(data.id),
-      category: this.fb.control(data.category),
-      value: this.fb.control(data.value!),
-    });
-
-    this.form.valueChanges.pipe(auditTime(500)).subscribe(() => {
-      this.updateRow.emit(this.form.getRawValue() as DATA);
+    this.formModel.set({
+      id: data.id,
+      category: data.category!,
+      value: data.value!,
     });
   }
 
@@ -152,7 +154,7 @@ export class MoneyTableComponent<
   resetForm() {
     this.selectedRow.set(null);
     this.selectedField.set(null);
-    this.form = this.initForm();
+    this.formModel.set(this.initForm());
   }
 
   onCategoryEnterPressed() {
@@ -160,19 +162,19 @@ export class MoneyTableComponent<
     setTimeout(() => this.value()?.nativeElement.select());
   }
 
-  private initForm() {
-    return this.fb.group<Form>({
-      id: this.fb.control(null!),
-      category: this.fb.control(''),
-      value: this.fb.control(null!),
-    });
+  private initForm(): Form {
+    return {
+      id: null,
+      category: null!,
+      value: null!,
+    };
   }
 }
 
 interface Form {
-  id: FormControl<number>;
-  category: FormControl<string | null>;
-  value: FormControl<number | null>;
+  id: number | null;
+  category: string;
+  value: number;
 }
 
 export interface Column {
