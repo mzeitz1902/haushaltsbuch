@@ -1,1 +1,1 @@
-export * from './revenue-table/revenue-table.component';
+export * from './revenue-base-table/revenue-base-table.component';

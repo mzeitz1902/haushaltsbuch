@@ -1,6 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
 import { FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
-import { RevenueTableComponent } from '@haushaltsbuch/revenue/features';
 import {
   AppHeaderComponent,
   BalanceComponent,
@@ -14,11 +13,12 @@ import {
 } from '@haushaltsbuch/fixed-costs/features';
 import { RevenueFacade } from '@haushaltsbuch/revenue/domain';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { RevenueBaseTableComponent } from '@haushaltsbuch/revenue/features';
 
 @Component({
   selector: 'app-base',
   imports: [
-    RevenueTableComponent,
+    RevenueBaseTableComponent,
     AppHeaderComponent,
     CdkAccordion,
     FixedCostsTableComponent,

@@ -1,14 +1,52 @@
-import { inject, Injectable } from '@angular/core';
-import { Dispatcher } from '@ngrx/signals/events';
+import { computed, inject, Injectable } from '@angular/core';
+import { injectDispatch } from '@ngrx/signals/events';
 import { monthlyCheckEvents } from '../+state/monthly-check.events';
 import { monthlyCheckStore } from '../+state/monthly-check.store';
+import dayjs from 'dayjs';
+import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
+import { Revenue } from '@haushaltsbuch/revenue/domain';
 
 @Injectable()
 export class MonthlyCheckFacade {
-  private readonly dispatcher = inject(Dispatcher);
+  private readonly events = injectDispatch(monthlyCheckEvents);
   private readonly store = inject(monthlyCheckStore);
 
+  currentMonth = this.store.month;
+  isLoading = computed(() => this.store.getProcessStatus() === 'pending');
+  isLoaded = computed(() => this.store.getProcessStatus() === 'success');
+  isSaving = computed(() => this.store.saveProcessStatus() === 'pending');
+  isRevenueAdded = computed(
+    () => this.store.addRevenueProcessStatus() === 'success'
+  );
+
+  revenue = computed(
+    () => (this.currentMonth()?.revenue_lines ?? []) as Revenue[]
+  );
+  totalRevenue = computed(() => this.currentMonth()?.revenue_total ?? 0);
+
+  createdMonths = computed<CreatedMonth[]>(() =>
+    this.store.createdMonths().map((m) => {
+      return {
+        month: m,
+        translated: dayjs(m).format('MMMM'),
+      };
+    })
+  );
+  createdYears = computed(() =>
+    Array.from(
+      new Set(this.store.createdMonths().map((m) => dayjs(m).format('YYYY')))
+    )
+  );
+
   createMonth(month: string) {
-    this.dispatcher.dispatch(monthlyCheckEvents.create(month));
+    this.events.create(month);
+  }
+
+  getCreatedMonths() {
+    this.events.getCreatedMonths();
+  }
+
+  getMonth(month: string) {
+    this.events.getMonth(month);
   }
 }

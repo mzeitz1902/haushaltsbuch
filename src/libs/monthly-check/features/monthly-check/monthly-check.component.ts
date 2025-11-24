@@ -1,43 +1,64 @@
-import { Component, inject, signal } from '@angular/core';
-import { MonthlyCheckFacade } from '../../domain/application/monthly-check.facade';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import {
-  AppHeaderComponent,
-  ButtonComponent,
-} from '@haushaltsbuch/shared/ui-components';
+  CreatedMonth,
+  MonthlyCheckFacade,
+} from '@haushaltsbuch/monthly-check/domain';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AppHeaderComponent } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { Field, form } from '@angular/forms/signals';
+import { RevenueMonthTableComponent } from './revenue-month-table/revenue-month-table.component';
 
 @Component({
   selector: 'app-monthly-check',
   imports: [
     MatFormFieldModule,
     ReactiveFormsModule,
-    ButtonComponent,
     NgSelectComponent,
     AppHeaderComponent,
     Field,
+    RevenueMonthTableComponent,
   ],
   templateUrl: './monthly-check.component.html',
 })
 export class MonthlyCheckComponent {
   private readonly facade = inject(MonthlyCheckFacade);
-  private readonly fb = inject(NonNullableFormBuilder);
 
   formModel = signal<Form>({
-    month: dayjs().format('MM'),
-    year: dayjs().year(),
+    month: null!,
+    year: null!,
   });
 
   readonly form = form(this.formModel);
 
-  readonly months = Array.from({ length: 12 }, (_, i) => {
-    const d = dayjs().month(i);
-    return { label: d.format('MMMM'), value: d.format('MM') };
-  });
+  createdMonths = this.facade.createdMonths;
+  createdYears = this.facade.createdYears;
+  isLoaded = this.facade.isLoaded;
+
+  month = computed(() => this.formModel().month);
+  year = computed(() => this.formModel().year);
+
   readonly years = [dayjs().year()];
+
+  // readonly months = Array.from({ length: 12 }, (_, i) => {
+  //   const d = dayjs().month(i);
+  //   return { label: d.format('MMMM'), value: d.format('MM') };
+  // });
+  // readonly years = [dayjs().year()];
+
+  loadMonth = effect(() => {
+    const month = this.month();
+    const year = this.year();
+    if (month && year) {
+      this.facade.getMonth(month as unknown as string);
+    }
+  });
+
+  constructor() {
+    this.facade.getCreatedMonths();
+  }
 
   createMonth() {
     const { month, year } = this.formModel();
@@ -48,6 +69,6 @@ export class MonthlyCheckComponent {
 }
 
 interface Form {
-  month: string;
+  month: CreatedMonth;
   year: number;
 }

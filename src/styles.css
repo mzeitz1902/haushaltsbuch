@@ -29,11 +29,15 @@ input[type=number] {
   background-color: var(--color-gray-600) !important;
   border-color: var(--color-blue-400) !important;
   overflow: visible;
+
+  .higher {
+    height: calc(var(--spacing) * 8);
+  }
 }
 
 .ng-select.ng-select-single .ng-select-container {
-  min-height: calc(var(--spacing) * 5);
-  height: calc(var(--spacing) * 5);
+  /*min-height: calc(var(--spacing) * 5);*/
+  /*height: calc(var(--spacing) * 5);*/
 }
 
 .ng-dropdown-panel {

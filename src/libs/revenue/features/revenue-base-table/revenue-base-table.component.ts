@@ -9,11 +9,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-revenue-table',
+  selector: 'app-revenue-base-table',
   imports: [MatProgressSpinnerModule, ReactiveFormsModule, MoneyTableComponent],
-  templateUrl: './revenue-table.component.html',
+  templateUrl: './revenue-base-table.component.html',
 })
-export class RevenueTableComponent {
+export class RevenueBaseTableComponent {
   private readonly facade = inject(RevenueFacade);
 
   revenue = this.facade.revenue;
