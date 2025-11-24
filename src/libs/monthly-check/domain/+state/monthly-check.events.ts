@@ -1,6 +1,7 @@
 import { eventGroup } from '@ngrx/signals/events';
 import { type } from '@ngrx/signals';
 import { Month } from '@haushaltsbuch/monthly-check/domain';
+import { Revenue } from '@haushaltsbuch/revenue/domain';
 
 const events = eventGroup({
   source: 'Monthly Check',
@@ -16,6 +17,10 @@ const events = eventGroup({
     getCreatedMonths: type<void>(),
     getCreatedMonthsSuccess: type<string[]>(),
     getCreatedMonthsFailure: type<unknown>(),
+
+    updateRevenue: type<Revenue>(),
+    updateRevenueSuccess: type<Revenue[]>(),
+    updateRevenueFailure: type<unknown>(),
   },
 });
 
@@ -31,4 +36,8 @@ export const monthlyCheckEvents = {
   getCreatedMonths: events.getCreatedMonths,
   getCreatedMonthsSuccess: events.getCreatedMonthsSuccess,
   getCreatedMonthsFailure: events.getCreatedMonthsFailure,
+
+  updateRevenue: events.updateRevenue,
+  updateRevenueSuccess: events.updateRevenueSuccess,
+  updateRevenueFailure: events.updateRevenueFailure,
 };

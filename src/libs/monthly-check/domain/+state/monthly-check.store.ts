@@ -11,7 +11,7 @@ export interface State {
   createdMonths: string[];
   createProcessStatus: ProcessStatus;
   getProcessStatus: ProcessStatus;
-  saveProcessStatus: ProcessStatus;
+  saveRevenueProcessStatus: ProcessStatus;
   addRevenueProcessStatus: ProcessStatus;
 }
 
@@ -22,10 +22,11 @@ export const monthlyCheckStore = signalStore(
     createdMonths: [],
     createProcessStatus: 'init',
     getProcessStatus: 'init',
-    saveProcessStatus: 'init',
+    saveRevenueProcessStatus: 'init',
     addRevenueProcessStatus: 'init',
   }),
-  withEffects(() => monthlyCheckEffects()),
+  withEffects(store => )
+  // withEffects(() => monthlyCheckEffects()),
   withReducer(
     on(monthlyCheckEvents.create, () => ({ createProcessStatus: 'pending' })),
     on(monthlyCheckEvents.createSuccess, () => ({
@@ -46,6 +47,20 @@ export const monthlyCheckStore = signalStore(
     })),
     on(monthlyCheckEvents.getMonthFailure, () => ({
       getProcessStatus: 'error',
-    }))
+    })),
+
+    on(monthlyCheckEvents.updateRevenue, () => ({
+      saveRevenueProcessStatus: 'pending',
+    })),
+    on(
+      monthlyCheckEvents.updateRevenueSuccess,
+      ({ payload: revenue }, { month }) => ({
+        saveRevenueProcessStatus: 'success',
+        month: {
+          ...month,
+          revenue_lines: revenue,
+        } as Month,
+      })
+    )
   )
 );

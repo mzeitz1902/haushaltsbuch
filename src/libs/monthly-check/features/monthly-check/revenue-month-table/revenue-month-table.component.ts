@@ -22,7 +22,7 @@ export class RevenueMonthTableComponent {
   }
 
   updateRevenue(revenue: Revenue) {
-    return;
+    this.facade.updateRevenue(revenue);
   }
 
   deleteRevenue(id: number) {

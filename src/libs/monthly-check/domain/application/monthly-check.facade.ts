@@ -14,7 +14,9 @@ export class MonthlyCheckFacade {
   currentMonth = this.store.month;
   isLoading = computed(() => this.store.getProcessStatus() === 'pending');
   isLoaded = computed(() => this.store.getProcessStatus() === 'success');
-  isSaving = computed(() => this.store.saveProcessStatus() === 'pending');
+  isSaving = computed(
+    () => this.store.saveRevenueProcessStatus() === 'pending'
+  );
   isRevenueAdded = computed(
     () => this.store.addRevenueProcessStatus() === 'success'
   );
@@ -48,5 +50,9 @@ export class MonthlyCheckFacade {
 
   getMonth(month: string) {
     this.events.getMonth(month);
+  }
+
+  updateRevenue(revenue: Revenue) {
+    this.events.updateRevenue(revenue);
   }
 }
