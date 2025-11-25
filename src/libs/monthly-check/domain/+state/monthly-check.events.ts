@@ -18,9 +18,17 @@ const events = eventGroup({
     getCreatedMonthsSuccess: type<string[]>(),
     getCreatedMonthsFailure: type<unknown>(),
 
+    addRevenue: type<string>(),
+    addRevenueSuccess: type<Revenue[]>(),
+    addRevenueFailure: type<unknown>(),
+
     updateRevenue: type<{ revenue: Revenue; monthId: string }>(),
     updateRevenueSuccess: type<Revenue[]>(),
     updateRevenueFailure: type<unknown>(),
+
+    deleteRevenue: type<{ monthId: string; revenueId: number }>(),
+    deleteRevenueSuccess: type<Revenue[]>(),
+    deleteRevenueFailure: type<unknown>(),
   },
 });
 
@@ -37,7 +45,15 @@ export const monthlyCheckEvents = {
   getCreatedMonthsSuccess: events.getCreatedMonthsSuccess,
   getCreatedMonthsFailure: events.getCreatedMonthsFailure,
 
+  addRevenue: events.addRevenue,
+  addRevenueSuccess: events.addRevenueSuccess,
+  addRevenueFailure: events.addRevenueFailure,
+
   updateRevenue: events.updateRevenue,
   updateRevenueSuccess: events.updateRevenueSuccess,
   updateRevenueFailure: events.updateRevenueFailure,
+
+  deleteRevenue: events.deleteRevenue,
+  deleteRevenueSuccess: events.deleteRevenueSuccess,
+  deleteRevenueFailure: events.deleteRevenueFailure,
 };

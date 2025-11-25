@@ -46,12 +46,34 @@ export function monthlyCheckEffects(
       })
     ),
 
+    addRevenue$: events.on(monthlyCheckEvents.addRevenue).pipe(
+      switchMap(({ payload: monthId }) => {
+        return dataService.addRevenue(monthId).pipe(
+          mapResponse({
+            next: (revenue) => monthlyCheckEvents.addRevenueSuccess(revenue),
+            error: (error) => monthlyCheckEvents.addRevenueFailure(error),
+          })
+        );
+      })
+    ),
+
     updateRevenue$: events.on(monthlyCheckEvents.updateRevenue).pipe(
       switchMap(({ payload: { revenue, monthId } }) => {
         return dataService.updateRevenue(monthId, revenue).pipe(
           mapResponse({
             next: (revenue) => monthlyCheckEvents.updateRevenueSuccess(revenue),
             error: (error) => monthlyCheckEvents.updateRevenueFailure(error),
+          })
+        );
+      })
+    ),
+
+    deleteRevenue$: events.on(monthlyCheckEvents.deleteRevenue).pipe(
+      switchMap(({ payload: { monthId, revenueId } }) => {
+        return dataService.deleteRevenue(monthId, revenueId).pipe(
+          mapResponse({
+            next: (revenue) => monthlyCheckEvents.deleteRevenueSuccess(revenue),
+            error: (error) => monthlyCheckEvents.deleteRevenueFailure(error),
           })
         );
       })

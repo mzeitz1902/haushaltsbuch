@@ -58,6 +58,7 @@ export interface Database {
           month: string;
           revenue_lines: Json | null;
           revenue_total: number | null;
+          updated_at: string | null;
         };
         Insert: {
           created_at?: string | null;
@@ -69,6 +70,7 @@ export interface Database {
           month: string;
           revenue_lines?: Json | null;
           revenue_total?: number | null;
+          updated_at?: string | null;
         };
         Update: {
           created_at?: string | null;
@@ -80,6 +82,7 @@ export interface Database {
           month?: string;
           revenue_lines?: Json | null;
           revenue_total?: number | null;
+          updated_at?: string | null;
         };
         Relationships: [];
       };
@@ -116,12 +119,32 @@ export interface Database {
     };
     Views: Record<never, never>;
     Functions: {
+      add_monthly_snapshot_revenue_line: {
+        Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string };
+        Returns: {
+          retval_id: string;
+          retval_revenue_lines: Json;
+          retval_updated_at: string;
+        }[];
+      };
       create_monthly_snapshot: {
         Args: { p_created_by?: string; p_month: string };
         Returns: {
           fixed_costs_rows_count: number;
           id: string;
           revenue_rows_count: number;
+        }[];
+      };
+      delete_monthly_snapshot_revenue_line: {
+        Args: {
+          p_deleted_by?: string;
+          p_line_id: string;
+          p_snapshot_id: string;
+        };
+        Returns: {
+          retval_id: string;
+          retval_revenue_lines: Json;
+          retval_updated_at: string;
         }[];
       };
       snapshot_fixed_costs_to_monthly_check_once_per_month: {

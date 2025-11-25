@@ -55,8 +55,16 @@ export class MonthlyCheckFacade {
     this.events.getMonth(month);
   }
 
+  addRevenue() {
+    this.events.addRevenue(this.currentMonth()!.id);
+  }
+
   updateRevenue(revenue: Revenue) {
     this.events.updateRevenue({ revenue, monthId: this.currentMonth()!.id });
+  }
+
+  deleteRevenue(revenueId: number) {
+    this.events.deleteRevenue({ monthId: this.currentMonth()!.id, revenueId });
   }
 
   navigateTo(year?: string | null, month?: string | null) {

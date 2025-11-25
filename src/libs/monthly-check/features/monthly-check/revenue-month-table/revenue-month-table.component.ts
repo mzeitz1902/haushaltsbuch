@@ -18,7 +18,7 @@ export class RevenueMonthTableComponent {
   isAdded = this.facade.isRevenueAdded;
 
   addRevenue() {
-    return;
+    this.facade.addRevenue();
   }
 
   updateRevenue(revenue: Revenue) {
@@ -26,6 +26,6 @@ export class RevenueMonthTableComponent {
   }
 
   deleteRevenue(id: number) {
-    return;
+    this.facade.deleteRevenue(id);
   }
 }

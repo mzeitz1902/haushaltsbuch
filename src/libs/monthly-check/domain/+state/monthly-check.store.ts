@@ -13,6 +13,7 @@ export interface MonthlyCheckState {
   getProcessStatus: ProcessStatus;
   saveRevenueProcessStatus: ProcessStatus;
   addRevenueProcessStatus: ProcessStatus;
+  deleteRevenueProcessStatus: ProcessStatus;
 }
 
 export const monthlyCheckStore = signalStore(
@@ -24,6 +25,7 @@ export const monthlyCheckStore = signalStore(
     getProcessStatus: 'init',
     saveRevenueProcessStatus: 'init',
     addRevenueProcessStatus: 'init',
+    deleteRevenueProcessStatus: 'init',
   }),
   withEffects(() => monthlyCheckEffects()),
   withReducer(
@@ -53,6 +55,8 @@ export const monthlyCheckStore = signalStore(
     })),
     on(
       monthlyCheckEvents.updateRevenueSuccess,
+      monthlyCheckEvents.addRevenueSuccess,
+      monthlyCheckEvents.deleteRevenueSuccess,
       ({ payload: revenue }, { month }) => ({
         saveRevenueProcessStatus: 'success',
         month: {
@@ -60,6 +64,9 @@ export const monthlyCheckStore = signalStore(
           revenue_lines: revenue,
         } as Month,
       })
-    )
+    ),
+    on(monthlyCheckEvents.updateRevenueFailure, () => ({
+      saveRevenueProcessStatus: 'error',
+    }))
   )
 );

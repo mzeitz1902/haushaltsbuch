@@ -25,6 +25,17 @@ export class MonthlyCheckDataService {
     ).pipe(map((res) => res.data!));
   }
 
+  addRevenue(monthId: string) {
+    return from(
+      supabase.rpc('add_monthly_snapshot_revenue_line', {
+        p_snapshot_id: monthId,
+        p_line: { value: 0, category: '' },
+      })
+    ).pipe(
+      map((res) => res.data!.map((el) => el.retval_revenue_lines) as Revenue[])
+    );
+  }
+
   updateRevenue(monthId: string, revenue: Revenue) {
     return from(
       supabase
@@ -32,6 +43,18 @@ export class MonthlyCheckDataService {
           p_snapshot_id: monthId,
           p_line_id: revenue.id.toString(),
           p_new_values: { value: revenue.value, category: revenue.category },
+        })
+        .select('*')
+        .single()
+    ).pipe(map((res) => res.data!.retval_revenue_lines as Revenue[]));
+  }
+
+  deleteRevenue(monthId: string, revenueId: number) {
+    return from(
+      supabase
+        .rpc('delete_monthly_snapshot_revenue_line', {
+          p_snapshot_id: monthId,
+          p_line_id: revenueId.toString(),
         })
         .select('*')
         .single()
