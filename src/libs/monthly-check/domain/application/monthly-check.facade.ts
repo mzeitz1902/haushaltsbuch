@@ -5,15 +5,15 @@ import { monthlyCheckStore } from '../+state/monthly-check.store';
 import dayjs from 'dayjs';
 import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class MonthlyCheckFacade {
   private readonly events = injectDispatch(monthlyCheckEvents);
   private readonly store = inject(monthlyCheckStore);
+  private readonly router = inject(Router);
 
   currentMonth = this.store.month;
-  currentMonthId$ = toObservable(computed(() => this.currentMonth()?.id));
 
   isLoading = computed(() => this.store.getProcessStatus() === 'pending');
   isLoaded = computed(() => this.store.getProcessStatus() === 'success');
@@ -56,6 +56,10 @@ export class MonthlyCheckFacade {
   }
 
   updateRevenue(revenue: Revenue) {
-    this.events.updateRevenue(revenue);
+    this.events.updateRevenue({ revenue, monthId: this.currentMonth()!.id });
+  }
+
+  navigateTo(year?: string | null, month?: string | null) {
+    this.router.navigate(['/monthly-check', year, month]);
   }
 }

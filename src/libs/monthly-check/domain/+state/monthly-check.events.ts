@@ -18,7 +18,7 @@ const events = eventGroup({
     getCreatedMonthsSuccess: type<string[]>(),
     getCreatedMonthsFailure: type<unknown>(),
 
-    updateRevenue: type<Revenue>(),
+    updateRevenue: type<{ revenue: Revenue; monthId: string }>(),
     updateRevenueSuccess: type<Revenue[]>(),
     updateRevenueFailure: type<unknown>(),
   },

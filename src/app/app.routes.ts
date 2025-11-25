@@ -5,6 +5,9 @@ import { provideRevenueDomain } from '../libs/revenue/domain';
 import { authGuard } from '../libs/user/domain/application/auth.guard';
 import { loginRedirectGuard } from '../libs/user/domain/application/login-redirect.guard';
 import { provideMonthlyCheckDomain } from '@haushaltsbuch/monthly-check/domain';
+import dayjs from 'dayjs';
+
+const currentDate = dayjs();
 
 export const routes: Routes = [
   {
@@ -36,6 +39,20 @@ export const routes: Routes = [
   },
   {
     path: 'monthly-check',
+    redirectTo: `monthly-check/${currentDate.year()}/${currentDate.month() + 1}`,
+    providers: [provideMonthlyCheckDomain()],
+  },
+  {
+    path: 'monthly-check/:year',
+    loadComponent: () =>
+      import('@haushaltsbuch/monthly-check/features').then(
+        (m) => m.MonthlyCheckComponent
+      ),
+    canActivate: [authGuard],
+    providers: [provideMonthlyCheckDomain()],
+  },
+  {
+    path: 'monthly-check/:year/:month',
     loadComponent: () =>
       import('@haushaltsbuch/monthly-check/features').then(
         (m) => m.MonthlyCheckComponent

@@ -86,13 +86,15 @@ export class MoneyTableComponent<
   deleteRow = output<number>();
   addRow = output<void>();
 
-  category = viewChild<ElementRef>('category');
-  value = viewChild<ElementRef>('value');
+  categoryRef = viewChild<ElementRef>('category');
+  valueRef = viewChild<ElementRef>('value');
 
   selectedRow = signal<number | null>(null);
   selectedField = signal<'category' | 'value' | null>(null);
 
   formModel = signal<Form>(this.initForm());
+  category = computed(() => this.formModel().category);
+  value = computed(() => this.formModel().value);
 
   displayedColumns = computed(() =>
     ['category', 'value']
@@ -100,28 +102,33 @@ export class MoneyTableComponent<
       .concat('delete_button')
   );
 
+  form = form(this.formModel, (schema) => {
+    debounce(schema.value, 500);
+    debounce(schema.category, 500);
+  });
+
   focusCategoryOnAdd = effect(() => {
     if (this.isAdded()) {
       untracked(() => {
         const newData = this.data().at(-1);
         this.editCategory(newData!);
         setTimeout(() =>
-          this.category()?.nativeElement.scrollIntoView({ behavior: 'smooth' })
+          this.categoryRef()?.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+          })
         );
       });
     }
   });
 
-  form = form(this.formModel, (schema) => {
-    debounce(schema.value, 500);
-    debounce(schema.category, 500);
-  });
-
   update = effect(() => {
-    const formModel = this.formModel();
-    if (formModel.value || formModel.category) {
-      this.updateRow.emit(formModel as DATA);
-    }
+    const category = this.category();
+    const value = this.value();
+    untracked(() => {
+      if (value || category) {
+        this.updateRow.emit(this.formModel() as DATA);
+      }
+    });
   });
 
   trackByFn(index: number, item: DATA) {
@@ -140,14 +147,14 @@ export class MoneyTableComponent<
     this.setForm(row);
     this.selectedRow.set(row.id);
     this.selectedField.set('category');
-    setTimeout(() => this.category()?.nativeElement.select());
+    setTimeout(() => this.categoryRef()?.nativeElement.select());
   }
 
   editValue(row: DATA) {
     this.setForm(row);
     this.selectedRow.set(row.id);
     this.selectedField.set('value');
-    setTimeout(() => this.value()?.nativeElement.select());
+    setTimeout(() => this.valueRef()?.nativeElement.select());
   }
 
   resetForm() {
@@ -158,7 +165,7 @@ export class MoneyTableComponent<
 
   onCategoryEnterPressed() {
     this.selectedField.set('value');
-    setTimeout(() => this.value()?.nativeElement.select());
+    setTimeout(() => this.valueRef()?.nativeElement.select());
   }
 
   private initForm(): Form {

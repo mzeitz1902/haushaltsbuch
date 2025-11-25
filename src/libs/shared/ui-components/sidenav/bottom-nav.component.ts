@@ -35,7 +35,6 @@ import { MatToolbar } from '@angular/material/toolbar';
           routerLink="monthly-check"
           routerLinkActive
           #monthlyCheck="routerLinkActive"
-          [routerLinkActiveOptions]="{ exact: true }"
           [theme]="monthlyCheck.isActive ? 'plain' : 'inactive'"
         ></button>
       </div>

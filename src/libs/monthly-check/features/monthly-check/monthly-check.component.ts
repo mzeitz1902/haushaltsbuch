@@ -1,8 +1,12 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
 import {
-  CreatedMonth,
-  MonthlyCheckFacade,
-} from '@haushaltsbuch/monthly-check/domain';
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+} from '@angular/core';
+import { MonthlyCheckFacade } from '@haushaltsbuch/monthly-check/domain';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppHeaderComponent } from '@haushaltsbuch/shared/ui-components';
@@ -26,19 +30,36 @@ import { RevenueMonthTableComponent } from './revenue-month-table/revenue-month-
 export class MonthlyCheckComponent {
   private readonly facade = inject(MonthlyCheckFacade);
 
-  formModel = signal<Form>({
-    month: null!,
-    year: null!,
-  });
-
-  readonly form = form(this.formModel);
+  year = input<string>();
+  month = input<string>();
 
   createdMonths = this.facade.createdMonths;
   createdYears = this.facade.createdYears;
   isLoaded = this.facade.isLoaded;
 
-  month = computed(() => this.formModel().month);
-  year = computed(() => this.formModel().year);
+  formModel = linkedSignal<Form>(() => {
+    let month = dayjs().format('YYYY-MM-DD');
+    let year = this.year()!;
+
+    if (this.year() && this.month()) {
+      month = `${this.year()}-${this.month()}-01`;
+    }
+    if (!this.isMonthValid(month)) {
+      month = null!;
+    }
+    if (year && !this.isYearValid(year)) {
+      year = null!;
+    }
+    return {
+      month,
+      year,
+    };
+  });
+
+  form = form(this.formModel);
+
+  selectedMonth = computed(() => this.formModel().month);
+  selectedYear = computed(() => this.formModel().year);
 
   readonly years = [dayjs().year()];
 
@@ -49,10 +70,22 @@ export class MonthlyCheckComponent {
   // readonly years = [dayjs().year()];
 
   loadMonth = effect(() => {
-    const month = this.month();
-    const year = this.year();
-    if (month && year) {
-      this.facade.getMonth(month as unknown as string);
+    const month = this.selectedMonth();
+    const year = this.selectedYear();
+    if (month && year && this.isYearValid(year) && this.isMonthValid(month)) {
+      this.facade.getMonth(month);
+    }
+  });
+
+  navigateOnFormModelChange = effect(() => {
+    const { month, year } = this.formModel();
+    const _month = month ? dayjs(month).format('MM') : null;
+    if (year && !month) {
+      this.facade.navigateTo(year);
+      return;
+    }
+    if (month) {
+      this.facade.navigateTo(year, _month);
     }
   });
 
@@ -66,9 +99,19 @@ export class MonthlyCheckComponent {
     const dateString = `${year}-${month}-01`;
     this.facade.createMonth(dateString);
   }
+
+  private isYearValid(year: string) {
+    return this.createdYears().includes(year);
+  }
+
+  private isMonthValid(month: string) {
+    return this.createdMonths()
+      .map((m) => m.month)
+      .includes(month);
+  }
 }
 
 interface Form {
-  month: CreatedMonth;
-  year: number;
+  month: string | null;
+  year: string | null;
 }

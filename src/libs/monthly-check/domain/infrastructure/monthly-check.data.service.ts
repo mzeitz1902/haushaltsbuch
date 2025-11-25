@@ -35,6 +35,6 @@ export class MonthlyCheckDataService {
         })
         .select('*')
         .single()
-    ).pipe(map((res) => res.data!.revenue_lines as Revenue[]));
+    ).pipe(map((res) => res.data!.retval_revenue_lines as Revenue[]));
   }
 }
