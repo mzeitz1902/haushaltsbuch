@@ -5,6 +5,7 @@ import { monthlyCheckStore } from '../+state/monthly-check.store';
 import dayjs from 'dayjs';
 import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class MonthlyCheckFacade {
@@ -12,6 +13,8 @@ export class MonthlyCheckFacade {
   private readonly store = inject(monthlyCheckStore);
 
   currentMonth = this.store.month;
+  currentMonthId$ = toObservable(computed(() => this.currentMonth()?.id));
+
   isLoading = computed(() => this.store.getProcessStatus() === 'pending');
   isLoaded = computed(() => this.store.getProcessStatus() === 'success');
   isSaving = computed(

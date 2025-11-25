@@ -1,8 +1,8 @@
 import { Month } from '@haushaltsbuch/monthly-check/domain';
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEffects, withReducer } from '@ngrx/signals/events';
-import { monthlyCheckEffects } from './monthly-check.effects';
+import { on, withReducer } from '@ngrx/signals/events';
+import { withMonthlyCheckEffects } from './monthly-check.effects';
 import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 import { monthlyCheckEvents } from './monthly-check.events';
 
@@ -25,8 +25,7 @@ export const monthlyCheckStore = signalStore(
     saveRevenueProcessStatus: 'init',
     addRevenueProcessStatus: 'init',
   }),
-  withEffects(store => )
-  // withEffects(() => monthlyCheckEffects()),
+  withMonthlyCheckEffects(),
   withReducer(
     on(monthlyCheckEvents.create, () => ({ createProcessStatus: 'pending' })),
     on(monthlyCheckEvents.createSuccess, () => ({
