@@ -5,15 +5,20 @@ import { on, withEffects, withReducer } from '@ngrx/signals/events';
 import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 import { monthlyCheckEvents } from './monthly-check.events';
 import { monthlyCheckEffects } from './monthly-check.effects';
+import { Revenue } from '@haushaltsbuch/revenue/domain';
+import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
 export interface MonthlyCheckState {
   month: Month | null;
   createdMonths: string[];
   createProcessStatus: ProcessStatus;
-  getProcessStatus: ProcessStatus;
+  getMonthProcessStatus: ProcessStatus;
   saveRevenueProcessStatus: ProcessStatus;
   addRevenueProcessStatus: ProcessStatus;
   deleteRevenueProcessStatus: ProcessStatus;
+  saveFixedCostProcessStatus: ProcessStatus;
+  addFixedCostProcessStatus: ProcessStatus;
+  deleteFixedCostProcessStatus: ProcessStatus;
 }
 
 export const monthlyCheckStore = signalStore(
@@ -22,10 +27,13 @@ export const monthlyCheckStore = signalStore(
     month: null,
     createdMonths: [],
     createProcessStatus: 'init',
-    getProcessStatus: 'init',
+    getMonthProcessStatus: 'init',
     saveRevenueProcessStatus: 'init',
     addRevenueProcessStatus: 'init',
     deleteRevenueProcessStatus: 'init',
+    saveFixedCostProcessStatus: 'init',
+    addFixedCostProcessStatus: 'init',
+    deleteFixedCostProcessStatus: 'init',
   }),
   withEffects(() => monthlyCheckEffects()),
   withReducer(
@@ -41,32 +49,83 @@ export const monthlyCheckStore = signalStore(
       createdMonths: months,
     })),
 
-    on(monthlyCheckEvents.getMonth, () => ({ getProcessStatus: 'pending' })),
+    on(monthlyCheckEvents.getMonth, () => ({
+      getMonthProcessStatus: 'pending',
+    })),
     on(monthlyCheckEvents.getMonthSuccess, ({ payload: month }) => ({
       month,
-      getProcessStatus: 'success',
+      getMonthProcessStatus: 'success',
     })),
     on(monthlyCheckEvents.getMonthFailure, () => ({
-      getProcessStatus: 'error',
+      getMonthProcessStatus: 'error',
     })),
 
     on(monthlyCheckEvents.updateRevenue, () => ({
       saveRevenueProcessStatus: 'pending',
     })),
     on(
-      monthlyCheckEvents.updateRevenueSuccess,
       monthlyCheckEvents.addRevenueSuccess,
+      ({ payload: { revenue, total } }, { month }) => ({
+        addRevenueProcessStatus: 'success',
+        month: {
+          ...month,
+          revenue_lines: [...(month!.revenue_lines as Revenue[]), revenue],
+          revenue_total: total,
+        } as Month,
+      })
+    ),
+
+    on(
+      monthlyCheckEvents.updateRevenueSuccess,
       monthlyCheckEvents.deleteRevenueSuccess,
-      ({ payload: revenue }, { month }) => ({
+      ({ payload: { revenue, total } }, { month }) => ({
         saveRevenueProcessStatus: 'success',
         month: {
           ...month,
           revenue_lines: revenue,
+          revenue_total: total,
         } as Month,
       })
     ),
     on(monthlyCheckEvents.updateRevenueFailure, () => ({
       saveRevenueProcessStatus: 'error',
+    })),
+
+    on(monthlyCheckEvents.updateFixedCost, () => ({
+      saveFixedCostProcessStatus: 'pending',
+    })),
+
+    on(
+      monthlyCheckEvents.addFixedCostSuccess,
+      ({ payload: { fixedCost, total } }, { month }) => ({
+        addFixedCostProcessStatus: 'success',
+        month: {
+          ...month,
+          fixed_costs_lines: [
+            ...(month!.fixed_costs_lines as FixedCost[]),
+            fixedCost,
+          ],
+          fixed_costs_total: total,
+        } as Month,
+      })
+    ),
+
+    on(
+      monthlyCheckEvents.updateFixedCostSuccess,
+      monthlyCheckEvents.deleteFixedCostSuccess,
+      ({ payload: { fixedCosts, total } }, { month }) => {
+        return {
+          saveFixedCostProcessStatus: 'success',
+          month: {
+            ...month,
+            fixed_costs_lines: fixedCosts,
+            fixed_costs_total: total,
+          } as Month,
+        };
+      }
+    ),
+    on(monthlyCheckEvents.updateFixedCostFailure, () => ({
+      saveFixedCostProcessStatus: 'error',
     }))
   )
 );

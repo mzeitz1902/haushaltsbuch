@@ -21,9 +21,13 @@
     />
   </div>
   @if (isLoaded()) {
-    <div class="flex w-full flex-col" animate.enter="animate-fade-in">
+    <cdk-accordion
+      class="flex w-full flex-col gap-2"
+      animate.enter="animate-fade-in"
+    >
       <app-revenue-month-table class="w-full" />
-    </div>
+      <app-fixed-costs-month-table class="w-full" />
+    </cdk-accordion>
   }
 </section>
 

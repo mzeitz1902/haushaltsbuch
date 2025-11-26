@@ -27,7 +27,7 @@
     "@ng-select/ng-select": "^20.7.0",
     "@ngrx/operators": "^20.1.0",
     "@ngrx/signals": "^20.1.0",
-    "supabase": "^2.62.5",
+    "supabase": "^2.62.10",
     "@supabase/supabase-js": "^2.62.5",
     "@tailwindcss/postcss": "^4.1.17",
     "dayjs": "^1.11.19",

@@ -14,6 +14,8 @@ import dayjs from 'dayjs';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { Field, form } from '@angular/forms/signals';
 import { RevenueMonthTableComponent } from './revenue-month-table/revenue-month-table.component';
+import { FixedCostsMonthTableComponent } from './fixed-costs-month-table/fixed-costs-month-table.component';
+import { CdkAccordion } from '@angular/cdk/accordion';
 
 @Component({
   selector: 'app-monthly-check',
@@ -24,6 +26,8 @@ import { RevenueMonthTableComponent } from './revenue-month-table/revenue-month-
     AppHeaderComponent,
     Field,
     RevenueMonthTableComponent,
+    FixedCostsMonthTableComponent,
+    CdkAccordion,
   ],
   templateUrl: './monthly-check.component.html',
 })
@@ -35,7 +39,7 @@ export class MonthlyCheckComponent {
 
   createdMonths = this.facade.createdMonths;
   createdYears = this.facade.createdYears;
-  isLoaded = this.facade.isLoaded;
+  isLoaded = this.facade.isMonthLoaded;
 
   formModel = linkedSignal<Form>(() => {
     let month = dayjs().format('YYYY-MM-DD');

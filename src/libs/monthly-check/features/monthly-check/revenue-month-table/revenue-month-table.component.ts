@@ -13,8 +13,8 @@ export class RevenueMonthTableComponent {
 
   revenue = this.facade.revenue;
   total = this.facade.totalRevenue;
-  isLoading = this.facade.isLoading;
-  isSaving = this.facade.isSaving;
+  isLoading = this.facade.isMonthLoading;
+  isSaving = this.facade.isSavingRevenue;
   isAdded = this.facade.isRevenueAdded;
 
   addRevenue() {

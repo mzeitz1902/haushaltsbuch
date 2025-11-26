@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { Router } from '@angular/router';
+import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
 @Injectable()
 export class MonthlyCheckFacade {
@@ -15,19 +16,35 @@ export class MonthlyCheckFacade {
 
   currentMonth = this.store.month;
 
-  isLoading = computed(() => this.store.getProcessStatus() === 'pending');
-  isLoaded = computed(() => this.store.getProcessStatus() === 'success');
-  isSaving = computed(
+  isMonthLoading = computed(
+    () => this.store.getMonthProcessStatus() === 'pending'
+  );
+  isMonthLoaded = computed(
+    () => this.store.getMonthProcessStatus() === 'success'
+  );
+
+  isSavingRevenue = computed(
     () => this.store.saveRevenueProcessStatus() === 'pending'
   );
   isRevenueAdded = computed(
     () => this.store.addRevenueProcessStatus() === 'success'
+  );
+  isSavingFixedCost = computed(
+    () => this.store.saveFixedCostProcessStatus() === 'pending'
+  );
+  isFixedCostAdded = computed(
+    () => this.store.addFixedCostProcessStatus() === 'success'
   );
 
   revenue = computed(
     () => (this.currentMonth()?.revenue_lines ?? []) as Revenue[]
   );
   totalRevenue = computed(() => this.currentMonth()?.revenue_total ?? 0);
+
+  fixedCosts = computed(
+    () => (this.currentMonth()?.fixed_costs_lines ?? []) as FixedCost[]
+  );
+  totalFixedCosts = computed(() => this.currentMonth()?.fixed_costs_total ?? 0);
 
   createdMonths = computed<CreatedMonth[]>(() =>
     this.store.createdMonths().map((m) => {
@@ -65,6 +82,24 @@ export class MonthlyCheckFacade {
 
   deleteRevenue(revenueId: number) {
     this.events.deleteRevenue({ monthId: this.currentMonth()!.id, revenueId });
+  }
+
+  addFixedCost() {
+    this.events.addFixedCost(this.currentMonth()!.id);
+  }
+
+  updateFixedCost(fixedCost: FixedCost) {
+    this.events.updateFixedCost({
+      fixedCost,
+      monthId: this.currentMonth()!.id,
+    });
+  }
+
+  deleteFixedCost(fixedCostId: number) {
+    this.events.deleteFixedCost({
+      monthId: this.currentMonth()!.id,
+      fixedCostId,
+    });
   }
 
   navigateTo(year?: string | null, month?: string | null) {

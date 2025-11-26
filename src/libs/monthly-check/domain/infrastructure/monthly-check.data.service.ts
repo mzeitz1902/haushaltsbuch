@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { supabase } from '@haushaltsbuch/shared/sdks';
-import { from, map } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
+import {
+  AddFixedCostResponse,
+  AddRevenueResponse,
+  ChangeFixedCostResponse,
+  ChangeRevenueResponse,
+} from '@haushaltsbuch/monthly-check/domain';
+import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
 @Injectable()
 export class MonthlyCheckDataService {
@@ -25,18 +32,26 @@ export class MonthlyCheckDataService {
     ).pipe(map((res) => res.data!));
   }
 
-  addRevenue(monthId: string) {
+  addRevenue(monthId: string): Observable<AddRevenueResponse> {
     return from(
       supabase.rpc('add_monthly_snapshot_revenue_line', {
         p_snapshot_id: monthId,
         p_line: { value: 0, category: '' },
       })
     ).pipe(
-      map((res) => res.data!.map((el) => el.retval_revenue_lines) as Revenue[])
+      map((res) => {
+        return {
+          revenue: res.data![0].retval_line as Revenue,
+          total: res.data![0].retval_revenue_total,
+        };
+      })
     );
   }
 
-  updateRevenue(monthId: string, revenue: Revenue) {
+  updateRevenue(
+    monthId: string,
+    revenue: Revenue
+  ): Observable<ChangeRevenueResponse> {
     return from(
       supabase
         .rpc('update_monthly_snapshot_revenue_line', {
@@ -46,10 +61,18 @@ export class MonthlyCheckDataService {
         })
         .select('*')
         .single()
-    ).pipe(map((res) => res.data!.retval_revenue_lines as Revenue[]));
+    ).pipe(
+      map((res) => ({
+        revenue: res.data!.retval_revenue_lines as Revenue[],
+        total: res.data!.retval_revenue_total,
+      }))
+    );
   }
 
-  deleteRevenue(monthId: string, revenueId: number) {
+  deleteRevenue(
+    monthId: string,
+    revenueId: number
+  ): Observable<ChangeRevenueResponse> {
     return from(
       supabase
         .rpc('delete_monthly_snapshot_revenue_line', {
@@ -58,6 +81,71 @@ export class MonthlyCheckDataService {
         })
         .select('*')
         .single()
-    ).pipe(map((res) => res.data!.retval_revenue_lines as Revenue[]));
+    ).pipe(
+      map((res) => ({
+        revenue: res.data!.retval_revenue_lines as Revenue[],
+        total: res.data!.retval_revenue_total,
+      }))
+    );
+  }
+
+  addFixedCost(monthId: string): Observable<AddFixedCostResponse> {
+    return from(
+      supabase.rpc('add_monthly_snapshot_fixed_costs_line', {
+        p_snapshot_id: monthId,
+        p_line: { value: 0, category: '' },
+      })
+    ).pipe(
+      map((res) => {
+        return {
+          fixedCost: res.data![0].retval_line as FixedCost,
+          total: res.data![0].retval_fixed_costs_total,
+        };
+      })
+    );
+  }
+
+  updateFixedCost(
+    monthId: string,
+    fixedCost: FixedCost
+  ): Observable<ChangeFixedCostResponse> {
+    return from(
+      supabase
+        .rpc('update_monthly_snapshot_fixed_costs_line', {
+          p_snapshot_id: monthId,
+          p_line_id: fixedCost.id.toString(),
+          p_new_values: {
+            value: fixedCost.value,
+            category: fixedCost.category,
+          },
+        })
+        .select('*')
+        .single()
+    ).pipe(
+      map((res) => ({
+        fixedCosts: res.data!.retval_fixed_costs as FixedCost[],
+        total: res.data!.retval_fixed_costs_total,
+      }))
+    );
+  }
+
+  deleteFixedCost(
+    monthId: string,
+    fixedCostId: number
+  ): Observable<ChangeFixedCostResponse> {
+    return from(
+      supabase
+        .rpc('delete_monthly_snapshot_fixed_costs_line', {
+          p_snapshot_id: monthId,
+          p_line_id: fixedCostId.toString(),
+        })
+        .select('*')
+        .single()
+    ).pipe(
+      map((res) => ({
+        fixedCosts: res.data!.retval_fixed_costs as FixedCost[],
+        total: res.data!.retval_fixed_costs_total,
+      }))
+    );
   }
 }
