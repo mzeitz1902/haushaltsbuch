@@ -125,8 +125,11 @@ export class MoneyTableComponent<
     const category = this.category();
     const value = this.value();
     untracked(() => {
-      if (value || category) {
+      const isCategoryDirty = this.form.category().dirty();
+      const isValueDirty = this.form.value().dirty();
+      if ((value && isValueDirty) || (category && isCategoryDirty)) {
         this.updateRow.emit(this.formModel() as DATA);
+        this.form().reset();
       }
     });
   });
