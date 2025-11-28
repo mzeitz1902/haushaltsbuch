@@ -16,6 +16,7 @@ import { Field, form } from '@angular/forms/signals';
 import { RevenueMonthTableComponent } from './revenue-month-table/revenue-month-table.component';
 import { FixedCostsMonthTableComponent } from './fixed-costs-month-table/fixed-costs-month-table.component';
 import { CdkAccordion } from '@angular/cdk/accordion';
+import { VariableCostsTableComponent } from './variable-costs-table/variable-costs-table.component';
 
 @Component({
   selector: 'app-monthly-check',
@@ -28,6 +29,7 @@ import { CdkAccordion } from '@angular/cdk/accordion';
     RevenueMonthTableComponent,
     FixedCostsMonthTableComponent,
     CdkAccordion,
+    VariableCostsTableComponent,
   ],
   templateUrl: './monthly-check.component.html',
 })

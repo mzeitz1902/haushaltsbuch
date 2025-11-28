@@ -80,7 +80,6 @@ export class MoneyTableComponent<
   customColumns = input<Column[]>([]);
   headerIcon = input<Icon>();
   headerTitle = input<string>();
-  showAddButton = input<boolean>(true);
 
   updateRow = output<DATA>();
   deleteRow = output<number>();

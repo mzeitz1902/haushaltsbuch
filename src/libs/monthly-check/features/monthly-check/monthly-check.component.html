@@ -22,11 +22,12 @@
   </div>
   @if (isLoaded()) {
     <cdk-accordion
-      class="flex w-full flex-col gap-2"
+      class="flex w-full flex-col gap-2 **:w-full"
       animate.enter="animate-fade-in"
     >
-      <app-revenue-month-table class="w-full" />
-      <app-fixed-costs-month-table class="w-full" />
+      <app-revenue-month-table />
+      <app-fixed-costs-month-table />
+      <app-variable-costs-table />
     </cdk-accordion>
   }
 </section>

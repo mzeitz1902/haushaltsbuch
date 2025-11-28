@@ -35,6 +35,12 @@ export class MonthlyCheckFacade {
   isFixedCostAdded = computed(
     () => this.store.addFixedCostProcessStatus() === 'success'
   );
+  isSavingVariableCost = computed(
+    () => this.store.saveVariableCostProcessStatus() === 'pending'
+  );
+  isVariableCostAdded = computed(
+    () => this.store.addVariableCostProcessStatus() === 'success'
+  );
 
   revenue = computed(
     () => (this.currentMonth()?.revenue_lines ?? []) as Revenue[]
@@ -45,6 +51,13 @@ export class MonthlyCheckFacade {
     () => (this.currentMonth()?.fixed_costs_lines ?? []) as FixedCost[]
   );
   totalFixedCosts = computed(() => this.currentMonth()?.fixed_costs_total ?? 0);
+
+  variableCosts = computed(
+    () => this.currentMonth()?.variable_costs_lines ?? []
+  );
+  totalVariableCosts = computed(
+    () => this.currentMonth()?.variable_costs_total ?? 0
+  );
 
   createdMonths = computed<CreatedMonth[]>(() =>
     this.store.createdMonths().map((m) => {

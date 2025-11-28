@@ -2,7 +2,10 @@ import { MonthDto } from '@haushaltsbuch/shared/sdks';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
-export type Month = Omit<MonthDto, 'created_by' | 'created_at' | 'details'>;
+export type Month = Omit<
+  MonthDto,
+  'created_by' | 'created_at' | 'details' | 'variable_costs_lines'
+> & { variable_costs_lines: VariableCost[] };
 
 export interface AddRevenueResponse {
   revenue: Revenue;
@@ -27,4 +30,18 @@ export interface ChangeRevenueResponse {
 export interface CreatedMonth {
   month: string;
   translated: string;
+}
+
+export interface HistoryEntry {
+  id: number;
+  value: number | null;
+  date: Date;
+}
+
+export interface VariableCost {
+  id: number;
+  category: string | null;
+  forecast: number | null;
+  value: number | null;
+  history: HistoryEntry[];
 }

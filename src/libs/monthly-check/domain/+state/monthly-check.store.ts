@@ -19,6 +19,9 @@ export interface MonthlyCheckState {
   saveFixedCostProcessStatus: ProcessStatus;
   addFixedCostProcessStatus: ProcessStatus;
   deleteFixedCostProcessStatus: ProcessStatus;
+  saveVariableCostProcessStatus: ProcessStatus;
+  addVariableCostProcessStatus: ProcessStatus;
+  deleteVariableCostProcessStatus: ProcessStatus;
 }
 
 export const monthlyCheckStore = signalStore(
@@ -34,6 +37,9 @@ export const monthlyCheckStore = signalStore(
     saveFixedCostProcessStatus: 'init',
     addFixedCostProcessStatus: 'init',
     deleteFixedCostProcessStatus: 'init',
+    saveVariableCostProcessStatus: 'init',
+    addVariableCostProcessStatus: 'init',
+    deleteVariableCostProcessStatus: 'init',
   }),
   withEffects(() => monthlyCheckEffects()),
   withReducer(

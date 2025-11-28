@@ -7,6 +7,7 @@ import {
   AddRevenueResponse,
   ChangeFixedCostResponse,
   ChangeRevenueResponse,
+  Month,
 } from '@haushaltsbuch/monthly-check/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
@@ -26,10 +27,10 @@ export class MonthlyCheckDataService {
     );
   }
 
-  getMonth(month: string) {
+  getMonth(month: string): Observable<Month> {
     return from(
       supabase.from('monthly_snapshots').select('*').eq('month', month).single()
-    ).pipe(map((res) => res.data!));
+    ).pipe(map((res) => res.data! as unknown as Month));
   }
 
   addRevenue(monthId: string): Observable<AddRevenueResponse> {

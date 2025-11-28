@@ -1,50 +1,44 @@
 <mat-card>
   <mat-card-content>
     <cdk-accordion-item #accItem="cdkAccordionItem">
-      @if (headerTitle()) {
-        <header
-          class="sticky top-14 z-10 flex h-5 items-center justify-between bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
-          (click)="accItem.toggle()"
-        >
-          <div class="grid w-full grid-cols-[8rem_1fr] items-center gap-4">
-            <div class="flex items-center gap-1">
-              @if (headerIcon()) {
-                <i-lucide [name]="headerIcon()" />
-              }
-              <h2 class="text-sm font-semibold text-gray-100">
-                {{ headerTitle() }}
-              </h2>
-              @if (isSaving()) {
-                <mat-spinner diameter="18" />
-              }
-            </div>
-
-            <div class="flex items-center">
-              <h1
-                class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
-              >
-                {{ total() | currency: 'EUR' }}
-              </h1>
-              <i-lucide
-                [name]="accItem.expanded ? 'chevron-up' : 'chevron-down'"
-              />
-            </div>
+      <header
+        class="sticky top-14 z-10 flex h-5 items-center justify-between bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
+        (click)="accItem.toggle()"
+      >
+        <div class="grid w-full grid-cols-[8rem_1fr] items-center gap-4">
+          <div class="flex items-center gap-1">
+            <app-icon icon="BanknoteArrowDown" size="medium" />
+            <h2 class="text-sm font-semibold text-gray-100">Variable Kosten</h2>
+            @if (isSaving()) {
+              <mat-spinner diameter="18" />
+            }
           </div>
 
-          @if (accItem.expanded) {
-            <button
-              maffiButton
-              icon="CirclePlus"
-              size="small"
-              (click)="addRow.emit(); $event.stopPropagation()"
-              animate.enter="animate-fade-in"
-              animate.leave="animate-fade-out"
+          <div class="flex items-center">
+            <h1
+              class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
             >
-              Hinzufügen
-            </button>
-          }
-        </header>
-      }
+              {{ total() | currency: 'EUR' }}
+            </h1>
+            <i-lucide
+              [name]="accItem.expanded ? 'chevron-up' : 'chevron-down'"
+            />
+          </div>
+        </div>
+
+        @if (accItem.expanded) {
+          <button
+            maffiButton
+            icon="CirclePlus"
+            size="small"
+            (click)="add(); $event.stopPropagation()"
+            animate.enter="animate-fade-in"
+            animate.leave="animate-fade-out"
+          >
+            Hinzufügen
+          </button>
+        }
+      </header>
 
       <div
         class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
@@ -87,14 +81,6 @@
                       <span>
                         {{ row.category }}
                       </span>
-                      @if (row.remark) {
-                        <app-icon
-                          class="z-1"
-                          icon="Info"
-                          [matTooltip]="row.remark"
-                          matTooltipPosition="after"
-                        />
-                      }
                     </div>
                   }
                 </td>
@@ -107,27 +93,31 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="value">
+              <ng-container matColumnDef="forecast">
                 <td
                   mat-cell
                   *matCellDef="let row"
-                  class="!h-1 !w-12 !p-0 !text-right !text-xs !text-gray-100"
+                  class="!h-1 !w-24 !p-0.5 !text-xs !text-gray-100"
                 >
                   @if (
-                    selectedRow() === row.id && selectedField() === 'value'
+                    selectedRow() === row.id && selectedField() === 'forecast'
                   ) {
                     <input
+                      #forecast
                       type="number"
-                      #value
-                      class="w-12 rounded border-1 border-blue-400 bg-gray-600 p-1 text-right outline-none"
-                      [field]="form.value"
+                      class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
+                      [field]="form.forecast"
                       (blur)="resetForm()"
-                      (keyup.enter)="selectedRow.set(null)"
                     />
                   } @else {
-                    <span class="block h-5 w-full" (click)="editValue(row)">
-                      {{ row.value | currency: 'EUR' }}
-                    </span>
+                    <div
+                      class="flex h-5 w-full items-center gap-1"
+                      (click)="editForecast(row)"
+                    >
+                      <span>
+                        {{ row.forecast | currency: 'EUR' }}
+                      </span>
+                    </div>
                   }
                 </td>
                 <td
@@ -137,6 +127,19 @@
                 >
                   {{ total() | currency: 'EUR' }}
                 </td>
+              </ng-container>
+
+              <ng-container matColumnDef="value">
+                <td
+                  mat-cell
+                  *matCellDef="let row"
+                  class="!h-1 !w-12 !p-0 !text-right !text-xs !text-gray-100"
+                >
+                  <span class="block h-5 w-full" (click)="editValue(row)">
+                    {{ row.value | currency: 'EUR' }}
+                  </span>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
 
               <ng-container matColumnDef="delete_button">
@@ -151,36 +154,20 @@
                     icon="Trash"
                     size="mini"
                     theme="secondary"
-                    (click)="deleteRow.emit(row.id)"
+                    (click)="delete(row.id)"
                   ></button>
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
 
-              @for (col of customColumns(); track $index) {
-                <ng-container [matColumnDef]="col.name">
-                  <td
-                    mat-cell
-                    *matCellDef="let row"
-                    class="!overflow-visible !p-0 !text-xs !text-gray-100"
-                  >
-                    <ng-template
-                      [ngTemplateOutlet]="col.template"
-                      [ngTemplateOutletContext]="{ $implicit: row }"
-                    />
-                  </td>
-                  <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-              }
-
               <tr
                 mat-row
-                *matRowDef="let row; columns: displayedColumns()"
+                *matRowDef="let row; columns: displayedColumns"
                 class="!h-1"
               ></tr>
               <tr
                 mat-footer-row
-                *matFooterRowDef="displayedColumns()"
+                *matFooterRowDef="displayedColumns"
                 class="!h-1"
               ></tr>
             </table>
