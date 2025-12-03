@@ -17,7 +17,7 @@ import {
   IconComponent,
 } from '@haushaltsbuch/shared/ui-components';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {
@@ -37,6 +37,8 @@ import {
 } from '@angular/material/table';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { debounce, Field, form } from '@angular/forms/signals';
+import { MatMenuItem } from '@angular/material/menu';
+import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
 
 @Component({
   selector: 'app-variable-costs-table',
@@ -63,6 +65,10 @@ import { debounce, Field, form } from '@angular/forms/signals';
     MatHeaderRow,
     MatHeaderRowDef,
     MatHeaderCellDef,
+    MatMenuItem,
+    DatePipe,
+    MtxPopover,
+    MtxPopoverTrigger,
   ],
   providers: [DecimalPipe],
   templateUrl: './variable-costs-table.component.html',
@@ -144,6 +150,7 @@ export class VariableCostsTableComponent {
 
   editValue(row: VariableCost) {
     // todo popover öffnen
+    console.log('herpo');
     return;
   }
 
@@ -163,6 +170,14 @@ export class VariableCostsTableComponent {
   }
 
   delete(id: number) {
+    return;
+  }
+
+  addHistoryEntry(row: VariableCost) {
+    return;
+  }
+
+  removeHistoryEntry(row: VariableCost, id: number) {
     return;
   }
 

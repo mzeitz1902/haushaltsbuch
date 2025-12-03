@@ -143,9 +143,37 @@
                   *matCellDef="let row"
                   class="!h-1 !w-12 !p-0 !text-right !text-xs"
                 >
-                  <span class="block h-5 w-full" (click)="editValue(row)">
+                  <span
+                    class="block h-5 w-full"
+                    [mtxPopoverTriggerFor]="popover"
+                  >
                     {{ row.value | currency: 'EUR' }}
                   </span>
+                  <mtx-popover #popover="mtxPopover">
+                    @for (entry of row.history; track entry.id) {
+                      <div mat-menu-item>
+                        <div class="flex flex-col gap-2">
+                          <span class="flex items-center gap-2">
+                            <span>{{ entry.value | currency: 'EUR' }}</span>
+                            <span>{{ entry.date | date }}</span>
+                            <button
+                              maffiButton
+                              icon="CircleMinus"
+                              (click)="removeHistoryEntry(row, entry.id)"
+                            ></button>
+                          </span>
+                          <button
+                            maffiButton
+                            class="w-full !justify-center"
+                            icon="CirclePlus"
+                            (click)="addHistoryEntry(row)"
+                          >
+                            Hinzufügen
+                          </button>
+                        </div>
+                      </div>
+                    }
+                  </mtx-popover>
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>

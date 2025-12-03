@@ -116,6 +116,10 @@ export class MonthlyCheckFacade {
   }
 
   navigateTo(year?: string | null, month?: string | null) {
+    if (year && !month) {
+      this.router.navigate(['/monthly-check', year]);
+      return;
+    }
     this.router.navigate(['/monthly-check', year, month]);
   }
 }
