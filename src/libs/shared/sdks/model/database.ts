@@ -4,365 +4,403 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
-export interface Database {
+export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: '13.0.5';
-  };
+    PostgrestVersion: "13.0.5"
+  }
   public: {
     Tables: {
       fixed_costs: {
         Row: {
-          category: string | null;
-          due_date: Database['public']['Enums']['due_date'] | null;
-          due_in: Database['public']['Enums']['due_in'] | null;
-          due_in_month: string[] | null;
-          id: number;
-          remark: string | null;
-          type: Database['public']['Enums']['fixed_cost_type'];
-          value: number | null;
-        };
+          category: string | null
+          due_date: Database["public"]["Enums"]["due_date"] | null
+          due_in: Database["public"]["Enums"]["due_in"] | null
+          due_in_month: string[] | null
+          id: number
+          remark: string | null
+          type: Database["public"]["Enums"]["fixed_cost_type"]
+          value: number | null
+        }
         Insert: {
-          category?: string | null;
-          due_date?: Database['public']['Enums']['due_date'] | null;
-          due_in?: Database['public']['Enums']['due_in'] | null;
-          due_in_month?: string[] | null;
-          id?: number;
-          remark?: string | null;
-          type?: Database['public']['Enums']['fixed_cost_type'];
-          value?: number | null;
-        };
+          category?: string | null
+          due_date?: Database["public"]["Enums"]["due_date"] | null
+          due_in?: Database["public"]["Enums"]["due_in"] | null
+          due_in_month?: string[] | null
+          id?: number
+          remark?: string | null
+          type?: Database["public"]["Enums"]["fixed_cost_type"]
+          value?: number | null
+        }
         Update: {
-          category?: string | null;
-          due_date?: Database['public']['Enums']['due_date'] | null;
-          due_in?: Database['public']['Enums']['due_in'] | null;
-          due_in_month?: string[] | null;
-          id?: number;
-          remark?: string | null;
-          type?: Database['public']['Enums']['fixed_cost_type'];
-          value?: number | null;
-        };
-        Relationships: [];
-      };
+          category?: string | null
+          due_date?: Database["public"]["Enums"]["due_date"] | null
+          due_in?: Database["public"]["Enums"]["due_in"] | null
+          due_in_month?: string[] | null
+          id?: number
+          remark?: string | null
+          type?: Database["public"]["Enums"]["fixed_cost_type"]
+          value?: number | null
+        }
+        Relationships: []
+      }
       monthly_snapshots: {
         Row: {
-          created_at: string | null;
-          created_by: string | null;
-          details: Json | null;
-          fixed_costs_lines: Json | null;
-          fixed_costs_total: number | null;
-          id: string;
-          month: string;
-          revenue_lines: Json | null;
-          revenue_total: number | null;
-          updated_at: string | null;
-          variable_costs_lines: Json | null;
-          variable_costs_total: number | null;
-        };
+          created_at: string | null
+          created_by: string | null
+          details: Json | null
+          fixed_costs_lines: Json | null
+          fixed_costs_total: number | null
+          id: string
+          month: string
+          revenue_lines: Json | null
+          revenue_total: number | null
+          updated_at: string | null
+          variable_costs_lines: Json | null
+          variable_costs_total: number | null
+        }
         Insert: {
-          created_at?: string | null;
-          created_by?: string | null;
-          details?: Json | null;
-          fixed_costs_lines?: Json | null;
-          fixed_costs_total?: number | null;
-          id?: string;
-          month: string;
-          revenue_lines?: Json | null;
-          revenue_total?: number | null;
-          updated_at?: string | null;
-          variable_costs_lines?: Json | null;
-          variable_costs_total?: number | null;
-        };
+          created_at?: string | null
+          created_by?: string | null
+          details?: Json | null
+          fixed_costs_lines?: Json | null
+          fixed_costs_total?: number | null
+          id?: string
+          month: string
+          revenue_lines?: Json | null
+          revenue_total?: number | null
+          updated_at?: string | null
+          variable_costs_lines?: Json | null
+          variable_costs_total?: number | null
+        }
         Update: {
-          created_at?: string | null;
-          created_by?: string | null;
-          details?: Json | null;
-          fixed_costs_lines?: Json | null;
-          fixed_costs_total?: number | null;
-          id?: string;
-          month?: string;
-          revenue_lines?: Json | null;
-          revenue_total?: number | null;
-          updated_at?: string | null;
-          variable_costs_lines?: Json | null;
-          variable_costs_total?: number | null;
-        };
-        Relationships: [];
-      };
+          created_at?: string | null
+          created_by?: string | null
+          details?: Json | null
+          fixed_costs_lines?: Json | null
+          fixed_costs_total?: number | null
+          id?: string
+          month?: string
+          revenue_lines?: Json | null
+          revenue_total?: number | null
+          updated_at?: string | null
+          variable_costs_lines?: Json | null
+          variable_costs_total?: number | null
+        }
+        Relationships: []
+      }
       revenue: {
         Row: {
-          category: string | null;
-          id: number;
-          value: number | null;
-        };
+          category: string | null
+          id: number
+          value: number | null
+        }
         Insert: {
-          category?: string | null;
-          id?: number;
-          value?: number | null;
-        };
+          category?: string | null
+          id?: number
+          value?: number | null
+        }
         Update: {
-          category?: string | null;
-          id?: number;
-          value?: number | null;
-        };
-        Relationships: [];
-      };
+          category?: string | null
+          id?: number
+          value?: number | null
+        }
+        Relationships: []
+      }
       weekly_check: {
         Row: {
-          id: number;
-        };
+          id: number
+        }
         Insert: {
-          id?: number;
-        };
+          id?: number
+        }
         Update: {
-          id?: number;
-        };
-        Relationships: [];
-      };
-    };
-    Views: Record<never, never>;
+          id?: number
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
     Functions: {
       add_monthly_snapshot_fixed_costs_line: {
-        Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string };
+        Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string }
         Returns: {
-          retval_fixed_costs: Json;
-          retval_fixed_costs_total: number;
-          retval_id: string;
-          retval_line: Json;
-          retval_updated_at: string;
-        }[];
-      };
+          retval_fixed_costs: Json
+          retval_fixed_costs_total: number
+          retval_id: string
+          retval_line: Json
+          retval_updated_at: string
+        }[]
+      }
       add_monthly_snapshot_revenue_line: {
-        Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string };
+        Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string }
         Returns: {
-          retval_id: string;
-          retval_line: Json;
-          retval_revenue_lines: Json;
-          retval_revenue_total: number;
-          retval_updated_at: string;
-        }[];
-      };
-      append_revenue_line_history: {
-        Args: {
-          p_history_entry: Json;
-          p_revenue_line_id: string;
-          p_snapshot_id: string;
-        };
-        Returns: Json;
-      };
+          retval_id: string
+          retval_line: Json
+          retval_revenue_lines: Json
+          retval_revenue_total: number
+          retval_updated_at: string
+        }[]
+      }
+      add_monthly_snapshot_variable_costs_line: {
+        Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string }
+        Returns: {
+          retval_id: string
+          retval_line: Json
+          retval_updated_at: string
+          retval_variable_costs: Json
+          retval_variable_costs_total: number
+        }[]
+      }
       create_monthly_snapshot: {
-        Args: { p_created_by?: string; p_month: string };
+        Args: { p_created_by?: string; p_month: string }
         Returns: {
-          fixed_costs_rows_count: number;
-          id: string;
-          revenue_rows_count: number;
-        }[];
-      };
+          fixed_costs_rows_count: number
+          id: string
+          revenue_rows_count: number
+        }[]
+      }
       delete_monthly_snapshot_fixed_costs_line: {
         Args: {
-          p_deleted_by?: string;
-          p_line_id: string;
-          p_snapshot_id: string;
-        };
+          p_deleted_by?: string
+          p_line_id: string
+          p_snapshot_id: string
+        }
         Returns: {
-          retval_fixed_costs: Json;
-          retval_fixed_costs_total: number;
-          retval_id: string;
-          retval_removed_line: Json;
-          retval_updated_at: string;
-        }[];
-      };
+          retval_fixed_costs: Json
+          retval_fixed_costs_total: number
+          retval_id: string
+          retval_removed_line: Json
+          retval_updated_at: string
+        }[]
+      }
       delete_monthly_snapshot_revenue_line: {
         Args: {
-          p_deleted_by?: string;
-          p_line_id: string;
-          p_snapshot_id: string;
-        };
+          p_deleted_by?: string
+          p_line_id: string
+          p_snapshot_id: string
+        }
         Returns: {
-          retval_id: string;
-          retval_removed_line: Json;
-          retval_revenue_lines: Json;
-          retval_revenue_total: number;
-          retval_updated_at: string;
-        }[];
-      };
-      remove_revenue_line_history: {
+          retval_id: string
+          retval_removed_line: Json
+          retval_revenue_lines: Json
+          retval_revenue_total: number
+          retval_updated_at: string
+        }[]
+      }
+      delete_monthly_snapshot_variable_costs_line: {
         Args: {
-          p_history_id: string;
-          p_revenue_line_id: string;
-          p_snapshot_id: string;
-        };
-        Returns: Json;
-      };
+          p_deleted_by?: string
+          p_line_id: string
+          p_snapshot_id: string
+        }
+        Returns: {
+          retval_id: string
+          retval_removed_line: Json
+          retval_updated_at: string
+          retval_variable_costs: Json
+          retval_variable_costs_total: number
+        }[]
+      }
+      delete_variable_cost_line_from_snapshot: {
+        Args: {
+          line_index: number
+          performed_by?: string
+          snapshot_month: string
+        }
+        Returns: {
+          id: string
+          month: string
+          updated_at: string
+          variable_costs_lines: Json
+          variable_costs_total: number
+        }[]
+      }
       update_monthly_snapshot_fixed_costs_line: {
         Args: {
-          p_line_id: string;
-          p_new_values: Json;
-          p_snapshot_id: string;
-          p_updated_by?: string;
-        };
+          p_line_id: string
+          p_new_values: Json
+          p_snapshot_id: string
+          p_updated_by?: string
+        }
         Returns: {
-          retval_fixed_costs: Json;
-          retval_fixed_costs_total: number;
-          retval_id: string;
-          retval_line: Json;
-          retval_updated_at: string;
-        }[];
-      };
+          retval_fixed_costs: Json
+          retval_fixed_costs_total: number
+          retval_id: string
+          retval_line: Json
+          retval_updated_at: string
+        }[]
+      }
       update_monthly_snapshot_revenue_line: {
         Args: {
-          p_line_id: string;
-          p_new_values: Json;
-          p_snapshot_id: string;
-          p_updated_by?: string;
-        };
+          p_line_id: string
+          p_new_values: Json
+          p_snapshot_id: string
+          p_updated_by?: string
+        }
         Returns: {
-          retval_id: string;
-          retval_line: Json;
-          retval_revenue_lines: Json;
-          retval_revenue_total: number;
-          retval_updated_at: string;
-        }[];
-      };
-    };
+          retval_id: string
+          retval_line: Json
+          retval_revenue_lines: Json
+          retval_revenue_total: number
+          retval_updated_at: string
+        }[]
+      }
+      update_monthly_snapshot_variable_costs_line: {
+        Args: {
+          p_line_id: string
+          p_new_values: Json
+          p_snapshot_id: string
+          p_updated_by?: string
+        }
+        Returns: {
+          retval_id: string
+          retval_line: Json
+          retval_updated_at: string
+          retval_variable_costs: Json
+          retval_variable_costs_total: number
+        }[]
+      }
+    }
     Enums: {
-      due_date: '15' | '1';
-      due_in: 'Alle' | 'Quartal' | 'Sonder';
-      fixed_cost_type: 'Fix' | 'Budget';
-    };
-    CompositeTypes: Record<never, never>;
-  };
+      due_date: "15" | "1"
+      due_in: "Alle" | "Quartal" | "Sonder"
+      fixed_cost_type: "Fix" | "Budget"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>;
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<
-  keyof Database,
-  'public'
->];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
-      Row: infer R;
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R;
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
       }
       ? R
       : never
-    : never;
+    : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
-      Insert: infer I;
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I;
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
       }
       ? I
       : never
-    : never;
+    : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
-      Update: infer U;
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U;
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
       }
       ? U
       : never
-    : never;
+    : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema['Enums']
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
-    : never;
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema['CompositeTypes']
+    | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
-    : never;
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
 
 export const Constants = {
   public: {
     Enums: {
-      due_date: ['15', '1'],
-      due_in: ['Alle', 'Quartal', 'Sonder'],
-      fixed_cost_type: ['Fix', 'Budget'],
+      due_date: ["15", "1"],
+      due_in: ["Alle", "Quartal", "Sonder"],
+      fixed_cost_type: ["Fix", "Budget"],
     },
   },
-} as const;
+} as const

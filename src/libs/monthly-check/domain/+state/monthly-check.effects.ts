@@ -114,5 +114,43 @@ export function monthlyCheckEffects(
         );
       })
     ),
+
+    addVariableCost$: events.on(monthlyCheckEvents.addVariableCost).pipe(
+      switchMap(({ payload: monthId }) => {
+        return dataService.addVariableCost(monthId).pipe(
+          mapResponse({
+            next: (fixedCost) =>
+              monthlyCheckEvents.addVariableCostSuccess(fixedCost),
+            error: (error) => monthlyCheckEvents.addVariableCostFailure(error),
+          })
+        );
+      })
+    ),
+
+    updateVariableCost$: events.on(monthlyCheckEvents.updateVariableCost).pipe(
+      switchMap(({ payload: { variableCost, monthId } }) => {
+        return dataService.updateVariableCost(monthId, variableCost).pipe(
+          mapResponse({
+            next: (variableCost) =>
+              monthlyCheckEvents.updateVariableCostSuccess(variableCost),
+            error: (error) =>
+              monthlyCheckEvents.updateVariableCostFailure(error),
+          })
+        );
+      })
+    ),
+
+    deleteVariableCost$: events.on(monthlyCheckEvents.deleteVariableCost).pipe(
+      switchMap(({ payload: { monthId, variableCostId } }) => {
+        return dataService.deleteVariableCost(monthId, variableCostId).pipe(
+          mapResponse({
+            next: (fixedCost) =>
+              monthlyCheckEvents.deleteVariableCostSuccess(fixedCost),
+            error: (error) =>
+              monthlyCheckEvents.deleteVariableCostFailure(error),
+          })
+        );
+      })
+    ),
   };
 }

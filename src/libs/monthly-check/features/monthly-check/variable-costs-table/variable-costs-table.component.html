@@ -146,33 +146,34 @@
                   <span
                     class="block h-5 w-full"
                     [mtxPopoverTriggerFor]="popover"
+                    [mtxPopoverTriggerOn]="'click'"
                   >
                     {{ row.value | currency: 'EUR' }}
                   </span>
                   <mtx-popover #popover="mtxPopover">
                     @for (entry of row.history; track entry.id) {
-                      <div mat-menu-item>
-                        <div class="flex flex-col gap-2">
-                          <span class="flex items-center gap-2">
-                            <span>{{ entry.value | currency: 'EUR' }}</span>
-                            <span>{{ entry.date | date }}</span>
-                            <button
-                              maffiButton
-                              icon="CircleMinus"
-                              (click)="removeHistoryEntry(row, entry.id)"
-                            ></button>
-                          </span>
+                      <div class="flex flex-col gap-2">
+                        <span class="flex items-center gap-2">
+                          <span>{{ entry.value | currency: 'EUR' }}</span>
+                          <span>{{ entry.date | date }}</span>
                           <button
                             maffiButton
-                            class="w-full !justify-center"
-                            icon="CirclePlus"
-                            (click)="addHistoryEntry(row)"
-                          >
-                            Hinzufügen
-                          </button>
-                        </div>
+                            icon="CircleMinus"
+                            (click)="removeHistoryEntry(row, entry.id)"
+                          ></button>
+                        </span>
                       </div>
+                    } @empty {
+                      Keine Historie vorhanden.
                     }
+                    <button
+                      maffiButton
+                      class="w-full !justify-center"
+                      icon="CirclePlus"
+                      (click)="addHistoryEntry(row)"
+                    >
+                      Hinzufügen
+                    </button>
                   </mtx-popover>
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>

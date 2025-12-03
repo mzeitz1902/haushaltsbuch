@@ -3,7 +3,10 @@ import { injectDispatch } from '@ngrx/signals/events';
 import { monthlyCheckEvents } from '../+state/monthly-check.events';
 import { monthlyCheckStore } from '../+state/monthly-check.store';
 import dayjs from 'dayjs';
-import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
+import {
+  CreatedMonth,
+  VariableCost,
+} from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { Router } from '@angular/router';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
@@ -112,6 +115,24 @@ export class MonthlyCheckFacade {
     this.events.deleteFixedCost({
       monthId: this.currentMonth()!.id,
       fixedCostId,
+    });
+  }
+
+  addVariableCost() {
+    this.events.addVariableCost(this.currentMonth()!.id);
+  }
+
+  updateVariableCost(variableCost: VariableCost) {
+    this.events.updateVariableCost({
+      variableCost,
+      monthId: this.currentMonth()!.id,
+    });
+  }
+
+  deleteVariableCost(variableCostId: number) {
+    this.events.deleteVariableCost({
+      monthId: this.currentMonth()!.id,
+      variableCostId,
     });
   }
 

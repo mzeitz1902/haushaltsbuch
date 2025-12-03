@@ -3,9 +3,12 @@ import { type } from '@ngrx/signals';
 import {
   AddFixedCostResponse,
   AddRevenueResponse,
+  AddVariableCostResponse,
   ChangeFixedCostResponse,
   ChangeRevenueResponse,
+  ChangeVariableCostResponse,
   Month,
+  VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
@@ -48,6 +51,18 @@ const events = eventGroup({
     deleteFixedCost: type<{ monthId: string; fixedCostId: number }>(),
     deleteFixedCostSuccess: type<ChangeFixedCostResponse>(),
     deleteFixedCostFailure: type<unknown>(),
+
+    addVariableCost: type<string>(),
+    addVariableCostSuccess: type<AddVariableCostResponse>(),
+    addVariableCostFailure: type<unknown>(),
+
+    updateVariableCost: type<{ variableCost: VariableCost; monthId: string }>(),
+    updateVariableCostSuccess: type<ChangeVariableCostResponse>(),
+    updateVariableCostFailure: type<unknown>(),
+
+    deleteVariableCost: type<{ monthId: string; variableCostId: number }>(),
+    deleteVariableCostSuccess: type<ChangeVariableCostResponse>(),
+    deleteVariableCostFailure: type<unknown>(),
   },
 });
 
@@ -87,4 +102,16 @@ export const monthlyCheckEvents = {
   deleteFixedCost: events.deleteFixedCost,
   deleteFixedCostSuccess: events.deleteFixedCostSuccess,
   deleteFixedCostFailure: events.deleteFixedCostFailure,
+
+  addVariableCost: events.addVariableCost,
+  addVariableCostSuccess: events.addVariableCostSuccess,
+  addVariableCostFailure: events.addVariableCostFailure,
+
+  updateVariableCost: events.updateVariableCost,
+  updateVariableCostSuccess: events.updateVariableCostSuccess,
+  updateVariableCostFailure: events.updateVariableCostFailure,
+
+  deleteVariableCost: events.deleteVariableCost,
+  deleteVariableCostSuccess: events.deleteVariableCostSuccess,
+  deleteVariableCostFailure: events.deleteVariableCostFailure,
 };

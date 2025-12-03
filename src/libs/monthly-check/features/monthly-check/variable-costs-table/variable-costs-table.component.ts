@@ -37,7 +37,6 @@ import {
 } from '@angular/material/table';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { debounce, Field, form } from '@angular/forms/signals';
-import { MatMenuItem } from '@angular/material/menu';
 import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
 
 @Component({
@@ -65,7 +64,6 @@ import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
     MatHeaderRow,
     MatHeaderRowDef,
     MatHeaderCellDef,
-    MatMenuItem,
     DatePipe,
     MtxPopover,
     MtxPopoverTrigger,
@@ -110,14 +108,17 @@ export class VariableCostsTableComponent {
     }
   });
 
-  update = effect(() => {
+  updateEffect = effect(() => {
     const category = this.category();
     const forecast = this.forecast();
     untracked(() => {
       const isCategoryDirty = this.form.category().dirty();
-      const isValueDirty = this.form.forecast().dirty();
-      if ((forecast && isValueDirty) || (category && isCategoryDirty)) {
-        // this.update(this.formModel() as VariableCost);
+      let isForecastDirty = false;
+      if (forecast) {
+        isForecastDirty = this.form.forecast().dirty();
+      }
+      if ((forecast && isForecastDirty) || (category && isCategoryDirty)) {
+        this.update(this.formModel() as VariableCost);
         this.form().reset();
       }
     });
@@ -166,11 +167,16 @@ export class VariableCostsTableComponent {
   }
 
   add() {
-    return;
+    this.facade.addVariableCost();
   }
 
   delete(id: number) {
-    return;
+    this.facade.deleteVariableCost(id);
+  }
+
+  update(cost: VariableCost) {
+    this.facade.updateVariableCost(cost);
+    this.selectedRow.set(null);
   }
 
   addHistoryEntry(row: VariableCost) {

@@ -17,6 +17,11 @@ export interface AddFixedCostResponse {
   total: number;
 }
 
+export interface AddVariableCostResponse {
+  variableCost: VariableCost;
+  total: number;
+}
+
 export interface ChangeFixedCostResponse {
   fixedCosts: FixedCost[];
   total: number;
@@ -24,6 +29,11 @@ export interface ChangeFixedCostResponse {
 
 export interface ChangeRevenueResponse {
   revenue: Revenue[];
+  total: number;
+}
+
+export interface ChangeVariableCostResponse {
+  variableCosts: VariableCost[];
   total: number;
 }
 

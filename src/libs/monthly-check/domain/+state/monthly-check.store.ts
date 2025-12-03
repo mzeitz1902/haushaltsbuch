@@ -1,4 +1,4 @@
-import { Month } from '@haushaltsbuch/monthly-check/domain';
+import { Month, VariableCost } from '@haushaltsbuch/monthly-check/domain';
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { on, withEffects, withReducer } from '@ngrx/signals/events';
@@ -132,6 +132,39 @@ export const monthlyCheckStore = signalStore(
     ),
     on(monthlyCheckEvents.updateFixedCostFailure, () => ({
       saveFixedCostProcessStatus: 'error',
+    })),
+
+    on(
+      monthlyCheckEvents.addVariableCostSuccess,
+      ({ payload: { variableCost, total } }, { month }) => ({
+        addFixedCostProcessStatus: 'success',
+        month: {
+          ...month,
+          variable_costs_lines: [
+            ...(month!.variable_costs_lines as VariableCost[]),
+            variableCost,
+          ],
+          variable_costs_total: total,
+        } as Month,
+      })
+    ),
+
+    on(
+      monthlyCheckEvents.updateVariableCostSuccess,
+      monthlyCheckEvents.deleteVariableCostSuccess,
+      ({ payload: { variableCosts, total } }, { month }) => {
+        return {
+          saveVariableCostProcessStatus: 'success',
+          month: {
+            ...month,
+            variable_costs_lines: variableCosts,
+            variable_costs_total: total,
+          } as Month,
+        };
+      }
+    ),
+    on(monthlyCheckEvents.updateVariableCostFailure, () => ({
+      saveVariableCostProcessStatus: 'error',
     }))
   )
 );
