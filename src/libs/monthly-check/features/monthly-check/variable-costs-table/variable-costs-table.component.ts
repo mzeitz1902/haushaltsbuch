@@ -17,7 +17,7 @@ import {
   IconComponent,
 } from '@haushaltsbuch/shared/ui-components';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, NgClass } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {
@@ -57,6 +57,7 @@ import { debounce, Field, form } from '@angular/forms/signals';
     MatTable,
     Field,
     MatFooterCellDef,
+    NgClass,
   ],
   providers: [DecimalPipe],
   templateUrl: './variable-costs-table.component.html',

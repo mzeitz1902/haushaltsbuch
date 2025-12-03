@@ -12,7 +12,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
-import { CurrencyPipe, DecimalPipe, NgTemplateOutlet } from '@angular/common';
+import {
+  CurrencyPipe,
+  DecimalPipe,
+  NgClass,
+  NgTemplateOutlet,
+} from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -60,6 +65,7 @@ import { debounce, Field, form } from '@angular/forms/signals';
     IconComponent,
     MatTooltip,
     Field,
+    NgClass,
   ],
   providers: [DecimalPipe],
   templateUrl: './money-table.component.html',
@@ -76,9 +82,10 @@ export class MoneyTableComponent<
   isSaving = input.required<boolean>();
   isAdded = input.required<boolean>();
   total = input.required<number>();
+  headerIcon = input.required<Icon>();
 
   customColumns = input<Column[]>([]);
-  headerIcon = input<Icon>();
+
   headerTitle = input<string>();
 
   updateRow = output<DATA>();

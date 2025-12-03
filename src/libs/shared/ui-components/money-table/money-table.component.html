@@ -3,46 +3,44 @@
     <cdk-accordion-item #accItem="cdkAccordionItem">
       @if (headerTitle()) {
         <header
-          class="sticky top-14 z-10 flex h-5 items-center justify-between bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
+          class="sticky top-14 z-10 grid w-full grid-cols-[2rem_10rem_auto_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
           (click)="accItem.toggle()"
         >
-          <div class="grid w-full grid-cols-[8rem_1fr] items-center gap-4">
-            <div class="flex items-center gap-1">
-              @if (headerIcon()) {
-                <i-lucide [name]="headerIcon()" />
-              }
-              <h2 class="text-sm font-semibold text-gray-100">
-                {{ headerTitle() }}
-              </h2>
-              @if (isSaving()) {
-                <mat-spinner diameter="18" />
-              }
-            </div>
-
-            <div class="flex items-center">
-              <h1
-                class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+          <app-icon [icon]="headerIcon()" size="medium" />
+          <div #col2 class="flex items-center gap-2">
+            <h2 class="w-min text-sm font-semibold text-gray-100">
+              {{ headerTitle() }}
+            </h2>
+            @if (isSaving()) {
+              <mat-spinner diameter="18" />
+            }
+            <h1
+              class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+            >
+              {{ total() | currency: 'EUR' }}
+            </h1>
+          </div>
+          <div class="w-5">
+            @if (accItem.expanded) {
+              <button
+                class="w-5"
+                maffiButton
+                icon="CirclePlus"
+                size="small"
+                (click)="addRow.emit(); $event.stopPropagation()"
+                animate.enter="animate-fade-in"
+                animate.leave="animate-fade-out"
               >
-                {{ total() | currency: 'EUR' }}
-              </h1>
-              <i-lucide
-                [name]="accItem.expanded ? 'chevron-up' : 'chevron-down'"
-              />
-            </div>
+                Hinzufügen
+              </button>
+            }
           </div>
 
-          @if (accItem.expanded) {
-            <button
-              maffiButton
-              icon="CirclePlus"
-              size="small"
-              (click)="addRow.emit(); $event.stopPropagation()"
-              animate.enter="animate-fade-in"
-              animate.leave="animate-fade-out"
-            >
-              Hinzufügen
-            </button>
-          }
+          <app-icon
+            [icon]="accItem.expanded ? 'ChevronDown' : 'ChevronDown'"
+            size="small"
+            class="ml-1"
+          />
         </header>
       }
 
