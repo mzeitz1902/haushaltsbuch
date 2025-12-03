@@ -2,8 +2,7 @@
   <mat-card-content>
     <cdk-accordion-item #accItem="cdkAccordionItem">
       <header
-        class="sticky top-14 z-10 grid grid-cols-[2rem_1fr_min-content_1rem] items-center bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
-        [ngClass]="{ 'grid-cols-[2rem_1fr_1rem_auto]': accItem.expanded }"
+        class="sticky top-14 z-10 grid w-full grid-cols-[2rem_10rem_auto_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
         (click)="accItem.toggle()"
       >
         <app-icon #col1 icon="BanknoteArrowDown" size="medium" />
@@ -19,18 +18,21 @@
           </h1>
         </div>
 
-        @if (accItem.expanded) {
-          <button
-            maffiButton
-            icon="CirclePlus"
-            size="small"
-            (click)="add(); $event.stopPropagation()"
-            animate.enter="animate-fade-in"
-            animate.leave="animate-fade-out"
-          >
-            Hinzufügen
-          </button>
-        }
+        <div class="w-5">
+          @if (accItem.expanded) {
+            <button
+              class="w-5"
+              maffiButton
+              icon="CirclePlus"
+              size="small"
+              (click)="add(); $event.stopPropagation()"
+              animate.enter="animate-fade-in"
+              animate.leave="animate-fade-out"
+            >
+              Hinzufügen
+            </button>
+          }
+        </div>
 
         <app-icon
           [icon]="accItem.expanded ? 'ChevronDown' : 'ChevronDown'"

@@ -12,12 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
-import {
-  CurrencyPipe,
-  DecimalPipe,
-  NgClass,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { CurrencyPipe, DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -65,7 +60,6 @@ import { debounce, Field, form } from '@angular/forms/signals';
     IconComponent,
     MatTooltip,
     Field,
-    NgClass,
   ],
   providers: [DecimalPipe],
   templateUrl: './money-table.component.html',
