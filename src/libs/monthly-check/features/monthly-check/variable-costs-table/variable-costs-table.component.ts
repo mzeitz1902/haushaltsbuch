@@ -17,7 +17,7 @@ import {
   IconComponent,
 } from '@haushaltsbuch/shared/ui-components';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
-import { CurrencyPipe, DecimalPipe, NgClass } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {
@@ -28,6 +28,9 @@ import {
   MatFooterCellDef,
   MatFooterRow,
   MatFooterRowDef,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
   MatRow,
   MatRowDef,
   MatTable,
@@ -57,13 +60,12 @@ import { debounce, Field, form } from '@angular/forms/signals';
     MatTable,
     Field,
     MatFooterCellDef,
-    NgClass,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatHeaderCellDef,
   ],
   providers: [DecimalPipe],
   templateUrl: './variable-costs-table.component.html',
-  // host: {
-  //   class: 'md:self-center md:w-2/3',
-  // },
 })
 export class VariableCostsTableComponent {
   private readonly facade = inject(MonthlyCheckFacade);

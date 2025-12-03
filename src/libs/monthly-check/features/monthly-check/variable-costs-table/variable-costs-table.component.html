@@ -56,9 +56,10 @@
               mat-table
               [dataSource]="data()"
               [trackBy]="trackByFn"
-              class="mt-2 !min-w-[95%] !bg-transparent !p-4"
+              class="mt-2 !min-w-[95%] !bg-transparent !p-4 **:!text-gray-100"
             >
               <ng-container matColumnDef="category">
+                <td mat-header-cell *matHeaderCellDef></td>
                 <td
                   mat-cell
                   *matCellDef="let row"
@@ -95,10 +96,13 @@
               </ng-container>
 
               <ng-container matColumnDef="forecast">
+                <td mat-header-cell *matHeaderCellDef class="!text-right">
+                  Forecast
+                </td>
                 <td
                   mat-cell
                   *matCellDef="let row"
-                  class="!h-1 !w-24 !p-0.5 !text-xs !text-gray-100"
+                  class="!h-1 !w-24 !p-0.5 !text-right !text-xs"
                 >
                   @if (
                     selectedRow() === row.id && selectedField() === 'forecast'
@@ -112,7 +116,7 @@
                     />
                   } @else {
                     <div
-                      class="flex h-5 w-full items-center gap-1"
+                      class="flex h-5 w-full justify-end"
                       (click)="editForecast(row)"
                     >
                       <span>
@@ -131,10 +135,13 @@
               </ng-container>
 
               <ng-container matColumnDef="value">
+                <td mat-header-cell *matHeaderCellDef class="!text-right">
+                  Wert
+                </td>
                 <td
                   mat-cell
                   *matCellDef="let row"
-                  class="!h-1 !w-12 !p-0 !text-right !text-xs !text-gray-100"
+                  class="!h-1 !w-12 !p-0 !text-right !text-xs"
                 >
                   <span class="block h-5 w-full" (click)="editValue(row)">
                     {{ row.value | currency: 'EUR' }}
@@ -144,6 +151,7 @@
               </ng-container>
 
               <ng-container matColumnDef="delete_button">
+                <td mat-header-cell *matHeaderCellDef></td>
                 <td
                   mat-cell
                   *matCellDef="let row"
@@ -161,6 +169,7 @@
                 <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
 
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr
                 mat-row
                 *matRowDef="let row; columns: displayedColumns"
