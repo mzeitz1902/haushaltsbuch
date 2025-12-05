@@ -3,14 +3,14 @@ import { from, map, Observable } from 'rxjs';
 import {
   AddVariableCostResponse,
   ChangeVariableCostResponse,
-  HistoryEntry,
+  HistoryPayload,
   VariableCost,
 } from '../entities/monthly-check.model';
 import { supabase } from '@haushaltsbuch/shared/sdks';
 import { Json } from '../../../shared/sdks/model/database';
 
 @Injectable()
-class VariableCostsDataService {
+export class VariableCostsDataService {
   addVariableCost(monthId: string): Observable<AddVariableCostResponse> {
     return from(
       supabase
@@ -58,10 +58,9 @@ class VariableCostsDataService {
 
   addVariableCostHistoryEntry(
     monthId: string,
-    variableCost: VariableCost
+    variableCostId: string
   ): Observable<ChangeVariableCostResponse> {
-    const historyEntry: HistoryEntry = {
-      id: crypto.randomUUID(),
+    const historyEntry: HistoryPayload = {
       date: new Date(),
       value: 0,
     };
@@ -69,7 +68,7 @@ class VariableCostsDataService {
       supabase
         .rpc('update_monthly_snapshot_variable_costs_line', {
           p_snapshot_id: monthId,
-          p_line_id: variableCost.id.toString(),
+          p_line_id: variableCostId,
           p_new_values: {
             history: historyEntry,
           } as unknown as Json,
@@ -105,6 +104,30 @@ class VariableCostsDataService {
       }))
     );
   }
-}
 
-export default VariableCostsDataService;
+  deleteVariableCostHistoryEntry(
+    monthId: string,
+    variableCost: VariableCost,
+    historyId: string
+  ): Observable<ChangeVariableCostResponse> {
+    const history = variableCost.history.filter((h) => h.id !== historyId);
+    return from(
+      supabase
+        .rpc('update_monthly_snapshot_variable_costs_line', {
+          p_snapshot_id: monthId,
+          p_line_id: variableCost.id,
+          p_new_values: {
+            history,
+          } as unknown as Json,
+        })
+        .select('*')
+        .single()
+    ).pipe(
+      map((res) => ({
+        variableCosts: res.data!
+          .retval_variable_costs as unknown as VariableCost[],
+        total: res.data!.retval_variable_costs_total,
+      }))
+    );
+  }
+}

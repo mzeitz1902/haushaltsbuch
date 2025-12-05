@@ -174,11 +174,11 @@ export class VariableCostsTableComponent {
   }
 
   addHistoryEntry(row: VariableCost) {
-    this.facade.addHistoryEntry(row);
+    this.facade.addHistoryEntry(row.id);
   }
 
-  removeHistoryEntry(row: VariableCost, id: number) {
-    return;
+  removeHistoryEntry(row: VariableCost, id: string) {
+    this.facade.deleteHistoryEntry(row, id);
   }
 
   private initForm(): Form {

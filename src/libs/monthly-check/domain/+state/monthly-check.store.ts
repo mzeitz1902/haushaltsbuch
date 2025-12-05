@@ -153,6 +153,7 @@ export const monthlyCheckStore = signalStore(
       monthlyCheckEvents.updateVariableCostSuccess,
       monthlyCheckEvents.deleteVariableCostSuccess,
       monthlyCheckEvents.addVariableCostHistoryEntrySuccess,
+      monthlyCheckEvents.deleteVariableCostHistoryEntrySuccess,
       ({ payload: { variableCosts, total } }, { month }) => {
         return {
           saveVariableCostProcessStatus: 'success',

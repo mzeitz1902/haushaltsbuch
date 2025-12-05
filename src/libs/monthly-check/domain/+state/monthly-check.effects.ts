@@ -4,7 +4,7 @@ import { MonthlyCheckDataService } from '../infrastructure/monthly-check.data.se
 import { monthlyCheckEvents } from './monthly-check.events';
 import { switchMap } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
-import VariableCostsDataService from '../infrastructure/variable-costs.data.service';
+import { VariableCostsDataService } from '../infrastructure/variable-costs.data.service';
 
 export function monthlyCheckEffects(
   monthlyCheckDataService = inject(MonthlyCheckDataService),
@@ -165,9 +165,9 @@ export function monthlyCheckEffects(
     addVariableCostHistoryEntry$: events
       .on(monthlyCheckEvents.addVariableCostHistoryEntry)
       .pipe(
-        switchMap(({ payload: { monthId, variableCost } }) => {
+        switchMap(({ payload: { monthId, variableCostId } }) => {
           return variableCostsDataService
-            .addVariableCostHistoryEntry(monthId, variableCost)
+            .addVariableCostHistoryEntry(monthId, variableCostId)
             .pipe(
               mapResponse({
                 next: (variableCost) =>
@@ -176,6 +176,27 @@ export function monthlyCheckEffects(
                   ),
                 error: (error) =>
                   monthlyCheckEvents.addVariableCostHistoryEntryFailure(error),
+              })
+            );
+        })
+      ),
+
+    deleteVariableCostHistoryEntry$: events
+      .on(monthlyCheckEvents.deleteVariableCostHistoryEntry)
+      .pipe(
+        switchMap(({ payload: { monthId, variableCost, entryId } }) => {
+          return variableCostsDataService
+            .deleteVariableCostHistoryEntry(monthId, variableCost, entryId)
+            .pipe(
+              mapResponse({
+                next: (variableCost) =>
+                  monthlyCheckEvents.deleteVariableCostHistoryEntrySuccess(
+                    variableCost
+                  ),
+                error: (error) =>
+                  monthlyCheckEvents.deleteVariableCostHistoryEntryFailure(
+                    error
+                  ),
               })
             );
         })

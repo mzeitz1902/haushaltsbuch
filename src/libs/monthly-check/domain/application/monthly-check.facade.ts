@@ -136,10 +136,18 @@ export class MonthlyCheckFacade {
     });
   }
 
-  addHistoryEntry(variableCost: VariableCost) {
+  addHistoryEntry(variableCostId: string) {
     this.events.addVariableCostHistoryEntry({
-      variableCost,
+      variableCostId,
       monthId: this.currentMonth()!.id,
+    });
+  }
+
+  deleteHistoryEntry(variableCost: VariableCost, entryId: string) {
+    this.events.deleteVariableCostHistoryEntry({
+      monthId: this.currentMonth()!.id,
+      variableCost,
+      entryId,
     });
   }
 

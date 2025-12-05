@@ -177,6 +177,10 @@ export interface Database {
           retval_updated_at: string;
         }[];
       };
+      delete_monthly_snapshot_history_item: {
+        Args: { p_history_id: string; p_line_id: string };
+        Returns: boolean;
+      };
       delete_monthly_snapshot_revenue_line: {
         Args: {
           p_deleted_by?: string;
@@ -189,6 +193,21 @@ export interface Database {
           retval_revenue_lines: Json;
           retval_revenue_total: number;
           retval_updated_at: string;
+        }[];
+      };
+      delete_monthly_snapshot_variable_costs_history_entry: {
+        Args: {
+          p_history_id: string;
+          p_line_id: string;
+          p_snapshot_id: string;
+          p_updated_by?: string;
+        };
+        Returns: {
+          retval_id: string;
+          retval_line: Json;
+          retval_updated_at: string;
+          retval_variable_costs: Json;
+          retval_variable_costs_total: number;
         }[];
       };
       delete_monthly_snapshot_variable_costs_line: {
@@ -249,21 +268,23 @@ export interface Database {
           retval_updated_at: string;
         }[];
       };
-      update_monthly_snapshot_variable_costs_line: {
-        Args: {
-          p_line_id: string;
-          p_new_values: Json;
-          p_snapshot_id: string;
-          p_updated_by?: string;
-        };
-        Returns: {
-          retval_id: string;
-          retval_line: Json;
-          retval_updated_at: string;
-          retval_variable_costs: Json;
-          retval_variable_costs_total: number;
-        }[];
-      };
+      update_monthly_snapshot_variable_costs_line:
+        | {
+            Args: {
+              p_line_id: string;
+              p_new_values: Json;
+              p_snapshot_id: string;
+              p_updated_by?: string;
+            };
+            Returns: {
+              retval_id: string;
+              retval_line: Json;
+              retval_updated_at: string;
+              retval_variable_costs: Json;
+              retval_variable_costs_total: number;
+            }[];
+          }
+        | { Args: { p_history: Json; p_line_id: string }; Returns: undefined };
     };
     Enums: {
       due_date: '15' | '1';
