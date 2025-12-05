@@ -143,10 +143,10 @@ export class MonthlyCheckFacade {
     });
   }
 
-  deleteHistoryEntry(variableCost: VariableCost, entryId: string) {
+  deleteHistoryEntry(variableCostId: string, entryId: string) {
     this.events.deleteVariableCostHistoryEntry({
       monthId: this.currentMonth()!.id,
-      variableCost,
+      variableCostId,
       entryId,
     });
   }

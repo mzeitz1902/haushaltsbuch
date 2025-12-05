@@ -81,7 +81,7 @@ const events = eventGroup({
 
     deleteVariableCostHistoryEntry: type<{
       monthId: string;
-      variableCost: VariableCost;
+      variableCostId: string;
       entryId: string;
     }>(),
     deleteVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),

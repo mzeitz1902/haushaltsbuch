@@ -107,18 +107,15 @@ export class VariableCostsDataService {
 
   deleteVariableCostHistoryEntry(
     monthId: string,
-    variableCost: VariableCost,
+    variableCostId: string,
     historyId: string
   ): Observable<ChangeVariableCostResponse> {
-    const history = variableCost.history.filter((h) => h.id !== historyId);
     return from(
       supabase
-        .rpc('update_monthly_snapshot_variable_costs_line', {
+        .rpc('delete_monthly_snapshot_variable_costs_history_entry', {
           p_snapshot_id: monthId,
-          p_line_id: variableCost.id,
-          p_new_values: {
-            history,
-          } as unknown as Json,
+          p_line_id: variableCostId,
+          p_history_id: historyId,
         })
         .select('*')
         .single()

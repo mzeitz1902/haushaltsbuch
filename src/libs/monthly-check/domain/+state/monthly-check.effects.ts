@@ -184,9 +184,9 @@ export function monthlyCheckEffects(
     deleteVariableCostHistoryEntry$: events
       .on(monthlyCheckEvents.deleteVariableCostHistoryEntry)
       .pipe(
-        switchMap(({ payload: { monthId, variableCost, entryId } }) => {
+        switchMap(({ payload: { monthId, variableCostId, entryId } }) => {
           return variableCostsDataService
-            .deleteVariableCostHistoryEntry(monthId, variableCost, entryId)
+            .deleteVariableCostHistoryEntry(monthId, variableCostId, entryId)
             .pipe(
               mapResponse({
                 next: (variableCost) =>

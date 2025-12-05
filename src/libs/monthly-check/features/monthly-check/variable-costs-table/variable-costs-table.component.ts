@@ -178,7 +178,7 @@ export class VariableCostsTableComponent {
   }
 
   removeHistoryEntry(row: VariableCost, id: string) {
-    this.facade.deleteHistoryEntry(row, id);
+    this.facade.deleteHistoryEntry(row.id, id);
   }
 
   private initForm(): Form {
