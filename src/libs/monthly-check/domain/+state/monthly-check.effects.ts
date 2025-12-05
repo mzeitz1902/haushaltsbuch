@@ -201,5 +201,26 @@ export function monthlyCheckEffects(
             );
         })
       ),
+
+    updateVariableCostHistoryEntry$: events
+      .on(monthlyCheckEvents.updateVariableCostHistoryEntry)
+      .pipe(
+        switchMap(({ payload: { monthId, variableCostId, entry } }) => {
+          return variableCostsDataService
+            .updateVariableCostHistoryEntry(monthId, variableCostId, entry)
+            .pipe(
+              mapResponse({
+                next: (variableCost) =>
+                  monthlyCheckEvents.updateVariableCostHistoryEntrySuccess(
+                    variableCost
+                  ),
+                error: (error) =>
+                  monthlyCheckEvents.updateVariableCostHistoryEntryFailure(
+                    error
+                  ),
+              })
+            );
+        })
+      ),
   };
 }

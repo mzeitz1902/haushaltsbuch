@@ -1,0 +1,38 @@
+<div class="mb-2 flex flex-col gap-1">
+  @for (entry of row().history; track entry.id) {
+    <span class="flex items-center gap-4">
+      @if (selectedEntry() === entry.id) {
+        <input
+          #value
+          type="number"
+          class="w-12 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
+          [field]="form.value"
+          (blur)="resetForm()"
+        />
+      } @else {
+        <span (click)="editValue(entry)">{{
+          entry.value | currency: 'EUR'
+        }}</span>
+      }
+
+      <span>{{ entry.date | date }}</span>
+      <button
+        maffiButton
+        size="mini"
+        icon="CircleMinus"
+        (click)="delete(entry.id)"
+      ></button>
+    </span>
+  } @empty {
+    Keine Historie vorhanden.
+  }
+</div>
+<button
+  maffiButton
+  size="mini"
+  class="w-full !justify-center"
+  icon="CirclePlus"
+  (click)="add()"
+>
+  Hinzufügen
+</button>

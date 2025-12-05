@@ -151,31 +151,7 @@
                     {{ row.value | currency: 'EUR' }}
                   </span>
                   <mtx-popover #popover="mtxPopover" class="!p-4 **:text-xs">
-                    <div class="mb-2 flex flex-col gap-1">
-                      @for (entry of row.history; track entry.id) {
-                        <span class="flex items-center gap-4">
-                          <span>{{ entry.value | currency: 'EUR' }}</span>
-                          <span>{{ entry.date | date }}</span>
-                          <button
-                            maffiButton
-                            size="mini"
-                            icon="CircleMinus"
-                            (click)="removeHistoryEntry(row, entry.id)"
-                          ></button>
-                        </span>
-                      } @empty {
-                        Keine Historie vorhanden.
-                      }
-                    </div>
-                    <button
-                      maffiButton
-                      size="mini"
-                      class="w-full !justify-center"
-                      icon="CirclePlus"
-                      (click)="addHistoryEntry(row)"
-                    >
-                      Hinzufügen
-                    </button>
+                    <app-history [row]="row" />
                   </mtx-popover>
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>

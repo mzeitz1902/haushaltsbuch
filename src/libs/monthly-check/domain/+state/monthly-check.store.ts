@@ -2,11 +2,11 @@ import { Month, VariableCost } from '@haushaltsbuch/monthly-check/domain';
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { on, withEffects, withReducer } from '@ngrx/signals/events';
-import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 import { monthlyCheckEvents } from './monthly-check.events';
 import { monthlyCheckEffects } from './monthly-check.effects';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
+import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 
 export interface MonthlyCheckState {
   month: Month | null;
@@ -154,6 +154,7 @@ export const monthlyCheckStore = signalStore(
       monthlyCheckEvents.deleteVariableCostSuccess,
       monthlyCheckEvents.addVariableCostHistoryEntrySuccess,
       monthlyCheckEvents.deleteVariableCostHistoryEntrySuccess,
+      monthlyCheckEvents.updateVariableCostHistoryEntrySuccess,
       ({ payload: { variableCosts, total } }, { month }) => {
         return {
           saveVariableCostProcessStatus: 'success',

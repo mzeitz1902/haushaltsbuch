@@ -44,7 +44,7 @@ export interface CreatedMonth {
 
 export interface HistoryEntry {
   id: string;
-  value: number | null;
+  value: number;
   date: Date;
 }
 

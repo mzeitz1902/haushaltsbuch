@@ -5,6 +5,7 @@ import { monthlyCheckStore } from '../+state/monthly-check.store';
 import dayjs from 'dayjs';
 import {
   CreatedMonth,
+  HistoryEntry,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
@@ -148,6 +149,14 @@ export class MonthlyCheckFacade {
       monthId: this.currentMonth()!.id,
       variableCostId,
       entryId,
+    });
+  }
+
+  updateHistoryEntry(variableCostId: string, entry: HistoryEntry) {
+    this.events.updateVariableCostHistoryEntry({
+      monthId: this.currentMonth()!.id,
+      variableCostId,
+      entry,
     });
   }
 

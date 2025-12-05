@@ -17,7 +17,7 @@ import {
   IconComponent,
 } from '@haushaltsbuch/shared/ui-components';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {
@@ -38,6 +38,7 @@ import {
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { debounce, Field, form } from '@angular/forms/signals';
 import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
+import { HistoryComponent } from './history/history.component';
 
 @Component({
   selector: 'app-variable-costs-table',
@@ -64,9 +65,9 @@ import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
     MatHeaderRow,
     MatHeaderRowDef,
     MatHeaderCellDef,
-    DatePipe,
     MtxPopover,
     MtxPopoverTrigger,
+    HistoryComponent,
   ],
   providers: [DecimalPipe],
   templateUrl: './variable-costs-table.component.html',
@@ -171,14 +172,6 @@ export class VariableCostsTableComponent {
   update(cost: VariableCost) {
     this.facade.updateVariableCost(cost);
     this.selectedRow.set(null);
-  }
-
-  addHistoryEntry(row: VariableCost) {
-    this.facade.addHistoryEntry(row.id);
-  }
-
-  removeHistoryEntry(row: VariableCost, id: string) {
-    this.facade.deleteHistoryEntry(row.id, id);
   }
 
   private initForm(): Form {

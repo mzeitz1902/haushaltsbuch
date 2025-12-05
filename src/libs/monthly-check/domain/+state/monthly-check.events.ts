@@ -7,6 +7,7 @@ import {
   ChangeFixedCostResponse,
   ChangeRevenueResponse,
   ChangeVariableCostResponse,
+  HistoryEntry,
   Month,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
@@ -86,6 +87,14 @@ const events = eventGroup({
     }>(),
     deleteVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
     deleteVariableCostHistoryEntryFailure: type<unknown>(),
+
+    updateVariableCostHistoryEntry: type<{
+      monthId: string;
+      variableCostId: string;
+      entry: HistoryEntry;
+    }>(),
+    updateVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
+    updateVariableCostHistoryEntryFailure: type<unknown>(),
   },
 });
 
@@ -147,4 +156,10 @@ export const monthlyCheckEvents = {
     events.deleteVariableCostHistoryEntrySuccess,
   deleteVariableCostHistoryEntryFailure:
     events.deleteVariableCostHistoryEntryFailure,
+
+  updateVariableCostHistoryEntry: events.updateVariableCostHistoryEntry,
+  updateVariableCostHistoryEntrySuccess:
+    events.updateVariableCostHistoryEntrySuccess,
+  updateVariableCostHistoryEntryFailure:
+    events.updateVariableCostHistoryEntryFailure,
 };

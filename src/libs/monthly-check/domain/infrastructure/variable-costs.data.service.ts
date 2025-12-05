@@ -3,6 +3,7 @@ import { from, map, Observable } from 'rxjs';
 import {
   AddVariableCostResponse,
   ChangeVariableCostResponse,
+  HistoryEntry,
   HistoryPayload,
   VariableCost,
 } from '../entities/monthly-check.model';
@@ -56,6 +57,27 @@ export class VariableCostsDataService {
     );
   }
 
+  deleteVariableCost(
+    monthId: string,
+    variableCostId: number
+  ): Observable<ChangeVariableCostResponse> {
+    return from(
+      supabase
+        .rpc('delete_monthly_snapshot_variable_costs_line', {
+          p_snapshot_id: monthId,
+          p_line_id: variableCostId.toString(),
+        })
+        .select('*')
+        .single()
+    ).pipe(
+      map((res) => ({
+        variableCosts: res.data!
+          .retval_variable_costs as unknown as VariableCost[],
+        total: res.data!.retval_variable_costs_total,
+      }))
+    );
+  }
+
   addVariableCostHistoryEntry(
     monthId: string,
     variableCostId: string
@@ -84,23 +106,25 @@ export class VariableCostsDataService {
     );
   }
 
-  deleteVariableCost(
+  updateVariableCostHistoryEntry(
     monthId: string,
-    variableCostId: number
+    variableCostId: string,
+    history: HistoryEntry
   ): Observable<ChangeVariableCostResponse> {
     return from(
       supabase
-        .rpc('delete_monthly_snapshot_variable_costs_line', {
+        .rpc('update_variable_costs_history_entry', {
           p_snapshot_id: monthId,
-          p_line_id: variableCostId.toString(),
+          p_line_id: variableCostId,
+          p_history_item: history as unknown as Json,
         })
         .select('*')
         .single()
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .retval_variable_costs as unknown as VariableCost[],
-        total: res.data!.retval_variable_costs_total,
+          .variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.variable_costs_total,
       }))
     );
   }
@@ -115,15 +139,15 @@ export class VariableCostsDataService {
         .rpc('delete_monthly_snapshot_variable_costs_history_entry', {
           p_snapshot_id: monthId,
           p_line_id: variableCostId,
-          p_history_id: historyId,
+          p_history_item_id: historyId,
         })
         .select('*')
         .single()
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .retval_variable_costs as unknown as VariableCost[],
-        total: res.data!.retval_variable_costs_total,
+          .variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.variable_costs_total,
       }))
     );
   }
