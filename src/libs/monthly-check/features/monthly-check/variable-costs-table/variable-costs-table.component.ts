@@ -80,7 +80,7 @@ export class VariableCostsTableComponent {
   isSaving = this.facade.isSavingVariableCost;
   isAdded = this.facade.isVariableCostAdded;
 
-  selectedRow = signal<number | null>(null);
+  selectedRow = signal<string | null>(null);
   selectedField = signal<'category' | 'forecast' | null>(null);
 
   formModel = signal<Form>(this.initForm());
@@ -149,12 +149,6 @@ export class VariableCostsTableComponent {
     setTimeout(() => this.forecastRef()?.nativeElement.select());
   }
 
-  editValue(row: VariableCost) {
-    // todo popover öffnen
-    console.log('herpo');
-    return;
-  }
-
   resetForm() {
     this.selectedRow.set(null);
     this.selectedField.set(null);
@@ -180,7 +174,7 @@ export class VariableCostsTableComponent {
   }
 
   addHistoryEntry(row: VariableCost) {
-    return;
+    this.facade.addHistoryEntry(row);
   }
 
   removeHistoryEntry(row: VariableCost, id: number) {
@@ -205,7 +199,7 @@ export class VariableCostsTableComponent {
 }
 
 interface Form {
-  id: number | null;
+  id: string | null;
   category: string;
   forecast: number;
 }

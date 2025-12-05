@@ -43,13 +43,15 @@ export interface CreatedMonth {
 }
 
 export interface HistoryEntry {
-  id: number;
+  id: string;
   value: number | null;
   date: Date;
 }
 
+export type HistoryPayload = Omit<HistoryEntry, 'id'>;
+
 export interface VariableCost {
-  id: number;
+  id: string;
   category: string | null;
   forecast: number | null;
   value: number | null;

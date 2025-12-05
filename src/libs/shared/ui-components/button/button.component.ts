@@ -49,12 +49,14 @@ export class ButtonComponent {
   isDisabled = computed(() => this.isLoading() || this.disabled());
 
   classes = computed(() => {
+    let height = 'min-h-8';
+    if (this.size() === 'mini') height = 'min-h-6';
     const stylingClasses = `
       relative
       inline-flex
       gap-2
       items-center
-      min-h-8
+      ${height}
       text-xs
     `;
 

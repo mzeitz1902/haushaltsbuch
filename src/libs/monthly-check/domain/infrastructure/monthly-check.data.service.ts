@@ -5,12 +5,9 @@ import { Revenue } from '@haushaltsbuch/revenue/domain';
 import {
   AddFixedCostResponse,
   AddRevenueResponse,
-  AddVariableCostResponse,
   ChangeFixedCostResponse,
   ChangeRevenueResponse,
-  ChangeVariableCostResponse,
   Month,
-  VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
@@ -155,72 +152,6 @@ export class MonthlyCheckDataService {
       map((res) => ({
         fixedCosts: res.data!.retval_fixed_costs as FixedCost[],
         total: res.data!.retval_fixed_costs_total,
-      }))
-    );
-  }
-
-  addVariableCost(monthId: string): Observable<AddVariableCostResponse> {
-    return from(
-      supabase
-        .rpc('add_monthly_snapshot_variable_costs_line', {
-          p_snapshot_id: monthId,
-          p_line: { value: 0, category: '', forecast: 0, history: [] },
-        })
-        .select('*')
-        .single()
-    ).pipe(
-      map((res) => {
-        return {
-          variableCost: res.data!.retval_line as unknown as VariableCost,
-          total: res.data!.retval_variable_costs_total,
-        };
-      })
-    );
-  }
-
-  updateVariableCost(
-    monthId: string,
-    variableCost: VariableCost
-  ): Observable<ChangeVariableCostResponse> {
-    return from(
-      supabase
-        .rpc('update_monthly_snapshot_variable_costs_line', {
-          p_snapshot_id: monthId,
-          p_line_id: variableCost.id.toString(),
-          p_new_values: {
-            value: variableCost.value,
-            category: variableCost.category,
-            forecast: variableCost.forecast,
-          },
-        })
-        .select('*')
-        .single()
-    ).pipe(
-      map((res) => ({
-        variableCosts: res.data!
-          .retval_variable_costs as unknown as VariableCost[],
-        total: res.data!.retval_variable_costs_total,
-      }))
-    );
-  }
-
-  deleteVariableCost(
-    monthId: string,
-    variableCostId: number
-  ): Observable<ChangeVariableCostResponse> {
-    return from(
-      supabase
-        .rpc('delete_monthly_snapshot_variable_costs_line', {
-          p_snapshot_id: monthId,
-          p_line_id: variableCostId.toString(),
-        })
-        .select('*')
-        .single()
-    ).pipe(
-      map((res) => ({
-        variableCosts: res.data!
-          .retval_variable_costs as unknown as VariableCost[],
-        total: res.data!.retval_variable_costs_total,
       }))
     );
   }

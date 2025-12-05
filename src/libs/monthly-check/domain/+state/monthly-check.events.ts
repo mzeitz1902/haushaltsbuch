@@ -63,6 +63,29 @@ const events = eventGroup({
     deleteVariableCost: type<{ monthId: string; variableCostId: number }>(),
     deleteVariableCostSuccess: type<ChangeVariableCostResponse>(),
     deleteVariableCostFailure: type<unknown>(),
+
+    addVariableCostHistoryEntry: type<{
+      variableCost: VariableCost;
+      monthId: string;
+    }>(),
+    addVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
+    addVariableCostHistoryEntryFailure: type<unknown>(),
+
+    removeVariableCostHistoryEntry: type<{
+      monthId: string;
+      variableCostId: number;
+      entryId: string;
+    }>(),
+    removeVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
+    removeVariableCostHistoryEntryFailure: type<unknown>(),
+
+    deleteVariableCostHistoryEntry: type<{
+      monthId: string;
+      variableCostId: number;
+      entryId: string;
+    }>(),
+    deleteVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
+    deleteVariableCostHistoryEntryFailure: type<unknown>(),
   },
 });
 
@@ -114,4 +137,8 @@ export const monthlyCheckEvents = {
   deleteVariableCost: events.deleteVariableCost,
   deleteVariableCostSuccess: events.deleteVariableCostSuccess,
   deleteVariableCostFailure: events.deleteVariableCostFailure,
+
+  addVariableCostHistoryEntry: events.addVariableCostHistoryEntry,
+  addVariableCostHistoryEntrySuccess: events.addVariableCostHistoryEntrySuccess,
+  addVariableCostHistoryEntryFailure: events.addVariableCostHistoryEntryFailure,
 };

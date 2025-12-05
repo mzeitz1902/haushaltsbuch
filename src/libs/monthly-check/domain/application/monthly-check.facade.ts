@@ -136,6 +136,13 @@ export class MonthlyCheckFacade {
     });
   }
 
+  addHistoryEntry(variableCost: VariableCost) {
+    this.events.addVariableCostHistoryEntry({
+      variableCost,
+      monthId: this.currentMonth()!.id,
+    });
+  }
+
   navigateTo(year?: string | null, month?: string | null) {
     if (year && !month) {
       this.router.navigate(['/monthly-check', year]);
