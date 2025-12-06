@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   ElementRef,
   inject,
@@ -27,6 +28,8 @@ export class HistoryComponent {
 
   row = input.required<VariableCost>();
 
+  isAdded = this.facade.isHistoryEntryAdded;
+
   selectedEntry = signal<string | null>(null);
   formModel = signal(this.initForm());
 
@@ -36,11 +39,22 @@ export class HistoryComponent {
 
   valueRef = viewChild<ElementRef>('value');
 
+  history = computed(() => this.row().history);
+
+  focusValueOnAdd = effect(() => {
+    if (this.isAdded()) {
+      untracked(() => {
+        if (this.history().length === 0) return;
+        const newData = this.history().at(-1);
+        this.editValue(newData!);
+      });
+    }
+  });
+
   updateEffect = effect(() => {
     const value = this.form.value().value();
     untracked(() => {
       const isDirty = this.form.value().dirty();
-      console.log('isDirty', isDirty, 'value', value);
       if (isDirty && !!value) {
         this.update();
       }

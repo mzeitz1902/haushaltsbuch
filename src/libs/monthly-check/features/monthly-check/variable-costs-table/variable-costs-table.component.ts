@@ -94,6 +94,9 @@ export class VariableCostsTableComponent {
 
   category = computed(() => this.formModel().category);
   forecast = computed(() => this.formModel().forecast);
+  forecastTotal = computed(() => {
+    return this.data().reduce((acc, cost) => acc + cost.forecast!, 0);
+  });
 
   focusCategoryOnAdd = effect(() => {
     if (this.isAdded()) {

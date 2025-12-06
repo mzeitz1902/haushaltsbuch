@@ -45,6 +45,9 @@ export class MonthlyCheckFacade {
   isVariableCostAdded = computed(
     () => this.store.addVariableCostProcessStatus() === 'success'
   );
+  isHistoryEntryAdded = computed(
+    () => this.store.addHistoryEntryProcessStatus() === 'success'
+  );
 
   revenue = computed(
     () => (this.currentMonth()?.revenue_lines ?? []) as Revenue[]

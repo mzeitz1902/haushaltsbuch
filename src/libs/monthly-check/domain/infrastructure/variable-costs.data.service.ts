@@ -4,7 +4,6 @@ import {
   AddVariableCostResponse,
   ChangeVariableCostResponse,
   HistoryEntry,
-  HistoryPayload,
   VariableCost,
 } from '../entities/monthly-check.model';
 import { supabase } from '@haushaltsbuch/shared/sdks';
@@ -17,7 +16,7 @@ export class VariableCostsDataService {
       supabase
         .rpc('add_monthly_snapshot_variable_costs_line', {
           p_snapshot_id: monthId,
-          p_line: { value: 0, category: '', forecast: 0, history: [] },
+          p_line: { value: 0, category: 'Neu', forecast: 0, history: [] },
         })
         .select('*')
         .single()
@@ -82,26 +81,19 @@ export class VariableCostsDataService {
     monthId: string,
     variableCostId: string
   ): Observable<ChangeVariableCostResponse> {
-    const historyEntry: HistoryPayload = {
-      date: new Date(),
-      value: 0,
-    };
     return from(
       supabase
-        .rpc('update_monthly_snapshot_variable_costs_line', {
+        .rpc('add_variable_costs_history_entry', {
           p_snapshot_id: monthId,
           p_line_id: variableCostId,
-          p_new_values: {
-            history: historyEntry,
-          } as unknown as Json,
         })
         .select('*')
         .single()
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .out_variable_costs_lines as unknown as VariableCost[],
-        total: res.data!.out_variable_costs_total,
+          .variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.variable_costs_total,
       }))
     );
   }

@@ -155,6 +155,17 @@ export interface Database {
           retval_variable_costs_total: number;
         }[];
       };
+      add_variable_costs_history_entry: {
+        Args: {
+          p_created_by?: string;
+          p_line_id: string;
+          p_snapshot_id: string;
+        };
+        Returns: {
+          variable_costs_lines: Json;
+          variable_costs_total: number;
+        }[];
+      };
       create_monthly_snapshot: {
         Args: { p_created_by?: string; p_month: string };
         Returns: {

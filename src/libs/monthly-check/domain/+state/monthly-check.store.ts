@@ -22,6 +22,7 @@ export interface MonthlyCheckState {
   saveVariableCostProcessStatus: ProcessStatus;
   addVariableCostProcessStatus: ProcessStatus;
   deleteVariableCostProcessStatus: ProcessStatus;
+  addHistoryEntryProcessStatus: ProcessStatus;
 }
 
 export const monthlyCheckStore = signalStore(
@@ -40,6 +41,7 @@ export const monthlyCheckStore = signalStore(
     saveVariableCostProcessStatus: 'init',
     addVariableCostProcessStatus: 'init',
     deleteVariableCostProcessStatus: 'init',
+    addHistoryEntryProcessStatus: 'init',
   }),
   withEffects(() => monthlyCheckEffects()),
   withReducer(
@@ -166,6 +168,12 @@ export const monthlyCheckStore = signalStore(
         };
       }
     ),
+    on(monthlyCheckEvents.addVariableCostHistoryEntry, () => ({
+      addHistoryEntryProcessStatus: 'pending',
+    })),
+    on(monthlyCheckEvents.addVariableCostHistoryEntrySuccess, () => ({
+      addHistoryEntryProcessStatus: 'success',
+    })),
     on(monthlyCheckEvents.updateVariableCostFailure, () => ({
       saveVariableCostProcessStatus: 'error',
     }))

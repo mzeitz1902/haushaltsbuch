@@ -130,7 +130,7 @@
                   *matFooterCellDef
                   class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
                 >
-                  {{ total() | currency: 'EUR' }}
+                  {{ forecastTotal() | currency: 'EUR' }}
                 </td>
               </ng-container>
 
@@ -154,7 +154,13 @@
                     <app-history [row]="row" />
                   </mtx-popover>
                 </td>
-                <td mat-footer-cell *matFooterCellDef></td>
+                <td
+                  mat-footer-cell
+                  *matFooterCellDef
+                  class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
+                >
+                  {{ total() | currency: 'EUR' }}
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="delete_button">
