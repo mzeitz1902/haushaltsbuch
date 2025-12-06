@@ -51,8 +51,8 @@ export class VariableCostsDataService {
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .retval_variable_costs as unknown as VariableCost[],
-        total: res.data!.retval_variable_costs_total,
+          .variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.variable_costs_total,
       }))
     );
   }
@@ -100,8 +100,8 @@ export class VariableCostsDataService {
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .retval_variable_costs as unknown as VariableCost[],
-        total: res.data!.retval_variable_costs_total,
+          .variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.variable_costs_total,
       }))
     );
   }
@@ -137,17 +137,17 @@ export class VariableCostsDataService {
     return from(
       supabase
         .rpc('delete_monthly_snapshot_variable_costs_history_entry', {
-          p_snapshot_id: monthId,
-          p_line_id: variableCostId,
           p_history_item_id: historyId,
+          p_line_id: variableCostId,
+          p_snapshot_id: monthId,
         })
         .select('*')
         .single()
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .variable_costs_lines as unknown as VariableCost[],
-        total: res.data!.variable_costs_total,
+          .out_variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.out_variable_costs_total,
       }))
     );
   }

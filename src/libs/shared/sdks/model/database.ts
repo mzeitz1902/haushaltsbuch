@@ -196,15 +196,10 @@ export interface Database {
           p_history_item_id: string;
           p_line_id: string;
           p_snapshot_id: string;
-          p_updated_by?: string;
         };
         Returns: {
-          deleted_history_id: string;
-          snapshot_id: string;
-          updated_at: string;
-          updated_line: Json;
-          variable_costs_lines: Json;
-          variable_costs_total: number;
+          out_variable_costs_lines: Json;
+          out_variable_costs_total: number;
         }[];
       };
       delete_monthly_snapshot_variable_costs_line: {
@@ -274,11 +269,10 @@ export interface Database {
               p_updated_by?: string;
             };
             Returns: {
-              retval_id: string;
-              retval_line: Json;
-              retval_updated_at: string;
-              retval_variable_costs: Json;
-              retval_variable_costs_total: number;
+              id: string;
+              updated_at: string;
+              variable_costs_lines: Json;
+              variable_costs_total: number;
             }[];
           }
         | { Args: { p_history: Json; p_line_id: string }; Returns: undefined };
