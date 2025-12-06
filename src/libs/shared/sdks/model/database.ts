@@ -269,10 +269,10 @@ export interface Database {
               p_updated_by?: string;
             };
             Returns: {
-              id: string;
-              updated_at: string;
-              variable_costs_lines: Json;
-              variable_costs_total: number;
+              out_id: string;
+              out_updated_at: string;
+              out_variable_costs_lines: Json;
+              out_variable_costs_total: number;
             }[];
           }
         | { Args: { p_history: Json; p_line_id: string }; Returns: undefined };

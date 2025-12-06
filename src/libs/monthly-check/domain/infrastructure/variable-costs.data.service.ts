@@ -51,8 +51,8 @@ export class VariableCostsDataService {
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .variable_costs_lines as unknown as VariableCost[],
-        total: res.data!.variable_costs_total,
+          .out_variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.out_variable_costs_total,
       }))
     );
   }
@@ -100,8 +100,8 @@ export class VariableCostsDataService {
     ).pipe(
       map((res) => ({
         variableCosts: res.data!
-          .variable_costs_lines as unknown as VariableCost[],
-        total: res.data!.variable_costs_total,
+          .out_variable_costs_lines as unknown as VariableCost[],
+        total: res.data!.out_variable_costs_total,
       }))
     );
   }
