@@ -12,15 +12,17 @@
           (blur)="resetForm()"
         />
       } @else {
-        <span class="w-8" (click)="editValue(entry)">{{
-          entry.value | currency: 'EUR'
-        }}</span>
+        <span
+          class="self-right flex w-8 justify-end"
+          (click)="editValue(entry)"
+        >
+          {{ entry.value | currency: 'EUR' }}
+        </span>
       }
 
       <span>{{ entry.date | date }}</span>
       <button
         maffiButton
-        size="mini"
         icon="CircleMinus"
         (click)="delete(entry.id)"
       ></button>

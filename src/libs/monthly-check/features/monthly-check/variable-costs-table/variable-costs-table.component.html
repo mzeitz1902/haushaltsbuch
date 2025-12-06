@@ -150,7 +150,11 @@
                   >
                     {{ row.value | currency: 'EUR' }}
                   </span>
-                  <mtx-popover #popover="mtxPopover" class="!p-4 **:text-xs">
+                  <mtx-popover
+                    #popover="mtxPopover"
+                    class="!p-4 **:text-xs"
+                    [position]="['before', 'below']"
+                  >
                     <app-history [row]="row" />
                   </mtx-popover>
                 </td>
