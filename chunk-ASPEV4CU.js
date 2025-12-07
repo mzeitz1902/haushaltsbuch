@@ -1,0 +1,1 @@
+import{Ha as o,ka as n,qd as c}from"./chunk-7DKHPSUB.js";var p=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["app-weekly-check"]],decls:1,vars:0,consts:[["title","Wochencheck"]],template:function(e,a){e&1&&o(0,"app-header",0)},dependencies:[c],encapsulation:2})};export{p as WeeklyCheckComponent};
