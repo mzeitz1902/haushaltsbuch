@@ -11,6 +11,7 @@ import { UsersFacade } from '@haushaltsbuch/user/domain';
       class="sticky top-0 z-10 flex justify-between border-b-1 bg-gray-800! text-gray-100!"
     >
       <h1 class="text-2xl!">{{ title() }}</h1>
+      <ng-content />
       <button maffiButton icon="LogOut" (click)="logout()"></button>
     </mat-toolbar>
   `,

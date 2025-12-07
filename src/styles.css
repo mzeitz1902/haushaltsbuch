@@ -70,3 +70,7 @@ input[type=number] {
   background-color: var(--color-gray-700) !important;
   color: white !important;
 }
+
+.mat-mdc-dialog-surface {
+  background-color: var(--color-gray-800) !important;
+}
