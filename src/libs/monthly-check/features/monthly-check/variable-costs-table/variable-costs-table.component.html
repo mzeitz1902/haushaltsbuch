@@ -56,7 +56,7 @@
               mat-table
               [dataSource]="data()"
               [trackBy]="trackByFn"
-              class="mt-2 !min-w-[95%] !bg-transparent !p-4 **:!text-gray-100"
+              class="mt-2 !min-w-[95%] !bg-transparent !p-4"
             >
               <ng-container matColumnDef="category">
                 <td mat-header-cell *matHeaderCellDef></td>
@@ -102,7 +102,7 @@
                 <td
                   mat-cell
                   *matCellDef="let row"
-                  class="!h-1 !w-24 !p-0.5 !text-right !text-xs"
+                  class="!h-1 !w-24 !p-0.5 !text-right !text-xs !text-gray-100"
                 >
                   @if (
                     selectedRow() === row.id && selectedField() === 'forecast'
@@ -144,7 +144,9 @@
                   class="!h-1 !w-12 !p-0 !text-right !text-xs"
                 >
                   <span
-                    class="block h-5 w-full"
+                    class="block h-5 w-full !text-gray-100"
+                    [class.!text-green-500]="row.value < row.forecast"
+                    [class.!text-red-500]="row.value > row.forecast"
                     [mtxPopoverTriggerFor]="popover"
                     [mtxPopoverTriggerOn]="'click'"
                   >
@@ -162,6 +164,8 @@
                   mat-footer-cell
                   *matFooterCellDef
                   class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
+                  [class.!text-green-500]="total() < forecastTotal()"
+                  [class.!text-red-500]="total() > forecastTotal()"
                 >
                   {{ total() | currency: 'EUR' }}
                 </td>
@@ -189,7 +193,7 @@
               <tr
                 mat-header-row
                 *matHeaderRowDef="displayedColumns"
-                class="!h-7 *:!pr-2"
+                class="!h-7 *:!pr-2 **:!text-gray-100"
               ></tr>
               <tr
                 mat-row
