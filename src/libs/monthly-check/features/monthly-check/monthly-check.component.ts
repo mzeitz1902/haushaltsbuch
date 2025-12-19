@@ -44,53 +44,59 @@ export class MonthlyCheckComponent {
   private readonly facade = inject(MonthlyCheckFacade);
   private readonly mtxDialog = inject(MtxDialog);
 
-  year = input<string>();
-  month = input<string>();
+  year = input<string>(); // from route
+  month = input<string>(); // from route
 
   createdMonths = this.facade.createdMonths;
   createdYears = this.facade.createdYears;
   isLoaded = this.facade.isMonthLoaded;
 
   formModel = linkedSignal<Form>(() => {
-    let month = dayjs().format('YYYY-MM-DD');
+    let snapshot = dayjs().format('YYYY-MM-DD');
     let year = this.year()!;
-
     if (this.year() && this.month()) {
-      month = `${this.year()}-${this.month()}-01`;
+      snapshot = `${this.year()}-${this.month()}-01`;
     }
-    if (!this.isMonthValid(month)) {
-      month = null!;
+    // User has entered a month / year combination that has not been created yet, or the current snapshot is not created -> set snapshot to null
+    if (!this.isSnapshotCreated(snapshot)) {
+      snapshot = null!;
     }
+    // User entered a year that has no been created yet -> set year to null
     if (year && !this.isYearValid(year)) {
       year = null!;
     }
     return {
-      month,
+      snapshot,
       year,
     };
   });
 
   form = form(this.formModel);
 
-  selectedMonth = computed(() => this.formModel().month);
+  selectedMonth = computed(() => this.formModel().snapshot);
   selectedYear = computed(() => this.formModel().year);
 
   loadMonth = effect(() => {
-    const month = this.selectedMonth();
+    const snapshot = this.selectedMonth();
     const year = this.selectedYear();
-    if (month && year && this.isYearValid(year) && this.isMonthValid(month)) {
-      this.facade.getMonth(month);
+    if (
+      snapshot &&
+      year &&
+      this.isYearValid(year) &&
+      this.isSnapshotCreated(snapshot)
+    ) {
+      this.facade.getMonth(snapshot);
     }
   });
 
   navigateOnFormModelChange = effect(() => {
-    const { month, year } = this.formModel();
-    const _month = month ? dayjs(month).format('MM') : null;
-    if (year && !month) {
+    const { snapshot, year } = this.formModel();
+    const _month = snapshot ? dayjs(snapshot).format('MM') : null;
+    if (year && !snapshot) {
       this.facade.navigateTo(year);
       return;
     }
-    if (month) {
+    if (snapshot) {
       this.facade.navigateTo(year, _month);
     }
   });
@@ -102,6 +108,9 @@ export class MonthlyCheckComponent {
   openCreateMonthDialog() {
     const dialogRef = this.mtxDialog.originalOpen(CreateMonthDialogComponent, {
       height: '400px',
+      data: {
+        createdMonths: this.createdMonths(),
+      },
     });
     dialogRef
       .afterClosed()
@@ -120,7 +129,7 @@ export class MonthlyCheckComponent {
     return this.createdYears().includes(year);
   }
 
-  private isMonthValid(month: string) {
+  private isSnapshotCreated(month: string) {
     return this.createdMonths()
       .map((m) => m.month)
       .includes(month);
@@ -128,6 +137,6 @@ export class MonthlyCheckComponent {
 }
 
 interface Form {
-  month: string | null;
+  snapshot: string | null;
   year: string | null;
 }

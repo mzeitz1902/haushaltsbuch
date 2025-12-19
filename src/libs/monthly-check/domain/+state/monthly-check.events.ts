@@ -18,7 +18,7 @@ const events = eventGroup({
   source: 'Monthly Check',
   events: {
     create: type<string>(),
-    createSuccess: type<unknown>(),
+    createSuccess: type<string>(),
     createFailure: type<unknown>(),
 
     getMonth: type<string>(),

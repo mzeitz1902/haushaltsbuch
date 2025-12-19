@@ -5,23 +5,34 @@ import { monthlyCheckEvents } from './monthly-check.events';
 import { switchMap } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
 import { VariableCostsDataService } from '../infrastructure/variable-costs.data.service';
+import { Router } from '@angular/router';
+import dayjs from 'dayjs';
 
 export function monthlyCheckEffects(
   monthlyCheckDataService = inject(MonthlyCheckDataService),
   variableCostsDataService = inject(VariableCostsDataService),
-  events: Events = inject(Events)
+  events: Events = inject(Events),
+  router = inject(Router)
 ) {
   return {
     create$: events.on(monthlyCheckEvents.create).pipe(
       switchMap(({ payload: month }) => {
         return monthlyCheckDataService.createMonth(month).pipe(
           mapResponse({
-            next: (res) => {
-              return monthlyCheckEvents.createSuccess(res);
-            },
+            next: () => monthlyCheckEvents.createSuccess(month),
             error: (error) => monthlyCheckEvents.createFailure(error),
           })
         );
+      })
+    ),
+
+    navigateOnCreateSuccess$: events.on(monthlyCheckEvents.createSuccess).pipe(
+      switchMap(({ payload: date }) => {
+        const _date = dayjs(date);
+        const year = _date.year();
+        const month = _date.month();
+        debugger;
+        return router.navigate(['/monthly-check', _date.year(), _date.month()]);
       })
     ),
 

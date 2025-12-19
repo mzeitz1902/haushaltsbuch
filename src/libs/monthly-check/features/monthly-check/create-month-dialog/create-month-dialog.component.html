@@ -1,6 +1,6 @@
-<div class="flex flex-col items-center justify-center p-4 **:!text-white">
+<div class="flex flex-col items-center justify-center p-4 **:text-white!">
   <h1 mat-dialog-title>Monat anlegen</h1>
-  <div mat-dialog-content class="!flex w-full flex-col gap-2">
+  <div mat-dialog-content class="flex! w-full flex-col gap-2">
     <div class="grid w-full grid-cols-2 gap-2">
       <ng-select
         [items]="years"
@@ -12,7 +12,7 @@
       <ng-select
         bindLabel="label"
         bindValue="value"
-        [items]="months"
+        [items]="months()"
         [clearable]="false"
         [field]="form.month"
         placeholder="Monat auswählen"
