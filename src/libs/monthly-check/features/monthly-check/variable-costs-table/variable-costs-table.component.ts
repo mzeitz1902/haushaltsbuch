@@ -112,22 +112,6 @@ export class VariableCostsTableComponent {
     }
   });
 
-  updateEffect = effect(() => {
-    const category = this.category();
-    const forecast = this.forecast();
-    untracked(() => {
-      const isCategoryDirty = this.form.category().dirty();
-      let isForecastDirty = false;
-      if (forecast) {
-        isForecastDirty = this.form.forecast().dirty();
-      }
-      if ((forecast && isForecastDirty) || (category && isCategoryDirty)) {
-        this.update(this.formModel() as VariableCost);
-        this.form().reset();
-      }
-    });
-  });
-
   readonly displayedColumns = [
     'category',
     'forecast',
@@ -153,7 +137,8 @@ export class VariableCostsTableComponent {
     setTimeout(() => this.forecastRef()?.nativeElement.select());
   }
 
-  resetForm() {
+  updateAndReset() {
+    this.update(this.formModel() as VariableCost);
     this.selectedRow.set(null);
     this.selectedField.set(null);
     this.formModel.set(this.initForm());

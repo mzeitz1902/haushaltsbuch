@@ -74,7 +74,7 @@
                       #category
                       class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
                       [field]="form.category"
-                      (blur)="resetForm()"
+                      (blur)="submitAndReset()"
                       (keyup.enter)="onCategoryEnterPressed()"
                     />
                   } @else {
@@ -119,7 +119,7 @@
                       #value
                       class="w-12 rounded border-1 border-blue-400 bg-gray-600 p-1 text-right outline-none"
                       [field]="form.value"
-                      (blur)="resetForm()"
+                      (blur)="submitAndReset()"
                       (keyup.enter)="selectedRow.set(null)"
                     />
                   } @else {

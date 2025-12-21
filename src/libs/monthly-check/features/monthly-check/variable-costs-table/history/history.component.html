@@ -9,7 +9,7 @@
           type="number"
           class="w-8 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
           [field]="form.value"
-          (blur)="resetForm()"
+          (blur)="submitAndReset()"
         />
       } @else {
         <span

@@ -51,16 +51,6 @@ export class HistoryComponent {
     }
   });
 
-  updateEffect = effect(() => {
-    const value = this.form.value().value();
-    untracked(() => {
-      const isDirty = this.form.value().dirty();
-      if (isDirty && !!value) {
-        this.update();
-      }
-    });
-  });
-
   add() {
     this.facade.addHistoryEntry(this.row().id);
   }
@@ -79,7 +69,8 @@ export class HistoryComponent {
     setTimeout(() => this.valueRef()?.nativeElement.select());
   }
 
-  resetForm() {
+  submitAndReset() {
+    this.update();
     this.selectedEntry.set(null);
     this.formModel.set(this.initForm());
   }
