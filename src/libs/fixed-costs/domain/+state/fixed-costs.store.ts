@@ -52,6 +52,7 @@ export const FixedCostsStore = signalStore(
       }
     }),
     on(fixedCostsEvents.addSuccess, ({ payload: fixedCosts }, state) => {
+      if (!fixedCosts) return state;
       if (fixedCosts.due_in === 'Quartal') {
         return {
           quarterlyCosts: state.quarterlyCosts.concat(fixedCosts),
@@ -72,6 +73,7 @@ export const FixedCostsStore = signalStore(
 
     on(fixedCostsEvents.update, () => ({ saveProcessStatus: 'pending' })),
     on(fixedCostsEvents.updateSuccess, ({ payload: fixedCosts }, state) => {
+      if (!fixedCosts) return state;
       if (fixedCosts.due_in === 'Quartal') {
         return {
           quarterlyCosts: state.quarterlyCosts.map((r) =>

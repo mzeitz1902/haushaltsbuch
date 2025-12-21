@@ -45,6 +45,10 @@ input[type=number] {
   z-index: 10000 !important;
 }
 
+body .ng-dropdown-panel.ng-select-multiple {
+  margin-top: 16px !important;
+}
+
 .ng-dropdown-panel .ng-option {
   background-color: var(--color-gray-700) !important;
   color: var(--color-gray-100) !important;

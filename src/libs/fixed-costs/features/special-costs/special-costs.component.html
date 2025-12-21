@@ -8,28 +8,28 @@
   [isAdded]="isAdded()"
   [customColumns]="additionalColumns()"
   (addRow)="add()"
-  (updateRow)="update($event)"
+  (updateRow)="addValue($event)"
   (deleteRow)="delete($event)"
 />
 
 <ng-template #dueInMonth let-row>
-  <div class="flex h-5 justify-end overflow-visible">
+  <div class="flex h-5 overflow-visible">
     @if (selectedRow() === row.id) {
       <ng-select
-        class="w-24"
+        class="w-2/3"
         bindLabel="label"
-        bindValue="value"
         [items]="months"
         [formControl]="dueInMonthControl"
         [clearable]="false"
         [multiple]="true"
         [appendTo]="'body'"
-        (change)="update(row)"
+        (change)="addValue(row)"
+        (remove)="removeValue(row, $event)"
         (close)="selectedRow.set(null)"
       />
     } @else {
       <span
-        class="block h-5 w-24 pl-3"
+        class="block h-5 w-24 flex-auto pl-3"
         (click)="selectRow(row.id, row.due_in_month)"
       >
         {{ row.due_in_month | toMonth }}
