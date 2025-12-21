@@ -9,7 +9,10 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
+import {
+  ButtonComponent,
+  IconComponent,
+} from '@haushaltsbuch/shared/ui-components';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   HistoryEntry,
@@ -20,7 +23,7 @@ import { debounce, Field, form } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-history',
-  imports: [ButtonComponent, CurrencyPipe, DatePipe, Field],
+  imports: [ButtonComponent, CurrencyPipe, DatePipe, Field, IconComponent],
   templateUrl: './history.component.html',
 })
 export class HistoryComponent {
@@ -38,6 +41,7 @@ export class HistoryComponent {
   });
 
   valueRef = viewChild<ElementRef>('value');
+  noteRef = viewChild<ElementRef>('note');
 
   history = computed(() => this.row().history);
 
@@ -69,6 +73,12 @@ export class HistoryComponent {
     setTimeout(() => this.valueRef()?.nativeElement.select());
   }
 
+  editNote(entry: HistoryEntry) {
+    this.setForm(entry);
+    this.selectedEntry.set(entry.id);
+    setTimeout(() => this.noteRef()?.nativeElement.select());
+  }
+
   submitAndReset() {
     this.update();
     this.selectedEntry.set(null);
@@ -80,6 +90,7 @@ export class HistoryComponent {
       id: null!,
       value: null!,
       date: null!,
+      note: '',
     };
   }
 
@@ -88,6 +99,7 @@ export class HistoryComponent {
       id: data.id,
       value: data.value!,
       date: data.date!,
+      note: data.note ?? '',
     });
   }
 }
