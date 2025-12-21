@@ -12,6 +12,7 @@ export interface MonthlyCheckState {
   month: Month | null;
   createdMonths: string[];
   createProcessStatus: ProcessStatus;
+  getCreatedMonthsProcessStatus: ProcessStatus;
   getMonthProcessStatus: ProcessStatus;
   saveRevenueProcessStatus: ProcessStatus;
   addRevenueProcessStatus: ProcessStatus;
@@ -32,6 +33,7 @@ export const monthlyCheckStore = signalStore(
     createdMonths: [],
     createProcessStatus: 'init',
     getMonthProcessStatus: 'init',
+    getCreatedMonthsProcessStatus: 'init',
     saveRevenueProcessStatus: 'init',
     addRevenueProcessStatus: 'init',
     deleteRevenueProcessStatus: 'init',
@@ -55,6 +57,7 @@ export const monthlyCheckStore = signalStore(
 
     on(monthlyCheckEvents.getCreatedMonthsSuccess, ({ payload: months }) => ({
       createdMonths: months,
+      getCreatedMonthsProcessStatus: 'success',
     })),
 
     on(monthlyCheckEvents.getMonth, () => ({
@@ -138,17 +141,21 @@ export const monthlyCheckStore = signalStore(
 
     on(
       monthlyCheckEvents.addVariableCostSuccess,
-      ({ payload: { variableCost, total } }, { month }) => ({
-        addFixedCostProcessStatus: 'success',
-        month: {
-          ...month,
-          variable_costs_lines: [
-            ...(month!.variable_costs_lines as VariableCost[]),
-            variableCost,
-          ],
-          variable_costs_total: total,
-        } as Month,
-      })
+      ({ payload: { variableCost, total } }, { month }) => {
+        if (!month) return { month: null };
+        let variableCosts: VariableCost[] = month.variable_costs_lines;
+        if (variableCosts) {
+          variableCosts = [...variableCosts, variableCost];
+        }
+        return {
+          addFixedCostProcessStatus: 'success',
+          month: {
+            ...month,
+            variable_costs_lines: variableCosts ?? [],
+            variable_costs_total: total,
+          } as Month,
+        };
+      }
     ),
 
     on(

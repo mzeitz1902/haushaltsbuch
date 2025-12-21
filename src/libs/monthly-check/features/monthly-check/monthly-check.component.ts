@@ -5,12 +5,14 @@ import {
   inject,
   input,
   linkedSignal,
+  untracked,
 } from '@angular/core';
 import { MonthlyCheckFacade } from '@haushaltsbuch/monthly-check/domain';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   AppHeaderComponent,
+  BalanceComponent,
   ButtonComponent,
 } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
@@ -37,6 +39,7 @@ import { take } from 'rxjs';
     CdkAccordion,
     VariableCostsTableComponent,
     ButtonComponent,
+    BalanceComponent,
   ],
   templateUrl: './monthly-check.component.html',
 })
@@ -50,6 +53,7 @@ export class MonthlyCheckComponent {
   createdMonths = this.facade.createdMonths;
   createdYears = this.facade.createdYears;
   isLoaded = this.facade.isMonthLoaded;
+  areMonthsLoaded = this.facade.areMonthsLoaded;
 
   formModel = linkedSignal<Form>(() => {
     let snapshot = dayjs().format('YYYY-MM-DD');
@@ -76,6 +80,13 @@ export class MonthlyCheckComponent {
   selectedMonth = computed(() => this.formModel().snapshot);
   selectedYear = computed(() => this.formModel().year);
 
+  balance = computed(() => {
+    const totalFixedCosts = this.facade.totalFixedCosts();
+    const totalVariableCosts = this.facade.totalVariableCosts();
+    const totalRevenue = this.facade.totalRevenue();
+    return totalRevenue - (totalFixedCosts + totalVariableCosts);
+  });
+
   loadMonth = effect(() => {
     const snapshot = this.selectedMonth();
     const year = this.selectedYear();
@@ -91,14 +102,17 @@ export class MonthlyCheckComponent {
 
   navigateOnFormModelChange = effect(() => {
     const { snapshot, year } = this.formModel();
-    const _month = snapshot ? dayjs(snapshot).format('MM') : null;
-    if (year && !snapshot) {
-      this.facade.navigateTo(year);
-      return;
-    }
-    if (snapshot) {
-      this.facade.navigateTo(year, _month);
-    }
+    untracked(() => {
+      if (!this.facade.areMonthsLoaded()) return;
+      const _month = snapshot ? dayjs(snapshot).format('MM') : null;
+      if (year && !snapshot) {
+        this.facade.navigateTo(year);
+        return;
+      }
+      if (snapshot) {
+        this.facade.navigateTo(year, _month);
+      }
+    });
   });
 
   constructor() {

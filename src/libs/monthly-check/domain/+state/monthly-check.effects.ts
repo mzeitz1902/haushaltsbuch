@@ -29,10 +29,9 @@ export function monthlyCheckEffects(
     navigateOnCreateSuccess$: events.on(monthlyCheckEvents.createSuccess).pipe(
       switchMap(({ payload: date }) => {
         const _date = dayjs(date);
-        const year = _date.year();
-        const month = _date.month();
-        debugger;
-        return router.navigate(['/monthly-check', _date.year(), _date.month()]);
+        return router.navigateByUrl(
+          `/monthly-check/${_date.year()}/${_date.format('MM')}`
+        );
       })
     ),
 
