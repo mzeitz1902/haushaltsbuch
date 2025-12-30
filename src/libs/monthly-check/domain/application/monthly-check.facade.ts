@@ -19,7 +19,9 @@ export class MonthlyCheckFacade {
   private readonly router = inject(Router);
 
   currentMonth = this.store.month;
-
+  areMonthsLoaded = computed(
+    () => this.store.getCreatedMonthsProcessStatus() === 'success'
+  );
   isMonthLoading = computed(
     () => this.store.getMonthProcessStatus() === 'pending'
   );

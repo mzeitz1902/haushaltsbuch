@@ -46,6 +46,7 @@ export interface HistoryEntry {
   id: string;
   value: number;
   date: Date;
+  note: string;
 }
 
 export type HistoryPayload = Omit<HistoryEntry, 'id'>;

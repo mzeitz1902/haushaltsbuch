@@ -72,7 +72,7 @@
                       #category
                       class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
                       [field]="form.category"
-                      (blur)="resetForm()"
+                      (blur)="updateAndReset()"
                       (keyup.enter)="onCategoryEnterPressed()"
                     />
                   } @else {
@@ -112,7 +112,7 @@
                       type="number"
                       class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
                       [field]="form.forecast"
-                      (blur)="resetForm()"
+                      (blur)="updateAndReset()"
                     />
                   } @else {
                     <div

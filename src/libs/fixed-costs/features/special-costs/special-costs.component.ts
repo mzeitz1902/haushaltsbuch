@@ -40,7 +40,7 @@ export class SpecialCostsComponent {
     { name: 'due_in_month', template: this.dueInMonthsTmp() },
   ]);
 
-  dueInMonthControl = new FormControl<string[]>([], { nonNullable: true });
+  dueInMonthControl = new FormControl<Month[]>([], { nonNullable: true });
 
   readonly months = Array.from({ length: 12 }, (_, i) => {
     const d = dayjs().month(i);
@@ -49,7 +49,12 @@ export class SpecialCostsComponent {
 
   selectRow(id: number, dueIn: string[] | null) {
     this.selectedRow.set(id);
-    this.dueInMonthControl.setValue(dueIn!);
+    const _dueIn = dueIn ?? [];
+    const dueInAsMonths: Month[] = _dueIn.map((d) => ({
+      label: dayjs(d).format('MMMM'),
+      value: d,
+    }));
+    this.dueInMonthControl.setValue(dueInAsMonths);
     setTimeout(() => this.selectTmpRef()?.open());
   }
 
@@ -62,12 +67,17 @@ export class SpecialCostsComponent {
     });
   }
 
-  update(cost: FixedCost) {
+  addValue(cost: FixedCost) {
+    let dueInMonth = cost.due_in_month ?? [];
+    dueInMonth = dueInMonth.map((d) => dayjs(d).format('YYYY-MM'));
+    const newValue = this.dueInMonthControl.value.map((d) =>
+      dayjs(d.value).format('YYYY-MM')
+    );
+    dueInMonth = Array.from(new Set([...dueInMonth, ...newValue]));
+    dueInMonth = dueInMonth.map((d) => dayjs(d).format('YYYY-MM-DD'));
     const _cost: FixedCost = {
       ...cost,
-      due_in_month: cost.due_in_month
-        ? [...cost.due_in_month, ...this.dueInMonthControl.value]
-        : [...this.dueInMonthControl.value],
+      due_in_month: dueInMonth,
     };
     _cost.due_in_month = Array.from(new Set(_cost.due_in_month));
     this.facade.update(_cost);
@@ -75,7 +85,24 @@ export class SpecialCostsComponent {
     this.dueInMonthControl.setValue(null!);
   }
 
+  removeValue(cost: FixedCost, month: Month) {
+    const dueInMonth = cost.due_in_month ?? [];
+    const newDueInMonth = dueInMonth.filter(
+      (d) => dayjs(d).month() !== dayjs(month.value).month()
+    );
+    const _cost: FixedCost = {
+      ...cost,
+      due_in_month: newDueInMonth,
+    };
+    this.facade.update(_cost);
+  }
+
   delete(id: number) {
     this.facade.delete(id, 'Sonder', 'Fix');
   }
+}
+
+interface Month {
+  label: string;
+  value: string;
 }

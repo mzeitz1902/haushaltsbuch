@@ -67,6 +67,8 @@ export const FixedCostsStore = signalStore(
       }
     }),
     on(fixedCostsEvents.addSuccess, ({ payload: fixedCosts }, state) => {
+      if (!fixedCosts) return state;
+
       if (fixedCosts.type === 'Budget') {
         return {
           budgets: state.budgets.concat(fixedCosts),
@@ -93,6 +95,8 @@ export const FixedCostsStore = signalStore(
 
     on(fixedCostsEvents.update, () => ({ saveProcessStatus: 'pending' })),
     on(fixedCostsEvents.updateSuccess, ({ payload: fixedCosts }, state) => {
+      if (!fixedCosts) return state;
+
       if (fixedCosts.type === 'Budget') {
         return {
           budgets: state.budgets.map((r) =>

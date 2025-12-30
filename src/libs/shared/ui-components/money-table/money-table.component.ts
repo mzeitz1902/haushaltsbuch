@@ -121,18 +121,18 @@ export class MoneyTableComponent<
     }
   });
 
-  update = effect(() => {
-    const category = this.category();
-    const value = this.value();
-    untracked(() => {
-      const isCategoryDirty = this.form.category().dirty();
-      const isValueDirty = this.form.value().dirty();
-      if ((value && isValueDirty) || (category && isCategoryDirty)) {
-        this.updateRow.emit(this.formModel() as DATA);
-        this.form().reset();
-      }
-    });
-  });
+  // update = effect(() => {
+  //   const category = this.category();
+  //   const value = this.value();
+  //   untracked(() => {
+  //     const isCategoryDirty = this.form.category().dirty();
+  //     const isValueDirty = this.form.value().dirty();
+  //     if ((value && isValueDirty) || (category && isCategoryDirty)) {
+  //       this.updateRow.emit(this.formModel() as DATA);
+  //       this.form().reset();
+  //     }
+  //   });
+  // });
 
   trackByFn(index: number, item: DATA) {
     return item?.id;
@@ -160,7 +160,8 @@ export class MoneyTableComponent<
     setTimeout(() => this.valueRef()?.nativeElement.select());
   }
 
-  resetForm() {
+  submitAndReset() {
+    this.updateRow.emit(this.formModel() as DATA);
     this.selectedRow.set(null);
     this.selectedField.set(null);
     this.formModel.set(this.initForm());
