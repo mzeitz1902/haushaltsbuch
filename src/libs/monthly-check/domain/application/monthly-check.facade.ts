@@ -68,6 +68,15 @@ export class MonthlyCheckFacade {
     () => this.currentMonth()?.variable_costs_total ?? 0
   );
 
+  budgets = computed(() => this.currentMonth()?.budget_lines ?? []);
+  totalBudgets = computed(() => {
+    const budgets = this.budgets();
+    if (budgets.length === 0) {
+      return 0;
+    }
+    return budgets.reduce((sum, b) => sum + b.value!, 0);
+  });
+
   snapshots = computed<CreatedMonth[]>(() =>
     this.store.createdMonths().map((m) => {
       return {

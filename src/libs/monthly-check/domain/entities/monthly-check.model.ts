@@ -4,8 +4,12 @@ import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
 export type Month = Omit<
   MonthDto,
-  'created_by' | 'created_at' | 'details' | 'variable_costs_lines'
-> & { variable_costs_lines: VariableCost[] };
+  | 'created_by'
+  | 'created_at'
+  | 'details'
+  | 'variable_costs_lines'
+  | 'budget_lines'
+> & { variable_costs_lines: VariableCost[]; budget_lines: VariableCost[] };
 
 export interface AddRevenueResponse {
   revenue: Revenue;
@@ -48,8 +52,6 @@ export interface HistoryEntry {
   date: Date;
   note: string;
 }
-
-export type HistoryPayload = Omit<HistoryEntry, 'id'>;
 
 export interface VariableCost {
   id: string;

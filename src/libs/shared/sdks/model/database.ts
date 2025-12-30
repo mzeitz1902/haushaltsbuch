@@ -49,6 +49,7 @@ export interface Database {
       };
       monthly_snapshots: {
         Row: {
+          budget_lines: Json[] | null;
           created_at: string | null;
           created_by: string | null;
           details: Json | null;
@@ -63,6 +64,7 @@ export interface Database {
           variable_costs_total: number | null;
         };
         Insert: {
+          budget_lines?: Json[] | null;
           created_at?: string | null;
           created_by?: string | null;
           details?: Json | null;
@@ -77,6 +79,7 @@ export interface Database {
           variable_costs_total?: number | null;
         };
         Update: {
+          budget_lines?: Json[] | null;
           created_at?: string | null;
           created_by?: string | null;
           details?: Json | null;
@@ -272,6 +275,7 @@ export interface Database {
         }[];
       };
       update_monthly_snapshot_variable_costs_line:
+        | { Args: { p_history: Json; p_line_id: string }; Returns: undefined }
         | {
             Args: {
               p_line_id: string;
@@ -285,8 +289,7 @@ export interface Database {
               out_variable_costs_lines: Json;
               out_variable_costs_total: number;
             }[];
-          }
-        | { Args: { p_history: Json; p_line_id: string }; Returns: undefined };
+          };
       update_variable_costs_history_entry: {
         Args: {
           p_history_item: Json;

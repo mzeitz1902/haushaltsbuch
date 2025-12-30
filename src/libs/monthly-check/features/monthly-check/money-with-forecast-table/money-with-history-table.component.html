@@ -1,32 +1,29 @@
 <mat-card>
   <mat-card-content>
-    <cdk-accordion-item #accItem="cdkAccordionItem">
-      @if (headerTitle()) {
-        <header
-          class="sticky top-14 z-10 grid w-full grid-cols-[2rem_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
-          (click)="accItem.toggle()"
-        >
-          <app-icon [icon]="headerIcon()" size="medium" />
-          <div #col2 class="flex items-center gap-2">
-            <h2 class="w-min text-sm font-semibold text-gray-100">
-              {{ headerTitle() }}
-            </h2>
-            @if (isSaving()) {
-              <mat-spinner diameter="18" />
-            }
-            <h1
-              class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
-            >
-              {{ total() | currency: 'EUR' }}
-            </h1>
-          </div>
-          <app-icon
-            [icon]="accItem.expanded ? 'ChevronDown' : 'ChevronDown'"
-            size="small"
-            class="ml-1"
-          />
-        </header>
-      }
+    <cdk-accordion-item #accItem="cdkAccordionItem" [expanded]="expanded()">
+      <header
+        class="sticky top-14 z-10 grid w-full grid-cols-[2rem_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
+        (click)="accItem.toggle()"
+      >
+        <app-icon #col1 icon="BanknoteArrowDown" size="medium" />
+        <div #col2 class="flex items-center gap-2">
+          <h2 class="text-sm font-semibold text-gray-100">{{ title() }}</h2>
+          @if (isSaving()) {
+            <mat-spinner diameter="18" />
+          }
+          <h1
+            class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+          >
+            {{ total() | currency: 'EUR' }}
+          </h1>
+        </div>
+
+        <app-icon
+          [icon]="accItem.expanded ? 'ChevronUp' : 'ChevronDown'"
+          size="small"
+          class="ml-1"
+        />
+      </header>
 
       <div
         class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
@@ -46,6 +43,7 @@
               class="mt-2 !min-w-[95%] !bg-transparent !p-4"
             >
               <ng-container matColumnDef="category">
+                <td mat-header-cell *matHeaderCellDef></td>
                 <td
                   mat-cell
                   *matCellDef="let row"
@@ -58,7 +56,7 @@
                       #category
                       class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
                       [field]="form.category"
-                      (blur)="submitAndReset()"
+                      (blur)="updateAndReset()"
                       (keyup.enter)="onCategoryEnterPressed()"
                     />
                   } @else {
@@ -69,14 +67,6 @@
                       <span>
                         {{ row.category }}
                       </span>
-                      @if (row.remark) {
-                        <app-icon
-                          class="z-1"
-                          icon="Info"
-                          [matTooltip]="row.remark"
-                          matTooltipPosition="after"
-                        />
-                      }
                     </div>
                   }
                 </td>
@@ -89,27 +79,34 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="value">
+              <ng-container matColumnDef="forecast">
+                <td mat-header-cell *matHeaderCellDef class="!text-right">
+                  Forecast
+                </td>
                 <td
                   mat-cell
                   *matCellDef="let row"
-                  class="!h-1 !w-12 !p-0 !text-right !text-xs !text-gray-100"
+                  class="!h-1 !w-24 !p-0.5 !text-right !text-xs !text-gray-100"
                 >
                   @if (
-                    selectedRow() === row.id && selectedField() === 'value'
+                    selectedRow() === row.id && selectedField() === 'forecast'
                   ) {
                     <input
+                      #forecast
                       type="number"
-                      #value
-                      class="w-12 rounded border-1 border-blue-400 bg-gray-600 p-1 text-right outline-none"
-                      [field]="form.value"
-                      (blur)="submitAndReset()"
-                      (keyup.enter)="selectedRow.set(null)"
+                      class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
+                      [field]="form.forecast"
+                      (blur)="updateAndReset()"
                     />
                   } @else {
-                    <span class="block h-5 w-full" (click)="editValue(row)">
-                      {{ row.value | currency: 'EUR' }}
-                    </span>
+                    <div
+                      class="flex h-5 w-full justify-end"
+                      (click)="editForecast(row)"
+                    >
+                      <span>
+                        {{ row.forecast | currency: 'EUR' }}
+                      </span>
+                    </div>
                   }
                 </td>
                 <td
@@ -117,11 +114,51 @@
                   *matFooterCellDef
                   class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
                 >
+                  {{ forecastTotal() | currency: 'EUR' }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="value">
+                <td mat-header-cell *matHeaderCellDef class="!text-right">
+                  @if (displayedColumns().includes('forecast')) {
+                    Wert
+                  }
+                </td>
+                <td
+                  mat-cell
+                  *matCellDef="let row"
+                  class="!h-1 !w-12 !p-0 !text-right !text-xs"
+                >
+                  <span
+                    class="block h-5 w-full !text-gray-100"
+                    [class.!text-green-500]="row.value < row.forecast"
+                    [class.!text-red-500]="row.value > row.forecast"
+                    [mtxPopoverTriggerFor]="popover"
+                    [mtxPopoverTriggerOn]="'click'"
+                  >
+                    {{ row.value | currency: 'EUR' }}
+                  </span>
+                  <mtx-popover
+                    #popover="mtxPopover"
+                    class="!p-4 **:text-xs"
+                    [position]="['before', 'below']"
+                  >
+                    <app-history [row]="row" />
+                  </mtx-popover>
+                </td>
+                <td
+                  mat-footer-cell
+                  *matFooterCellDef
+                  class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
+                  [class.!text-green-500]="total() < forecastTotal()"
+                  [class.!text-red-500]="total() > forecastTotal()"
+                >
                   {{ total() | currency: 'EUR' }}
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="delete_button">
+                <td mat-header-cell *matHeaderCellDef></td>
                 <td
                   mat-cell
                   *matCellDef="let row"
@@ -139,31 +176,20 @@
                 <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
 
-              @for (col of customColumns(); track $index) {
-                <ng-container [matColumnDef]="col.name">
-                  <td
-                    mat-cell
-                    *matCellDef="let row"
-                    class="!overflow-visible !pl-3 !text-xs !text-gray-100"
-                  >
-                    <ng-template
-                      [ngTemplateOutlet]="col.template"
-                      [ngTemplateOutletContext]="{ $implicit: row }"
-                    />
-                  </td>
-                  <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-              }
-
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns()"
+                class="!h-7 *:!pr-2 **:!text-gray-100"
+              ></tr>
               <tr
                 mat-row
                 *matRowDef="let row; columns: displayedColumns()"
-                class="!h-1"
+                class="!h-1 *:!pr-2"
               ></tr>
               <tr
                 mat-footer-row
                 *matFooterRowDef="displayedColumns()"
-                class="!h-1"
+                class="!h-1 **:!pr-2"
               ></tr>
             </table>
             <div class="w-5">

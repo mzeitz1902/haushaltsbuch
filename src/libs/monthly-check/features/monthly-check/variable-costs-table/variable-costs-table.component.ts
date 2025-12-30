@@ -1,74 +1,15 @@
-import {
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  inject,
-  signal,
-  untracked,
-  viewChild,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MonthlyCheckFacade,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
-import {
-  ButtonComponent,
-  IconComponent,
-} from '@haushaltsbuch/shared/ui-components';
-import { CdkAccordionItem } from '@angular/cdk/accordion';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatFooterCell,
-  MatFooterCellDef,
-  MatFooterRow,
-  MatFooterRowDef,
-  MatHeaderCellDef,
-  MatHeaderRow,
-  MatHeaderRowDef,
-  MatRow,
-  MatRowDef,
-  MatTable,
-} from '@angular/material/table';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { debounce, Field, form } from '@angular/forms/signals';
-import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
-import { HistoryComponent } from './history/history.component';
+import { MoneyWithHistoryTableComponent } from '../money-with-forecast-table/money-with-history-table.component';
 
 @Component({
   selector: 'app-variable-costs-table',
-  imports: [
-    ButtonComponent,
-    CdkAccordionItem,
-    CurrencyPipe,
-    IconComponent,
-    LucideAngularModule,
-    MatCard,
-    MatCardContent,
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatFooterCell,
-    MatFooterRow,
-    MatFooterRowDef,
-    MatProgressSpinner,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    Field,
-    MatFooterCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatHeaderCellDef,
-    MtxPopover,
-    MtxPopoverTrigger,
-    HistoryComponent,
-  ],
+  imports: [LucideAngularModule, MoneyWithHistoryTableComponent],
   providers: [DecimalPipe],
   templateUrl: './variable-costs-table.component.html',
 })
@@ -81,74 +22,6 @@ export class VariableCostsTableComponent {
   isSaving = this.facade.isSavingVariableCost;
   isAdded = this.facade.isVariableCostAdded;
 
-  selectedRow = signal<string | null>(null);
-  selectedField = signal<'category' | 'forecast' | null>(null);
-
-  formModel = signal<Form>(this.initForm());
-  form = form(this.formModel, (schema) => {
-    debounce(schema.forecast, 500);
-    debounce(schema.category, 500);
-  });
-  categoryRef = viewChild<ElementRef>('category');
-  forecastRef = viewChild<ElementRef>('forecast');
-
-  category = computed(() => this.formModel().category);
-  forecast = computed(() => this.formModel().forecast);
-  forecastTotal = computed(() => {
-    return this.data().reduce((acc, cost) => acc + cost.forecast!, 0);
-  });
-
-  focusCategoryOnAdd = effect(() => {
-    if (this.isAdded()) {
-      untracked(() => {
-        const newData = this.data().at(-1);
-        this.editCategory(newData!);
-        setTimeout(() =>
-          this.categoryRef()?.nativeElement.scrollIntoView({
-            behavior: 'smooth',
-          })
-        );
-      });
-    }
-  });
-
-  readonly displayedColumns = [
-    'category',
-    'forecast',
-    'value',
-    'delete_button',
-  ];
-
-  trackByFn(index: number, item: VariableCost) {
-    return item?.id;
-  }
-
-  editCategory(row: VariableCost) {
-    this.setForm(row);
-    this.selectedRow.set(row.id);
-    this.selectedField.set('category');
-    setTimeout(() => this.categoryRef()?.nativeElement.select());
-  }
-
-  editForecast(row: VariableCost) {
-    this.setForm(row);
-    this.selectedRow.set(row.id);
-    this.selectedField.set('forecast');
-    setTimeout(() => this.forecastRef()?.nativeElement.select());
-  }
-
-  updateAndReset() {
-    this.update(this.formModel() as VariableCost);
-    this.selectedRow.set(null);
-    this.selectedField.set(null);
-    this.formModel.set(this.initForm());
-  }
-
-  onCategoryEnterPressed() {
-    this.selectedField.set('forecast');
-    setTimeout(() => this.forecastRef()?.nativeElement.select());
-  }
-
   add() {
     this.facade.addVariableCost();
   }
@@ -159,28 +32,5 @@ export class VariableCostsTableComponent {
 
   update(cost: VariableCost) {
     this.facade.updateVariableCost(cost);
-    this.selectedRow.set(null);
   }
-
-  private initForm(): Form {
-    return {
-      id: null,
-      category: null!,
-      forecast: null!,
-    };
-  }
-
-  private setForm(data: VariableCost) {
-    this.formModel.set({
-      id: data.id,
-      category: data.category!,
-      forecast: data.forecast!,
-    });
-  }
-}
-
-interface Form {
-  id: string | null;
-  category: string;
-  forecast: number;
 }

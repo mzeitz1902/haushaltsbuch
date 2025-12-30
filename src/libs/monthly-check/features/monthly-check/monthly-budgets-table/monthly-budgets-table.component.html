@@ -1,1 +1,10 @@
-<p>monthly-budgets-table works!</p>
+<app-money-with-history-table
+  title="Budgets"
+  [expanded]="false"
+  [showForecast]="true"
+  [data]="budgets()"
+  [isAdded]="isAdded()"
+  [isLoading]="isLoading()"
+  [isSaving]="isSaving()"
+  [total]="total()"
+/>
