@@ -1,6 +1,6 @@
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEffects, withReducer } from '@ngrx/signals/events';
+import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { fixedCostsEffects } from './fixed-costs.effects';
 import { fixedCostsEvents } from './fixed-costs.events';
 import { FixedCost } from '../entities/fixed-cost.model';
@@ -33,7 +33,7 @@ export const FixedCostsStore = signalStore(
     addSpecialProcessStatus: 'init',
     addBudgetProcessStatus: 'init',
   }),
-  withEffects(() => fixedCostsEffects()),
+  withEventHandlers(() => fixedCostsEffects()),
   withReducer(
     on(fixedCostsEvents.load, () => ({ loadProcessStatus: 'pending' })),
     on(fixedCostsEvents.loadSuccess, ({ payload: fixedCosts }, state) => {

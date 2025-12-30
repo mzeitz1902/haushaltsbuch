@@ -1,6 +1,6 @@
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEffects, withReducer } from '@ngrx/signals/events';
+import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { usersEvents } from './users.events';
 import { User } from '@supabase/supabase-js';
 import { usersEffects } from './users.effects';
@@ -21,7 +21,7 @@ export const UsersStore = signalStore(
     isLoggedIn: false,
     loginError: null,
   }),
-  withEffects(() => usersEffects()),
+  withEventHandlers(() => usersEffects()),
   withReducer(
     on(usersEvents.getUserSuccess, ({ payload: user }) => ({
       user: user ?? null,

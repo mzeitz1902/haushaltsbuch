@@ -128,6 +128,10 @@ export interface Database {
     };
     Views: Record<never, never>;
     Functions: {
+      add_monthly_snapshot_budget_line: {
+        Args: { p_line: Json; p_snapshot_id: string };
+        Returns: undefined;
+      };
       add_monthly_snapshot_fixed_costs_line: {
         Args: { p_added_by?: string; p_line: Json; p_snapshot_id: string };
         Returns: {

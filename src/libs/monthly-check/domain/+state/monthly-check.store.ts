@@ -1,7 +1,7 @@
 import { Month, VariableCost } from '@haushaltsbuch/monthly-check/domain';
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEffects, withReducer } from '@ngrx/signals/events';
+import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { monthlyCheckEvents } from './monthly-check.events';
 import { monthlyCheckEffects } from './monthly-check.effects';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
@@ -45,7 +45,10 @@ export const monthlyCheckStore = signalStore(
     deleteVariableCostProcessStatus: 'init',
     addHistoryEntryProcessStatus: 'init',
   }),
-  withEffects(() => monthlyCheckEffects()),
+  withEventHandlers(() => {
+    // todo current month reingeben und für die reload sachen brauchen wir den gecodeten month also als dayjs formattierten stuff wie beim anlegen. beim anlegen also das ding mit im store speichern
+    return monthlyCheckEffects();
+  }),
   withReducer(
     on(monthlyCheckEvents.create, () => ({ createProcessStatus: 'pending' })),
     on(monthlyCheckEvents.createSuccess, () => ({

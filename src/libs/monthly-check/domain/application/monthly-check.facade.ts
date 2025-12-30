@@ -174,6 +174,10 @@ export class MonthlyCheckFacade {
     });
   }
 
+  addBudget() {
+    this.events.addBudget(this.currentMonth()!.id);
+  }
+
   navigateTo(year?: string | null, month?: string | null) {
     if (year && !month) {
       this.router.navigate(['/monthly-check', year]);

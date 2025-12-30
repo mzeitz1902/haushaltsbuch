@@ -7,4 +7,7 @@
   [isLoading]="isLoading()"
   [isSaving]="isSaving()"
   [total]="total()"
+  (addRow)="add()"
+  (deleteRow)="delete($event)"
+  (updateRow)="update($event)"
 />

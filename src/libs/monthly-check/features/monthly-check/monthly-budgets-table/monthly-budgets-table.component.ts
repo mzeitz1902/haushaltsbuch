@@ -1,5 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { MonthlyCheckFacade } from '@haushaltsbuch/monthly-check/domain';
+import {
+  MonthlyCheckFacade,
+  VariableCost,
+} from '@haushaltsbuch/monthly-check/domain';
 import { MoneyWithHistoryTableComponent } from '../money-with-forecast-table/money-with-history-table.component';
 
 @Component({
@@ -15,4 +18,16 @@ export class MonthlyBudgetsTableComponent {
   isLoading = this.facade.isMonthLoading;
   isSaving = this.facade.isSavingFixedCost;
   isAdded = signal(false); // todo
+
+  add() {
+    this.facade.addBudget();
+  }
+
+  delete(id: number) {
+    this.facade.deleteVariableCost(id);
+  }
+
+  update(cost: VariableCost) {
+    this.facade.updateVariableCost(cost);
+  }
 }

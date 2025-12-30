@@ -143,4 +143,13 @@ export class VariableCostsDataService {
       }))
     );
   }
+
+  addBudget(monthId: string) {
+    return from(
+      supabase.rpc('add_monthly_snapshot_budget_line', {
+        p_snapshot_id: monthId,
+        p_line: { value: 0, category: 'Neu', forecast: 0, history: [] },
+      })
+    );
+  }
 }

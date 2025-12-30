@@ -95,6 +95,10 @@ const events = eventGroup({
     }>(),
     updateVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
     updateVariableCostHistoryEntryFailure: type<unknown>(),
+
+    addBudget: type<string>(),
+    addBudgetSuccess: type<string>(),
+    addBudgetFailure: type<unknown>(),
   },
 });
 
@@ -162,4 +166,8 @@ export const monthlyCheckEvents = {
     events.updateVariableCostHistoryEntrySuccess,
   updateVariableCostHistoryEntryFailure:
     events.updateVariableCostHistoryEntryFailure,
+
+  addBudget: events.addBudget,
+  addBudgetSuccess: events.addBudgetSuccess,
+  addBudgetFailure: events.addBudgetFailure,
 };

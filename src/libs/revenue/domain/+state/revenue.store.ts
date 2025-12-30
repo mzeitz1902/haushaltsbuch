@@ -1,6 +1,6 @@
 import { signalStore, withState } from '@ngrx/signals';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEffects, withReducer } from '@ngrx/signals/events';
+import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { revenueEffects } from './revenue.effects';
 import { revenueEvents } from './revenue.events';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
@@ -21,7 +21,7 @@ export const RevenueStore = signalStore(
     saveProcessStatus: 'init',
     addProcessStatus: 'init',
   }),
-  withEffects(() => revenueEffects()),
+  withEventHandlers(() => revenueEffects()),
   withReducer(
     on(revenueEvents.load, () => ({ loadProcessStatus: 'pending' })),
     on(revenueEvents.loadSuccess, ({ payload: revenue }) => ({

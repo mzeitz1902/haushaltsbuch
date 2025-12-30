@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Events } from '@ngrx/signals/events';
 import { MonthlyCheckDataService } from '../infrastructure/monthly-check.data.service';
 import { monthlyCheckEvents } from './monthly-check.events';
-import { switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
 import { VariableCostsDataService } from '../infrastructure/variable-costs.data.service';
 import { Router } from '@angular/router';
@@ -232,5 +232,20 @@ export function monthlyCheckEffects(
             );
         })
       ),
+
+    addBudget$: events.on(monthlyCheckEvents.addBudget).pipe(
+      switchMap(({ payload: monthId }) => {
+        return variableCostsDataService.addBudget(monthId).pipe(
+          mapResponse({
+            next: () => monthlyCheckEvents.addBudgetSuccess(monthId),
+            error: (error) => monthlyCheckEvents.addBudgetFailure(error),
+          })
+        );
+      })
+    ),
+
+    reloadMonth$: events
+      .on(monthlyCheckEvents.addBudgetSuccess)
+      .pipe(map(({ payload }) => monthlyCheckEvents.getMonth(payload))),
   };
 }
