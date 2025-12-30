@@ -25,6 +25,7 @@ import { VariableCostsTableComponent } from './variable-costs-table/variable-cos
 import { CreateMonthDialogComponent } from './create-month-dialog/create-month-dialog.component';
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { take } from 'rxjs';
+import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-budgets-table.component';
 
 @Component({
   selector: 'app-monthly-check',
@@ -40,6 +41,7 @@ import { take } from 'rxjs';
     VariableCostsTableComponent,
     ButtonComponent,
     BalanceComponent,
+    MonthlyBudgetsTableComponent,
   ],
   templateUrl: './monthly-check.component.html',
 })
