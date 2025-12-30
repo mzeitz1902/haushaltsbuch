@@ -3,6 +3,7 @@ import { type } from '@ngrx/signals';
 import {
   AddFixedCostPayload,
   FixedCost,
+  FixedCostType,
   UpdateFixedCostPayload,
 } from '../entities/fixed-cost.model';
 import { DueIn } from '@haushaltsbuch/shared/sdks';
@@ -21,8 +22,8 @@ const events = eventGroup({
     updateSuccess: type<FixedCost>(),
     updateFailure: type<unknown>(),
 
-    delete: type<{ id: number; dueIn: DueIn }>(),
-    deleteSuccess: type<{ id: number; dueIn: DueIn }>(),
+    delete: type<{ id: number; dueIn: DueIn; type: FixedCostType }>(),
+    deleteSuccess: type<{ id: number; dueIn: DueIn; type: FixedCostType }>(),
     deleteFailure: type<unknown>(),
   },
 });

@@ -4,6 +4,7 @@ import { FixedCostsStore } from '../+state/fixed-costs.store';
 import { fixedCostsEvents } from '../+state/fixed-costs.events';
 import {
   AddFixedCostPayload,
+  FixedCostType,
   UpdateFixedCostPayload,
 } from '../entities/fixed-cost.model';
 import { DueIn } from '@haushaltsbuch/shared/sdks';
@@ -21,6 +22,7 @@ export class FixedCostsFacade {
   fixedCosts = this.store.fixedCosts;
   quarterlyCosts = this.store.quarterlyCosts;
   specialCosts = this.store.specialCosts;
+  budgets = this.store.budgets;
 
   isLoading = computed(() => this.loadProcessStatus() === 'pending');
   isSaving = computed(() => this.saveProcessStatus() === 'pending');
@@ -42,6 +44,10 @@ export class FixedCostsFacade {
     this.specialCosts().reduce((acc, r) => acc + r.value!, 0)
   );
 
+  totalBudgets = computed(() =>
+    this.budgets().reduce((acc, r) => acc + r.value!, 0)
+  );
+
   loadFixedCosts() {
     this.dispatcher.dispatch(fixedCostsEvents.load());
   }
@@ -54,7 +60,7 @@ export class FixedCostsFacade {
     this.dispatcher.dispatch(fixedCostsEvents.update(payload));
   }
 
-  delete(id: number, dueIn: DueIn) {
-    this.dispatcher.dispatch(fixedCostsEvents.delete({ id, dueIn }));
+  delete(id: number, dueIn: DueIn, type: FixedCostType) {
+    this.dispatcher.dispatch(fixedCostsEvents.delete({ id, dueIn, type }));
   }
 }

@@ -19,7 +19,7 @@ export class QuarterlyCostsComponent {
 
   add() {
     this.facade.add({
-      category: '',
+      category: 'Neu',
       value: 0,
       due_in: 'Quartal',
       type: 'Fix',
@@ -31,6 +31,6 @@ export class QuarterlyCostsComponent {
   }
 
   delete(id: number) {
-    this.facade.delete(id, 'Quartal');
+    this.facade.delete(id, 'Quartal', 'Fix');
   }
 }

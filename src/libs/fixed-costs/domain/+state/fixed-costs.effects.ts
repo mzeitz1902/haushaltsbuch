@@ -48,10 +48,10 @@ export function fixedCostsEffects() {
     ),
 
     delete$: events.on(fixedCostsEvents.delete).pipe(
-      switchMap(({ payload: { id, dueIn } }) => {
+      switchMap(({ payload: { id, dueIn, type } }) => {
         return dataService.deleteFixedCost(id).pipe(
           mapResponse({
-            next: () => fixedCostsEvents.deleteSuccess({ id, dueIn }),
+            next: () => fixedCostsEvents.deleteSuccess({ id, dueIn, type }),
             error: (error) => fixedCostsEvents.deleteFailure(error),
           })
         );

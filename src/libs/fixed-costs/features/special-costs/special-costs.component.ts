@@ -55,7 +55,7 @@ export class SpecialCostsComponent {
 
   add() {
     this.facade.add({
-      category: '',
+      category: 'Neu',
       value: 0,
       due_in: 'Sonder',
       type: 'Fix',
@@ -76,6 +76,6 @@ export class SpecialCostsComponent {
   }
 
   delete(id: number) {
-    this.facade.delete(id, 'Sonder');
+    this.facade.delete(id, 'Sonder', 'Fix');
   }
 }

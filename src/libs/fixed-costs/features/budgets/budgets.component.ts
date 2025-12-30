@@ -1,9 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
+import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
 
 @Component({
   selector: 'app-budgets',
-  imports: [],
+  imports: [MoneyTableComponent],
   templateUrl: './budgets.component.html',
-  styles: ``,
 })
-export class BudgetsComponent {}
+export class BudgetsComponent {
+  private readonly facade = inject(FixedCostsFacade);
+
+  budgets = this.facade.budgets;
+  total = this.facade.totalBudgets;
+  isLoading = this.facade.isLoading;
+  isSaving = this.facade.isSaving;
+  isAdded = this.facade.isFixedAdded;
+
+  add() {
+    this.facade.add({
+      category: 'Neu',
+      value: 0,
+      due_in: 'Alle',
+      type: 'Budget',
+    });
+  }
+
+  update(cost: FixedCost) {
+    this.facade.update(cost);
+  }
+
+  delete(id: number) {
+    this.facade.delete(id, 'Alle', 'Budget');
+  }
+}

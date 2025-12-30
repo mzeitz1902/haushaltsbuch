@@ -10,10 +10,12 @@ interface State {
   fixedCosts: FixedCost[];
   quarterlyCosts: FixedCost[];
   specialCosts: FixedCost[];
+  budgets: FixedCost[];
   loadProcessStatus: ProcessStatus;
   addFixedProcessStatus: ProcessStatus;
   addQuarterlyProcessStatus: ProcessStatus;
   addSpecialProcessStatus: ProcessStatus;
+  addBudgetProcessStatus: ProcessStatus;
   saveProcessStatus: ProcessStatus;
 }
 
@@ -23,23 +25,36 @@ export const FixedCostsStore = signalStore(
     fixedCosts: [],
     quarterlyCosts: [],
     specialCosts: [],
+    budgets: [],
     loadProcessStatus: 'init',
     saveProcessStatus: 'init',
     addFixedProcessStatus: 'init',
     addQuarterlyProcessStatus: 'init',
     addSpecialProcessStatus: 'init',
+    addBudgetProcessStatus: 'init',
   }),
   withEffects(() => fixedCostsEffects()),
   withReducer(
     on(fixedCostsEvents.load, () => ({ loadProcessStatus: 'pending' })),
-    on(fixedCostsEvents.loadSuccess, ({ payload: fixedCosts }) => ({
-      fixedCosts: fixedCosts?.filter((el) => el.due_in === 'Alle') ?? [],
-      quarterlyCosts: fixedCosts?.filter((el) => el.due_in === 'Quartal') ?? [],
-      specialCosts: fixedCosts?.filter((el) => el.due_in === 'Sonder') ?? [],
-      loadProcessStatus: 'success',
-    })),
+    on(fixedCostsEvents.loadSuccess, ({ payload: fixedCosts }, state) => {
+      if (!fixedCosts) return state;
 
-    on(fixedCostsEvents.add, ({ payload: { due_in } }) => {
+      const budgets = fixedCosts.filter((el) => el.type === 'Budget');
+      const _fixedCosts = fixedCosts.filter((el) => el.type !== 'Budget');
+      return {
+        fixedCosts: _fixedCosts.filter((el) => el.due_in === 'Alle') ?? [],
+        quarterlyCosts:
+          _fixedCosts.filter((el) => el.due_in === 'Quartal') ?? [],
+        specialCosts: _fixedCosts.filter((el) => el.due_in === 'Sonder') ?? [],
+        budgets: budgets ?? [],
+        loadProcessStatus: 'success',
+      };
+    }),
+
+    on(fixedCostsEvents.add, ({ payload: { due_in, type } }) => {
+      if (type === 'Budget') {
+        return { addBudgetProcessStatus: 'pending' };
+      }
       switch (due_in) {
         case 'Quartal':
           return { addQuarterlyProcessStatus: 'pending' };
@@ -52,6 +67,12 @@ export const FixedCostsStore = signalStore(
       }
     }),
     on(fixedCostsEvents.addSuccess, ({ payload: fixedCosts }, state) => {
+      if (fixedCosts.type === 'Budget') {
+        return {
+          budgets: state.budgets.concat(fixedCosts),
+          addBudgetProcessStatus: 'success',
+        };
+      }
       if (fixedCosts.due_in === 'Quartal') {
         return {
           quarterlyCosts: state.quarterlyCosts.concat(fixedCosts),
@@ -72,6 +93,14 @@ export const FixedCostsStore = signalStore(
 
     on(fixedCostsEvents.update, () => ({ saveProcessStatus: 'pending' })),
     on(fixedCostsEvents.updateSuccess, ({ payload: fixedCosts }, state) => {
+      if (fixedCosts.type === 'Budget') {
+        return {
+          budgets: state.budgets.map((r) =>
+            r.id === fixedCosts.id ? fixedCosts : r
+          ),
+          saveProcessStatus: 'success',
+        };
+      }
       if (fixedCosts.due_in === 'Quartal') {
         return {
           quarterlyCosts: state.quarterlyCosts.map((r) =>
@@ -96,19 +125,27 @@ export const FixedCostsStore = signalStore(
       };
     }),
 
-    on(fixedCostsEvents.deleteSuccess, ({ payload: { id, dueIn } }, state) => {
-      switch (dueIn) {
-        case 'Quartal':
+    on(
+      fixedCostsEvents.deleteSuccess,
+      ({ payload: { id, dueIn, type } }, state) => {
+        if (type === 'Budget') {
           return {
-            quarterlyCosts: state.quarterlyCosts.filter((r) => r.id !== id),
+            budgets: state.budgets.filter((r) => r.id !== id),
           };
-        case 'Sonder':
-          return {
-            specialCosts: state.specialCosts.filter((r) => r.id !== id),
-          };
-        default:
-          return { fixedCosts: state.fixedCosts.filter((r) => r.id !== id) };
+        }
+        switch (dueIn) {
+          case 'Quartal':
+            return {
+              quarterlyCosts: state.quarterlyCosts.filter((r) => r.id !== id),
+            };
+          case 'Sonder':
+            return {
+              specialCosts: state.specialCosts.filter((r) => r.id !== id),
+            };
+          default:
+            return { fixedCosts: state.fixedCosts.filter((r) => r.id !== id) };
+        }
       }
-    })
+    )
   )
 );

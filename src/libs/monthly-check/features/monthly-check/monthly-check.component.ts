@@ -47,7 +47,7 @@ export class MonthlyCheckComponent {
   year = input<string>(); // from route
   month = input<string>(); // from route
 
-  createdMonths = this.facade.createdMonths;
+  snapshots = this.facade.snapshots;
   createdYears = this.facade.createdYears;
   isLoaded = this.facade.isMonthLoaded;
 
@@ -73,6 +73,14 @@ export class MonthlyCheckComponent {
 
   form = form(this.formModel);
 
+  currentYearSnapshots = computed(() => {
+    const year = this.selectedYear();
+    return this.snapshots().filter((m) =>
+      dayjs(m.month)
+        .format('YYYY')
+        .includes(year || '')
+    );
+  });
   selectedMonth = computed(() => this.formModel().snapshot);
   selectedYear = computed(() => this.formModel().year);
 
@@ -109,7 +117,7 @@ export class MonthlyCheckComponent {
     const dialogRef = this.mtxDialog.originalOpen(CreateMonthDialogComponent, {
       height: '400px',
       data: {
-        createdMonths: this.createdMonths(),
+        createdMonths: this.snapshots(),
       },
     });
     dialogRef
@@ -130,7 +138,7 @@ export class MonthlyCheckComponent {
   }
 
   private isSnapshotCreated(month: string) {
-    return this.createdMonths()
+    return this.snapshots()
       .map((m) => m.month)
       .includes(month);
   }

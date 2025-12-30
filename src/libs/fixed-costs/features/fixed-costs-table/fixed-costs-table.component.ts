@@ -24,7 +24,7 @@ export class FixedCostsTableComponent {
 
   addFixedCost() {
     this.facade.add({
-      category: '',
+      category: 'Neu',
       value: 0,
       due_in: 'Alle',
       type: 'Fix',
@@ -36,6 +36,6 @@ export class FixedCostsTableComponent {
   }
 
   deleteFixedCost(id: number) {
-    this.facade.delete(id, 'Alle');
+    this.facade.delete(id, 'Alle', 'Fix');
   }
 }

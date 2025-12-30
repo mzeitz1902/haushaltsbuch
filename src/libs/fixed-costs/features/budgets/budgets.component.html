@@ -1,12 +1,12 @@
-<!--<app-money-table-->
-<!--  headerTitle="Fixkosten"-->
-<!--  headerIcon="BanknoteArrowDown"-->
-<!--  [data]="fixedCosts()"-->
-<!--  [total]="total()"-->
-<!--  [isLoading]="isLoading()"-->
-<!--  [isSaving]="isSaving()"-->
-<!--  [isAdded]="isAdded()"-->
-<!--  (addRow)="addBudget()"-->
-<!--  (updateRow)="updateFixedCost($event)"-->
-<!--  (deleteRow)="deleteFixedCost($event)"-->
-<!--/>-->
+<app-money-table
+  headerTitle="Budgets"
+  headerIcon="BanknoteArrowDown"
+  [data]="budgets()"
+  [total]="total()"
+  [isLoading]="isLoading()"
+  [isAdded]="isAdded()"
+  [isSaving]="false"
+  (addRow)="add()"
+  (updateRow)="update($event)"
+  (deleteRow)="delete($event)"
+/>

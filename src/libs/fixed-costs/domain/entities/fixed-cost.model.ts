@@ -1,4 +1,5 @@
 import { FixedCostDto } from '@haushaltsbuch/shared/sdks';
+import { Enums } from '../../../shared/sdks/model/database';
 
 export type FixedCost = Omit<FixedCostDto, 'created_at'>;
 export type AddFixedCostPayload = Pick<
@@ -6,3 +7,4 @@ export type AddFixedCostPayload = Pick<
   'category' | 'value' | 'due_in' | 'type'
 >;
 export type UpdateFixedCostPayload = FixedCost;
+export type FixedCostType = Enums<'fixed_cost_type'>;

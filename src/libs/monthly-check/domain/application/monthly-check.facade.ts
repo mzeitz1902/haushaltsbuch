@@ -66,7 +66,7 @@ export class MonthlyCheckFacade {
     () => this.currentMonth()?.variable_costs_total ?? 0
   );
 
-  createdMonths = computed<CreatedMonth[]>(() =>
+  snapshots = computed<CreatedMonth[]>(() =>
     this.store.createdMonths().map((m) => {
       return {
         month: m,
