@@ -24,6 +24,7 @@ export interface MonthlyCheckState {
   addVariableCostProcessStatus: ProcessStatus;
   deleteVariableCostProcessStatus: ProcessStatus;
   addHistoryEntryProcessStatus: ProcessStatus;
+  addBudgetProcessStatus: ProcessStatus;
 }
 
 export const monthlyCheckStore = signalStore(
@@ -44,11 +45,9 @@ export const monthlyCheckStore = signalStore(
     addVariableCostProcessStatus: 'init',
     deleteVariableCostProcessStatus: 'init',
     addHistoryEntryProcessStatus: 'init',
+    addBudgetProcessStatus: 'init',
   }),
-  withEventHandlers(() => {
-    // todo current month reingeben und für die reload sachen brauchen wir den gecodeten month also als dayjs formattierten stuff wie beim anlegen. beim anlegen also das ding mit im store speichern
-    return monthlyCheckEffects();
-  }),
+  withEventHandlers((store) => monthlyCheckEffects(store)),
   withReducer(
     on(monthlyCheckEvents.create, () => ({ createProcessStatus: 'pending' })),
     on(monthlyCheckEvents.createSuccess, () => ({
@@ -186,6 +185,12 @@ export const monthlyCheckStore = signalStore(
     })),
     on(monthlyCheckEvents.updateVariableCostFailure, () => ({
       saveVariableCostProcessStatus: 'error',
+    })),
+    on(monthlyCheckEvents.addBudgetSuccess, () => ({
+      addBudgetProcessStatus: 'success',
     }))
   )
 );
+
+type Derp = typeof monthlyCheckStore;
+export type MonthlyCheckStore = InstanceType<Derp>;

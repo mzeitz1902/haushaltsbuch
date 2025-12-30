@@ -49,7 +49,7 @@ export interface Database {
       };
       monthly_snapshots: {
         Row: {
-          budget_lines: Json[] | null;
+          budget_lines: Json | null;
           created_at: string | null;
           created_by: string | null;
           details: Json | null;
@@ -64,7 +64,7 @@ export interface Database {
           variable_costs_total: number | null;
         };
         Insert: {
-          budget_lines?: Json[] | null;
+          budget_lines?: Json | null;
           created_at?: string | null;
           created_by?: string | null;
           details?: Json | null;
@@ -79,7 +79,7 @@ export interface Database {
           variable_costs_total?: number | null;
         };
         Update: {
-          budget_lines?: Json[] | null;
+          budget_lines?: Json | null;
           created_at?: string | null;
           created_by?: string | null;
           details?: Json | null;
@@ -180,6 +180,10 @@ export interface Database {
           id: string;
           revenue_rows_count: number;
         }[];
+      };
+      delete_monthly_snapshot_budget_line: {
+        Args: { p_line_id: string; p_snapshot_id: string };
+        Returns: undefined;
       };
       delete_monthly_snapshot_fixed_costs_line: {
         Args: {

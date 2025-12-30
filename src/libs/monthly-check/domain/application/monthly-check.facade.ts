@@ -50,6 +50,9 @@ export class MonthlyCheckFacade {
   isHistoryEntryAdded = computed(
     () => this.store.addHistoryEntryProcessStatus() === 'success'
   );
+  isBudgetAdded = computed(
+    () => this.store.addBudgetProcessStatus() === 'success'
+  );
 
   revenue = computed(
     () => (this.currentMonth()?.revenue_lines ?? []) as Revenue[]
@@ -104,7 +107,7 @@ export class MonthlyCheckFacade {
   }
 
   addRevenue() {
-    this.events.addRevenue(this.currentMonth()!.id);
+    this.events.addRevenue();
   }
 
   updateRevenue(revenue: Revenue) {
@@ -175,7 +178,11 @@ export class MonthlyCheckFacade {
   }
 
   addBudget() {
-    this.events.addBudget(this.currentMonth()!.id);
+    this.events.addBudget();
+  }
+
+  deleteBudget(budgetId: number) {
+    this.events.deleteBudget(budgetId.toString());
   }
 
   navigateTo(year?: string | null, month?: string | null) {

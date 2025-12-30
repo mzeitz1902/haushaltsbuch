@@ -29,7 +29,7 @@ const events = eventGroup({
     getCreatedMonthsSuccess: type<string[]>(),
     getCreatedMonthsFailure: type<unknown>(),
 
-    addRevenue: type<string>(),
+    addRevenue: type<void>(),
     addRevenueSuccess: type<AddRevenueResponse>(),
     addRevenueFailure: type<unknown>(),
 
@@ -96,9 +96,13 @@ const events = eventGroup({
     updateVariableCostHistoryEntrySuccess: type<ChangeVariableCostResponse>(),
     updateVariableCostHistoryEntryFailure: type<unknown>(),
 
-    addBudget: type<string>(),
-    addBudgetSuccess: type<string>(),
+    addBudget: type<void>(),
+    addBudgetSuccess: type<void>(),
     addBudgetFailure: type<unknown>(),
+
+    deleteBudget: type<string>(),
+    deleteBudgetSuccess: type<void>(),
+    deleteBudgetFailure: type<unknown>(),
   },
 });
 
@@ -170,4 +174,8 @@ export const monthlyCheckEvents = {
   addBudget: events.addBudget,
   addBudgetSuccess: events.addBudgetSuccess,
   addBudgetFailure: events.addBudgetFailure,
+
+  deleteBudget: events.deleteBudget,
+  deleteBudgetSuccess: events.deleteBudgetSuccess,
+  deleteBudgetFailure: events.deleteBudgetFailure,
 };

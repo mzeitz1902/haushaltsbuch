@@ -1,19 +1,29 @@
 import { inject } from '@angular/core';
-import { Events } from '@ngrx/signals/events';
+import { EventInstance, Events, ReducerEvents } from '@ngrx/signals/events';
 import { MonthlyCheckDataService } from '../infrastructure/monthly-check.data.service';
 import { monthlyCheckEvents } from './monthly-check.events';
-import { map, switchMap } from 'rxjs';
+import { map, Observable, pipe, switchMap, UnaryFunction } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
 import { VariableCostsDataService } from '../infrastructure/variable-costs.data.service';
 import { Router } from '@angular/router';
 import dayjs from 'dayjs';
+import { getState, StateSource } from '@ngrx/signals';
+import { MonthlyCheckState } from './monthly-check.store';
 
 export function monthlyCheckEffects(
+  store: StateSource<MonthlyCheckState>,
   monthlyCheckDataService = inject(MonthlyCheckDataService),
   variableCostsDataService = inject(VariableCostsDataService),
-  events: Events = inject(Events),
+  events: Events = inject(ReducerEvents),
   router = inject(Router)
 ) {
+  function getMonthId(): UnaryFunction<
+    Observable<EventInstance<string, string | void>>,
+    Observable<string>
+  > {
+    return pipe(map(() => getState(store).month!.id));
+  }
+
   return {
     create$: events.on(monthlyCheckEvents.create).pipe(
       switchMap(({ payload: month }) => {
@@ -59,7 +69,8 @@ export function monthlyCheckEffects(
     ),
 
     addRevenue$: events.on(monthlyCheckEvents.addRevenue).pipe(
-      switchMap(({ payload: monthId }) => {
+      getMonthId(),
+      switchMap((monthId) => {
         return monthlyCheckDataService.addRevenue(monthId).pipe(
           mapResponse({
             next: (revenue) => monthlyCheckEvents.addRevenueSuccess(revenue),
@@ -234,18 +245,37 @@ export function monthlyCheckEffects(
       ),
 
     addBudget$: events.on(monthlyCheckEvents.addBudget).pipe(
-      switchMap(({ payload: monthId }) => {
-        return variableCostsDataService.addBudget(monthId).pipe(
+      getMonthId(),
+      switchMap((id) =>
+        variableCostsDataService.addBudget(id).pipe(
           mapResponse({
-            next: () => monthlyCheckEvents.addBudgetSuccess(monthId),
+            next: () => monthlyCheckEvents.addBudgetSuccess(),
             error: (error) => monthlyCheckEvents.addBudgetFailure(error),
           })
-        );
-      })
+        )
+      )
+    ),
+
+    deleteBudget$: events.on(monthlyCheckEvents.deleteBudget).pipe(
+      map(({ payload: id }) => ({ id, monthId: getState(store).month!.id })),
+      switchMap(({ id, monthId }) =>
+        variableCostsDataService.deleteBudget(monthId, id).pipe(
+          mapResponse({
+            next: () => monthlyCheckEvents.deleteBudgetSuccess(),
+            error: (error) => monthlyCheckEvents.deleteBudgetFailure(error),
+          })
+        )
+      )
     ),
 
     reloadMonth$: events
-      .on(monthlyCheckEvents.addBudgetSuccess)
-      .pipe(map(({ payload }) => monthlyCheckEvents.getMonth(payload))),
+      .on(
+        monthlyCheckEvents.addBudgetSuccess,
+        monthlyCheckEvents.deleteBudgetSuccess
+      )
+      .pipe(
+        map(() => getState(store).month!.month),
+        map((month) => monthlyCheckEvents.getMonth(month))
+      ),
   };
 }

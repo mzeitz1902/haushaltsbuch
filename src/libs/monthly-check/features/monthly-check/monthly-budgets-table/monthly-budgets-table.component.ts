@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MonthlyCheckFacade,
   VariableCost,
@@ -17,14 +17,14 @@ export class MonthlyBudgetsTableComponent {
   total = this.facade.totalBudgets;
   isLoading = this.facade.isMonthLoading;
   isSaving = this.facade.isSavingFixedCost;
-  isAdded = signal(false); // todo
+  isAdded = this.facade.isBudgetAdded;
 
   add() {
     this.facade.addBudget();
   }
 
   delete(id: number) {
-    this.facade.deleteVariableCost(id);
+    this.facade.deleteBudget(id);
   }
 
   update(cost: VariableCost) {

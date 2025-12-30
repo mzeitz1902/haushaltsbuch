@@ -55,7 +55,6 @@ export class MonthlyCheckComponent {
   snapshots = this.facade.snapshots;
   createdYears = this.facade.createdYears;
   isLoaded = this.facade.isMonthLoaded;
-  areMonthsLoaded = this.facade.areMonthsLoaded;
 
   formModel = linkedSignal<Form>(() => {
     let snapshot = dayjs().format('YYYY-MM-DD');
