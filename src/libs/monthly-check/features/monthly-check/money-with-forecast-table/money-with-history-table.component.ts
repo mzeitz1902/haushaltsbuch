@@ -15,7 +15,7 @@ import {
 } from '@haushaltsbuch/shared/ui-components';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { CurrencyPipe } from '@angular/common';
-import { HistoryComponent } from '../variable-costs-table/history/history.component';
+import { HistoryComponent } from './history/history.component';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {
   MatCell,
@@ -34,7 +34,10 @@ import {
 } from '@angular/material/table';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
-import { VariableCost } from '@haushaltsbuch/monthly-check/domain';
+import {
+  HistoryEntry,
+  VariableCost,
+} from '@haushaltsbuch/monthly-check/domain';
 import { Field, form } from '@angular/forms/signals';
 
 @Component({
@@ -80,6 +83,9 @@ export class MoneyWithHistoryTableComponent {
   updateRow = output<VariableCost>();
   deleteRow = output<number>();
   addRow = output<void>();
+  addHistory = output<string>();
+  updateHistory = output<{ rowId: string; entry: HistoryEntry }>();
+  deleteHistory = output<{ rowId: string; historyId: string }>();
 
   selectedRow = signal<string | null>(null);
   selectedField = signal<'category' | 'forecast' | null>(null);

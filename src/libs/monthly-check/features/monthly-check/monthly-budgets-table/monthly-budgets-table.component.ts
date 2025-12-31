@@ -30,4 +30,10 @@ export class MonthlyBudgetsTableComponent {
   update(cost: VariableCost) {
     this.facade.updateVariableCost(cost);
   }
+
+  addHistory(budgetId: string) {
+    this.facade.addBudgetHistoryEntry(budgetId);
+  }
+
+  //   todo update and delete history
 }

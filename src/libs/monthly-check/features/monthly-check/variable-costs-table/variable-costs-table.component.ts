@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import {
+  HistoryEntry,
   MonthlyCheckFacade,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
@@ -32,5 +33,17 @@ export class VariableCostsTableComponent {
 
   update(cost: VariableCost) {
     this.facade.updateVariableCost(cost);
+  }
+
+  addHistory(id: string) {
+    this.facade.addVariableCostHistoryEntry(id);
+  }
+
+  updateHistory({ rowId, entry }: { rowId: string; entry: HistoryEntry }) {
+    this.facade.updateVariableCostHistoryEntry(rowId, entry);
+  }
+
+  deleteHistory({ rowId, historyId }: { rowId: string; historyId: string }) {
+    this.facade.deleteVariableCostHistoryEntry(rowId, historyId);
   }
 }

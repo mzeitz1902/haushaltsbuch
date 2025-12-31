@@ -5,6 +5,7 @@ import {
   ElementRef,
   inject,
   input,
+  output,
   signal,
   untracked,
   viewChild,
@@ -31,6 +32,10 @@ export class HistoryComponent {
 
   row = input.required<VariableCost>();
 
+  addHistory = output<void>();
+  updateHistory = output<HistoryEntry>();
+  deleteHistory = output<string>();
+
   isAdded = this.facade.isHistoryEntryAdded;
 
   selectedEntry = signal<string | null>(null);
@@ -55,16 +60,8 @@ export class HistoryComponent {
     }
   });
 
-  add() {
-    this.facade.addHistoryEntry(this.row().id);
-  }
-
-  delete(id: string) {
-    this.facade.deleteHistoryEntry(this.row().id, id);
-  }
-
   update() {
-    this.facade.updateHistoryEntry(this.row().id, this.form().value());
+    this.updateHistory.emit(this.form().value());
   }
 
   editValue(entry: HistoryEntry) {

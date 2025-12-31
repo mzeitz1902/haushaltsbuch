@@ -161,4 +161,13 @@ export class VariableCostsDataService {
       })
     );
   }
+
+  addBudgetHistoryEntry(monthId: string, budgetId: string) {
+    return from(
+      supabase.rpc('add_budget_history_entry', {
+        p_snapshot_id: monthId,
+        p_line_id: budgetId,
+      })
+    );
+  }
 }

@@ -39,7 +39,7 @@
       <button
         maffiButton
         icon="CircleMinus"
-        (click)="delete(entry.id)"
+        (click)="deleteHistory.emit(entry.id)"
       ></button>
     </span>
   } @empty {
@@ -51,7 +51,7 @@
   size="mini"
   class="w-full !justify-center"
   icon="CirclePlus"
-  (click)="add()"
+  (click)="addHistory.emit()"
 >
   Hinzufügen
 </button>

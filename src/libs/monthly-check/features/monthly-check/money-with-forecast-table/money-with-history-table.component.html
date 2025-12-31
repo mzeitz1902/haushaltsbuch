@@ -29,186 +29,202 @@
         class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
         [style.max-height]="accItem.expanded ? '1000px' : '0px'"
       >
-        @if (isLoading()) {
-          <mat-spinner class="self-center" />
-        } @else {
-          <div
-            class="flex w-full flex-col gap-3 rounded-lg bg-gray-800 p-1"
-            animate.enter="animate-fade-in"
+        <div
+          class="flex w-full flex-col gap-3 rounded-lg bg-gray-800 p-1"
+          animate.enter="animate-fade-in"
+        >
+          <table
+            mat-table
+            [dataSource]="data()"
+            [trackBy]="trackByFn"
+            class="mt-2 !min-w-[95%] !bg-transparent !p-4"
           >
-            <table
-              mat-table
-              [dataSource]="data()"
-              [trackBy]="trackByFn"
-              class="mt-2 !min-w-[95%] !bg-transparent !p-4"
-            >
-              <ng-container matColumnDef="category">
-                <td mat-header-cell *matHeaderCellDef></td>
-                <td
-                  mat-cell
-                  *matCellDef="let row"
-                  class="!h-1 !w-24 !p-0.5 !text-xs !text-gray-100"
-                >
-                  @if (
-                    selectedRow() === row.id && selectedField() === 'category'
-                  ) {
-                    <input
-                      #category
-                      class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-                      [field]="form.category"
-                      (blur)="updateAndReset()"
-                      (keyup.enter)="onCategoryEnterPressed()"
-                    />
-                  } @else {
-                    <div
-                      class="flex h-5 w-full items-center gap-1"
-                      (click)="editCategory(row)"
-                    >
-                      <span>
-                        {{ row.category }}
-                      </span>
-                    </div>
-                  }
-                </td>
-                <td
-                  mat-footer-cell
-                  *matFooterCellDef
-                  class="!h-1 !p-0 !pt-2 font-semibold !text-gray-100"
-                >
-                  Summe
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="forecast">
-                <td mat-header-cell *matHeaderCellDef class="!text-right">
-                  Forecast
-                </td>
-                <td
-                  mat-cell
-                  *matCellDef="let row"
-                  class="!h-1 !w-24 !p-0.5 !text-right !text-xs !text-gray-100"
-                >
-                  @if (
-                    selectedRow() === row.id && selectedField() === 'forecast'
-                  ) {
-                    <input
-                      #forecast
-                      type="number"
-                      class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-                      [field]="form.forecast"
-                      (blur)="updateAndReset()"
-                    />
-                  } @else {
-                    <div
-                      class="flex h-5 w-full justify-end"
-                      (click)="editForecast(row)"
-                    >
-                      <span>
-                        {{ row.forecast | currency: 'EUR' }}
-                      </span>
-                    </div>
-                  }
-                </td>
-                <td
-                  mat-footer-cell
-                  *matFooterCellDef
-                  class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
-                >
-                  {{ forecastTotal() | currency: 'EUR' }}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="value">
-                <td mat-header-cell *matHeaderCellDef class="!text-right">
-                  @if (displayedColumns().includes('forecast')) {
-                    Wert
-                  }
-                </td>
-                <td
-                  mat-cell
-                  *matCellDef="let row"
-                  class="!h-1 !w-12 !p-0 !text-right !text-xs"
-                >
-                  <span
-                    class="block h-5 w-full !text-gray-100"
-                    [class.!text-green-500]="row.value < row.forecast"
-                    [class.!text-red-500]="row.value > row.forecast"
-                    [mtxPopoverTriggerFor]="popover"
-                    [mtxPopoverTriggerOn]="'click'"
+            <ng-container matColumnDef="category">
+              <td mat-header-cell *matHeaderCellDef></td>
+              <td
+                mat-cell
+                *matCellDef="let row"
+                class="!h-1 !w-24 !p-0.5 !text-xs !text-gray-100"
+              >
+                @if (
+                  selectedRow() === row.id && selectedField() === 'category'
+                ) {
+                  <input
+                    #category
+                    class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
+                    [field]="form.category"
+                    (blur)="updateAndReset()"
+                    (keyup.enter)="onCategoryEnterPressed()"
+                  />
+                } @else {
+                  <div
+                    class="flex h-5 w-full items-center gap-1"
+                    (click)="editCategory(row)"
                   >
-                    {{ row.value | currency: 'EUR' }}
-                  </span>
-                  <mtx-popover
-                    #popover="mtxPopover"
-                    class="!p-4 **:text-xs"
-                    [position]="['before', 'below']"
+                    <span>
+                      {{ row.category }}
+                    </span>
+                  </div>
+                }
+              </td>
+              <td
+                mat-footer-cell
+                *matFooterCellDef
+                class="!h-1 !p-0 !pt-2 font-semibold !text-gray-100"
+              >
+                Summe
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="forecast">
+              <td mat-header-cell *matHeaderCellDef class="!text-right">
+                Forecast
+              </td>
+              <td
+                mat-cell
+                *matCellDef="let row"
+                class="!h-1 !w-24 !p-0.5 !text-right !text-xs !text-gray-100"
+              >
+                @if (
+                  selectedRow() === row.id && selectedField() === 'forecast'
+                ) {
+                  <input
+                    #forecast
+                    type="number"
+                    class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
+                    [field]="form.forecast"
+                    (blur)="updateAndReset()"
+                  />
+                } @else {
+                  <div
+                    class="flex h-5 w-full justify-end"
+                    (click)="editForecast(row)"
                   >
-                    <app-history [row]="row" />
-                  </mtx-popover>
-                </td>
-                <td
-                  mat-footer-cell
-                  *matFooterCellDef
-                  class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
-                  [class.!text-green-500]="total() < forecastTotal()"
-                  [class.!text-red-500]="total() > forecastTotal()"
-                >
-                  {{ total() | currency: 'EUR' }}
-                </td>
-              </ng-container>
+                    <span>
+                      {{ row.forecast | currency: 'EUR' }}
+                    </span>
+                  </div>
+                }
+              </td>
+              <td
+                mat-footer-cell
+                *matFooterCellDef
+                class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
+              >
+                {{ forecastTotal() | currency: 'EUR' }}
+              </td>
+            </ng-container>
 
-              <ng-container matColumnDef="delete_button">
-                <td mat-header-cell *matHeaderCellDef></td>
-                <td
-                  mat-cell
-                  *matCellDef="let row"
-                  class="self-right w-1 !p-0 !text-right"
+            <ng-container matColumnDef="value">
+              <td mat-header-cell *matHeaderCellDef class="!text-right">
+                @if (displayedColumns().includes('forecast')) {
+                  Wert
+                }
+              </td>
+              <td
+                mat-cell
+                *matCellDef="let row"
+                class="!h-1 !w-12 !p-0 !text-right !text-xs"
+              >
+                <span
+                  class="block h-5 w-full !text-gray-100"
+                  [class.!text-green-500]="
+                    showForecast() && row.value < row.forecast
+                  "
+                  [class.!text-red-500]="
+                    showForecast() && row.value > row.forecast
+                  "
+                  [mtxPopoverTriggerFor]="popover"
+                  [mtxPopoverTriggerOn]="'click'"
                 >
-                  <button
-                    maffiButton
-                    class="mb-1"
-                    icon="Trash"
-                    size="mini"
-                    theme="secondary"
-                    (click)="deleteRow.emit(row.id)"
-                  ></button>
-                </td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
+                  {{ row.value | currency: 'EUR' }}
+                </span>
+                <mtx-popover
+                  #popover="mtxPopover"
+                  class="!p-4 **:text-xs"
+                  [position]="['above', 'before']"
+                >
+                  <app-history
+                    [row]="row"
+                    (addHistory)="addHistory.emit(row.id)"
+                    (deleteHistory)="
+                      deleteHistory.emit({ rowId: row.id, historyId: $event })
+                    "
+                    (updateHistory)="
+                      updateHistory.emit({
+                        rowId: row.id,
+                        entry: $event,
+                      })
+                    "
+                  />
+                </mtx-popover>
+              </td>
+              <td
+                mat-footer-cell
+                *matFooterCellDef
+                class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
+                [class.!text-green-500]="
+                  showForecast() && total() < forecastTotal()
+                "
+                [class.!text-red-500]="
+                  showForecast() && total() > forecastTotal()
+                "
+              >
+                {{ total() | currency: 'EUR' }}
+              </td>
+            </ng-container>
 
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns()"
-                class="!h-7 *:!pr-2 **:!text-gray-100"
-              ></tr>
-              <tr
-                mat-row
-                *matRowDef="let row; columns: displayedColumns()"
-                class="!h-1 *:!pr-2"
-              ></tr>
-              <tr
-                mat-footer-row
-                *matFooterRowDef="displayedColumns()"
-                class="!h-1 **:!pr-2"
-              ></tr>
-            </table>
-            <div class="w-5">
-              @if (accItem.expanded) {
+            <ng-container matColumnDef="delete_button">
+              <td mat-header-cell *matHeaderCellDef></td>
+              <td
+                mat-cell
+                *matCellDef="let row"
+                class="self-right w-1 !p-0 !text-right"
+              >
                 <button
-                  class="w-5"
                   maffiButton
-                  icon="CirclePlus"
-                  size="small"
-                  (click)="addRow.emit(); $event.stopPropagation()"
-                  animate.enter="animate-fade-in"
-                  animate.leave="animate-fade-out"
-                >
-                  Hinzufügen
-                </button>
-              }
-            </div>
+                  class="mb-1"
+                  icon="Trash"
+                  size="mini"
+                  theme="secondary"
+                  (click)="deleteRow.emit(row.id)"
+                ></button>
+              </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns()"
+              class="!h-7 *:!pr-2 **:!text-gray-100"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns()"
+              class="!h-1 *:!pr-2"
+            ></tr>
+            <tr
+              mat-footer-row
+              *matFooterRowDef="displayedColumns()"
+              class="!h-1 **:!pr-2"
+            ></tr>
+          </table>
+          <div class="w-5">
+            @if (accItem.expanded) {
+              <button
+                class="w-5"
+                maffiButton
+                icon="CirclePlus"
+                size="small"
+                (click)="addRow.emit(); $event.stopPropagation()"
+                animate.enter="animate-fade-in"
+                animate.leave="animate-fade-out"
+              >
+                Hinzufügen
+              </button>
+            }
           </div>
-        }
+        </div>
       </div>
     </cdk-accordion-item>
   </mat-card-content>

@@ -103,6 +103,10 @@ const events = eventGroup({
     deleteBudget: type<string>(),
     deleteBudgetSuccess: type<void>(),
     deleteBudgetFailure: type<unknown>(),
+
+    addBudgetHistoryEntry: type<string>(),
+    addBudgetHistoryEntrySuccess: type<void>(),
+    addBudgetHistoryEntryFailure: type<unknown>(),
   },
 });
 
@@ -178,4 +182,8 @@ export const monthlyCheckEvents = {
   deleteBudget: events.deleteBudget,
   deleteBudgetSuccess: events.deleteBudgetSuccess,
   deleteBudgetFailure: events.deleteBudgetFailure,
+
+  addBudgetHistoryEntry: events.addBudgetHistoryEntry,
+  addBudgetHistoryEntrySuccess: events.addBudgetHistoryEntrySuccess,
+  addBudgetHistoryEntryFailure: events.addBudgetHistoryEntryFailure,
 };

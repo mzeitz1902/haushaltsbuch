@@ -154,14 +154,14 @@ export class MonthlyCheckFacade {
     });
   }
 
-  addHistoryEntry(variableCostId: string) {
+  addVariableCostHistoryEntry(variableCostId: string) {
     this.events.addVariableCostHistoryEntry({
       variableCostId,
       monthId: this.currentMonth()!.id,
     });
   }
 
-  deleteHistoryEntry(variableCostId: string, entryId: string) {
+  deleteVariableCostHistoryEntry(variableCostId: string, entryId: string) {
     this.events.deleteVariableCostHistoryEntry({
       monthId: this.currentMonth()!.id,
       variableCostId,
@@ -169,7 +169,7 @@ export class MonthlyCheckFacade {
     });
   }
 
-  updateHistoryEntry(variableCostId: string, entry: HistoryEntry) {
+  updateVariableCostHistoryEntry(variableCostId: string, entry: HistoryEntry) {
     this.events.updateVariableCostHistoryEntry({
       monthId: this.currentMonth()!.id,
       variableCostId,
@@ -183,6 +183,10 @@ export class MonthlyCheckFacade {
 
   deleteBudget(budgetId: number) {
     this.events.deleteBudget(budgetId.toString());
+  }
+
+  addBudgetHistoryEntry(budgetId: string) {
+    this.events.addBudgetHistoryEntry(budgetId);
   }
 
   navigateTo(year?: string | null, month?: string | null) {

@@ -268,10 +268,32 @@ export function monthlyCheckEffects(
       )
     ),
 
+    addBudgetHistoryEntry$: events
+      .on(monthlyCheckEvents.addBudgetHistoryEntry)
+      .pipe(
+        map(({ payload: budgetId }) => ({
+          budgetId,
+          monthId: getState(store).month!.id,
+        })),
+        switchMap(({ budgetId, monthId }) =>
+          variableCostsDataService
+            .addBudgetHistoryEntry(monthId, budgetId)
+            .pipe(
+              mapResponse({
+                next: () => monthlyCheckEvents.addBudgetHistoryEntrySuccess(),
+                error: (error) =>
+                  monthlyCheckEvents.addBudgetHistoryEntryFailure(error),
+              })
+            )
+        )
+      ),
+
     reloadMonth$: events
       .on(
+        monthlyCheckEvents.addVariableCostSuccess,
         monthlyCheckEvents.addBudgetSuccess,
-        monthlyCheckEvents.deleteBudgetSuccess
+        monthlyCheckEvents.deleteBudgetSuccess,
+        monthlyCheckEvents.addBudgetHistoryEntrySuccess
       )
       .pipe(
         map(() => getState(store).month!.month),
