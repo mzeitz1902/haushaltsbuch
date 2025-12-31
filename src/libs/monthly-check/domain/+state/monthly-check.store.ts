@@ -8,6 +8,12 @@ import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 
+// Add typed status constants to avoid "string is not assignable" issues
+const INIT: ProcessStatus = 'init';
+const PENDING: ProcessStatus = 'pending';
+const SUCCESS: ProcessStatus = 'success';
+const ERROR: ProcessStatus = 'error';
+
 export interface MonthlyCheckState {
   month: Month | null;
   createdMonths: string[];
@@ -32,54 +38,54 @@ export const monthlyCheckStore = signalStore(
   withState<MonthlyCheckState>({
     month: null,
     createdMonths: [],
-    createProcessStatus: 'init',
-    getMonthProcessStatus: 'init',
-    getCreatedMonthsProcessStatus: 'init',
-    saveRevenueProcessStatus: 'init',
-    addRevenueProcessStatus: 'init',
-    deleteRevenueProcessStatus: 'init',
-    saveFixedCostProcessStatus: 'init',
-    addFixedCostProcessStatus: 'init',
-    deleteFixedCostProcessStatus: 'init',
-    saveVariableCostProcessStatus: 'init',
-    addVariableCostProcessStatus: 'init',
-    deleteVariableCostProcessStatus: 'init',
-    addHistoryEntryProcessStatus: 'init',
-    addBudgetProcessStatus: 'init',
+    createProcessStatus: INIT,
+    getMonthProcessStatus: INIT,
+    getCreatedMonthsProcessStatus: INIT,
+    saveRevenueProcessStatus: INIT,
+    addRevenueProcessStatus: INIT,
+    deleteRevenueProcessStatus: INIT,
+    saveFixedCostProcessStatus: INIT,
+    addFixedCostProcessStatus: INIT,
+    deleteFixedCostProcessStatus: INIT,
+    saveVariableCostProcessStatus: INIT,
+    addVariableCostProcessStatus: INIT,
+    deleteVariableCostProcessStatus: INIT,
+    addHistoryEntryProcessStatus: INIT,
+    addBudgetProcessStatus: INIT,
   }),
   withEventHandlers((store) => monthlyCheckEffects(store)),
   withReducer(
-    on(monthlyCheckEvents.create, () => ({ createProcessStatus: 'pending' })),
+    on(monthlyCheckEvents.create, () => ({ createProcessStatus: PENDING })),
     on(monthlyCheckEvents.createSuccess, () => ({
-      createProcessStatus: 'success',
+      createProcessStatus: SUCCESS,
     })),
     on(monthlyCheckEvents.createFailure, () => ({
-      createProcessStatus: 'error',
+      createProcessStatus: ERROR,
     })),
 
     on(monthlyCheckEvents.getCreatedMonthsSuccess, ({ payload: months }) => ({
       createdMonths: months,
-      getCreatedMonthsProcessStatus: 'success',
+      getCreatedMonthsProcessStatus: SUCCESS,
     })),
 
     on(monthlyCheckEvents.getMonth, () => ({
-      getMonthProcessStatus: 'pending',
+      getMonthProcessStatus: PENDING,
     })),
     on(monthlyCheckEvents.getMonthSuccess, ({ payload: month }) => ({
       month,
-      getMonthProcessStatus: 'success',
+      getMonthProcessStatus: SUCCESS,
     })),
     on(monthlyCheckEvents.getMonthFailure, () => ({
-      getMonthProcessStatus: 'error',
+      getMonthProcessStatus: ERROR,
     })),
 
     on(monthlyCheckEvents.updateRevenue, () => ({
-      saveRevenueProcessStatus: 'pending',
+      saveRevenueProcessStatus: PENDING,
     })),
     on(
       monthlyCheckEvents.addRevenueSuccess,
       ({ payload: { revenue, total } }, { month }) => ({
-        addRevenueProcessStatus: 'success',
+        addRevenueProcessStatus: SUCCESS,
         month: {
           ...month,
           revenue_lines: [...(month!.revenue_lines as Revenue[]), revenue],
@@ -92,7 +98,7 @@ export const monthlyCheckStore = signalStore(
       monthlyCheckEvents.updateRevenueSuccess,
       monthlyCheckEvents.deleteRevenueSuccess,
       ({ payload: { revenue, total } }, { month }) => ({
-        saveRevenueProcessStatus: 'success',
+        saveRevenueProcessStatus: SUCCESS,
         month: {
           ...month,
           revenue_lines: revenue,
@@ -101,17 +107,17 @@ export const monthlyCheckStore = signalStore(
       })
     ),
     on(monthlyCheckEvents.updateRevenueFailure, () => ({
-      saveRevenueProcessStatus: 'error',
+      saveRevenueProcessStatus: ERROR,
     })),
 
     on(monthlyCheckEvents.updateFixedCost, () => ({
-      saveFixedCostProcessStatus: 'pending',
+      saveFixedCostProcessStatus: PENDING,
     })),
 
     on(
       monthlyCheckEvents.addFixedCostSuccess,
       ({ payload: { fixedCost, total } }, { month }) => ({
-        addFixedCostProcessStatus: 'success',
+        addFixedCostProcessStatus: SUCCESS,
         month: {
           ...month,
           fixed_costs_lines: [
@@ -128,7 +134,7 @@ export const monthlyCheckStore = signalStore(
       monthlyCheckEvents.deleteFixedCostSuccess,
       ({ payload: { fixedCosts, total } }, { month }) => {
         return {
-          saveFixedCostProcessStatus: 'success',
+          saveFixedCostProcessStatus: SUCCESS,
           month: {
             ...month,
             fixed_costs_lines: fixedCosts,
@@ -138,7 +144,7 @@ export const monthlyCheckStore = signalStore(
       }
     ),
     on(monthlyCheckEvents.updateFixedCostFailure, () => ({
-      saveFixedCostProcessStatus: 'error',
+      saveFixedCostProcessStatus: ERROR,
     })),
 
     on(
@@ -150,7 +156,7 @@ export const monthlyCheckStore = signalStore(
           variableCosts = [...variableCosts, variableCost];
         }
         return {
-          addFixedCostProcessStatus: 'success',
+          addFixedCostProcessStatus: SUCCESS,
           month: {
             ...month,
             variable_costs_lines: variableCosts ?? [],
@@ -168,7 +174,7 @@ export const monthlyCheckStore = signalStore(
       monthlyCheckEvents.updateVariableCostHistoryEntrySuccess,
       ({ payload: { variableCosts, total } }, { month }) => {
         return {
-          saveVariableCostProcessStatus: 'success',
+          saveVariableCostProcessStatus: SUCCESS,
           month: {
             ...month,
             variable_costs_lines: variableCosts,
@@ -177,20 +183,32 @@ export const monthlyCheckStore = signalStore(
         };
       }
     ),
-    on(monthlyCheckEvents.addVariableCostHistoryEntry, () => ({
-      addHistoryEntryProcessStatus: 'pending',
-    })),
-    on(monthlyCheckEvents.addVariableCostHistoryEntrySuccess, () => ({
-      addHistoryEntryProcessStatus: 'success',
-    })),
+    on(
+      monthlyCheckEvents.addVariableCostHistoryEntry,
+      monthlyCheckEvents.addBudgetHistoryEntry,
+      () => ({
+        addHistoryEntryProcessStatus: PENDING,
+      })
+    ),
+    on(
+      monthlyCheckEvents.addVariableCostHistoryEntrySuccess,
+      monthlyCheckEvents.addBudgetHistoryEntrySuccess,
+      () => ({
+        addHistoryEntryProcessStatus: SUCCESS,
+      })
+    ),
+    on(
+      monthlyCheckEvents.deleteBudgetHistoryEntry,
+      monthlyCheckEvents.deleteVariableCostHistoryEntry,
+      () => ({
+        addHistoryEntryProcessStatus: INIT,
+      })
+    ),
     on(monthlyCheckEvents.updateVariableCostFailure, () => ({
-      saveVariableCostProcessStatus: 'error',
+      saveVariableCostProcessStatus: ERROR,
     })),
     on(monthlyCheckEvents.addBudgetSuccess, () => ({
-      addBudgetProcessStatus: 'success',
+      addBudgetProcessStatus: SUCCESS,
     }))
   )
 );
-
-type Derp = typeof monthlyCheckStore;
-export type MonthlyCheckStore = InstanceType<Derp>;

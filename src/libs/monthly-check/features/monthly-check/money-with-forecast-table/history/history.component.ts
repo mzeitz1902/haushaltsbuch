@@ -37,6 +37,7 @@ export class HistoryComponent {
   deleteHistory = output<string>();
 
   isAdded = this.facade.isHistoryEntryAdded;
+  isMonthLoaded = this.facade.isMonthLoaded;
 
   selectedEntry = signal<string | null>(null);
   formModel = signal(this.initForm());
@@ -51,11 +52,14 @@ export class HistoryComponent {
   history = computed(() => this.row().history);
 
   focusValueOnAdd = effect(() => {
-    if (this.isAdded()) {
+    if (this.isAdded() && this.isMonthLoaded()) {
       untracked(() => {
-        if (this.history().length === 0) return;
-        const newData = this.history().at(-1);
-        this.editValue(newData!);
+        const list = this.history();
+        if (list.length === 0) return;
+
+        const newest = list.at(-1)!;
+
+        this.editValue(newest);
       });
     }
   });
