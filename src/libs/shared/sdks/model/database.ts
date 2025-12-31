@@ -185,6 +185,17 @@ export interface Database {
           revenue_rows_count: number;
         }[];
       };
+      delete_monthly_snapshot_budget_history_entry: {
+        Args: {
+          p_history_item_id: string;
+          p_line_id: string;
+          p_snapshot_id: string;
+        };
+        Returns: {
+          out_variable_costs_lines: Json;
+          out_variable_costs_total: number;
+        }[];
+      };
       delete_monthly_snapshot_budget_line: {
         Args: { p_line_id: string; p_snapshot_id: string };
         Returns: undefined;

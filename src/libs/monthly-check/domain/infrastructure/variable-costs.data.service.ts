@@ -170,4 +170,18 @@ export class VariableCostsDataService {
       })
     );
   }
+
+  deleteBudgetHistoryEntry(
+    monthId: string,
+    budgetId: string,
+    historyId: string
+  ) {
+    return from(
+      supabase.rpc('delete_monthly_snapshot_budget_history_entry', {
+        p_snapshot_id: monthId,
+        p_line_id: budgetId,
+        p_history_item_id: historyId,
+      })
+    );
+  }
 }

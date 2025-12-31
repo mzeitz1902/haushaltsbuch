@@ -35,5 +35,9 @@ export class MonthlyBudgetsTableComponent {
     this.facade.addBudgetHistoryEntry(budgetId);
   }
 
-  //   todo update and delete history
+  deleteHistory({ rowId, historyId }: { rowId: string; historyId: string }) {
+    this.facade.deleteBudgetHistoryEntry(rowId, historyId);
+  }
+
+  //   todo update  history
 }
