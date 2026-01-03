@@ -296,8 +296,8 @@ export function monthlyCheckEffects(
           entryId,
           monthId: getState(store).month!.id,
         })),
-        switchMap(({ budgetId, entryId, monthId }) => {
-          return variableCostsDataService
+        switchMap(({ budgetId, entryId, monthId }) =>
+          variableCostsDataService
             .deleteBudgetHistoryEntry(monthId, budgetId, entryId)
             .pipe(
               mapResponse({
@@ -306,8 +306,30 @@ export function monthlyCheckEffects(
                 error: (error) =>
                   monthlyCheckEvents.deleteBudgetHistoryEntryFailure(error),
               })
-            );
-        })
+            )
+        )
+      ),
+
+    updateBudgetHistoryEntry$: events
+      .on(monthlyCheckEvents.updateBudgetHistoryEntry)
+      .pipe(
+        map(({ payload: { budgetId, entry } }) => ({
+          budgetId,
+          entry,
+          monthId: getState(store).month!.id,
+        })),
+        switchMap(({ budgetId, entry, monthId }) =>
+          variableCostsDataService
+            .updateBudgetHistoryEntry(monthId, budgetId, entry)
+            .pipe(
+              mapResponse({
+                next: () =>
+                  monthlyCheckEvents.updateBudgetHistoryEntrySuccess(),
+                error: (error) =>
+                  monthlyCheckEvents.updateBudgetHistoryEntryFailure(error),
+              })
+            )
+        )
       ),
 
     reloadMonth$: events
@@ -316,7 +338,8 @@ export function monthlyCheckEffects(
         monthlyCheckEvents.addBudgetSuccess,
         monthlyCheckEvents.deleteBudgetSuccess,
         monthlyCheckEvents.addBudgetHistoryEntrySuccess,
-        monthlyCheckEvents.deleteBudgetHistoryEntrySuccess
+        monthlyCheckEvents.deleteBudgetHistoryEntrySuccess,
+        monthlyCheckEvents.updateBudgetHistoryEntrySuccess
       )
       .pipe(
         map(() => getState(store).month!.month),

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import {
+  HistoryEntry,
   MonthlyCheckFacade,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
@@ -39,5 +40,7 @@ export class MonthlyBudgetsTableComponent {
     this.facade.deleteBudgetHistoryEntry(rowId, historyId);
   }
 
-  //   todo update  history
+  updateHistory({ rowId, entry }: { rowId: string; entry: HistoryEntry }) {
+    this.facade.updateBudgetHistoryEntry(rowId, entry);
+  }
 }

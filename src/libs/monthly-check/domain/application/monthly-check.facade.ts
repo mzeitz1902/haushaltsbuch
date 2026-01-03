@@ -193,6 +193,13 @@ export class MonthlyCheckFacade {
     this.events.deleteBudgetHistoryEntry({ budgetId, entryId });
   }
 
+  updateBudgetHistoryEntry(budgetId: string, entry: HistoryEntry) {
+    this.events.updateBudgetHistoryEntry({
+      budgetId,
+      entry,
+    });
+  }
+
   navigateTo(year?: string | null, month?: string | null) {
     if (year && !month) {
       this.router.navigate(['/monthly-check', year]);

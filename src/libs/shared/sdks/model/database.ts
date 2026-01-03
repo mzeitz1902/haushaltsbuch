@@ -267,6 +267,20 @@ export interface Database {
           variable_costs_total: number;
         }[];
       };
+      update_budget_history_entry: {
+        Args: {
+          p_history_item: Json;
+          p_line_id: string;
+          p_snapshot_id: string;
+        };
+        Returns: {
+          snapshot_id: string;
+          updated_at: string;
+          updated_line: Json;
+          variable_costs_lines: Json;
+          variable_costs_total: number;
+        }[];
+      };
       update_monthly_snapshot_fixed_costs_line: {
         Args: {
           p_line_id: string;
