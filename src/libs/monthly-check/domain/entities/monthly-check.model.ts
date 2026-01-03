@@ -41,6 +41,10 @@ export interface ChangeVariableCostResponse {
   total: number;
 }
 
+export interface ChangeBudgetHistoryResponse {
+  budgets: VariableCost[];
+}
+
 export interface CreatedMonth {
   month: string;
   translated: string;

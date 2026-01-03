@@ -273,13 +273,13 @@ export interface Database {
           p_line_id: string;
           p_snapshot_id: string;
         };
-        Returns: {
-          snapshot_id: string;
-          updated_at: string;
-          updated_line: Json;
-          variable_costs_lines: Json;
-          variable_costs_total: number;
-        }[];
+        Returns: Database['public']['CompositeTypes']['update_budget_history_result'];
+        SetofOptions: {
+          from: '*';
+          to: 'update_budget_history_result';
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
       };
       update_monthly_snapshot_fixed_costs_line: {
         Args: {
@@ -348,7 +348,14 @@ export interface Database {
       due_in: 'Alle' | 'Quartal' | 'Sonder';
       fixed_cost_type: 'Fix' | 'Budget';
     };
-    CompositeTypes: Record<never, never>;
+    CompositeTypes: {
+      update_budget_history_result: {
+        snapshot_id: string | null;
+        updated_line: Json | null;
+        budget_lines: Json | null;
+        updated_at: string | null;
+      };
+    };
   };
 }
 

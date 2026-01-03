@@ -4,6 +4,7 @@ import {
   AddFixedCostResponse,
   AddRevenueResponse,
   AddVariableCostResponse,
+  ChangeBudgetHistoryResponse,
   ChangeFixedCostResponse,
   ChangeRevenueResponse,
   ChangeVariableCostResponse,
@@ -119,7 +120,7 @@ const events = eventGroup({
       budgetId: string;
       entry: HistoryEntry;
     }>(),
-    updateBudgetHistoryEntrySuccess: type<void>(),
+    updateBudgetHistoryEntrySuccess: type<ChangeBudgetHistoryResponse>(),
     updateBudgetHistoryEntryFailure: type<unknown>(),
   },
 });

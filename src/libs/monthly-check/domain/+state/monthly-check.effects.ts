@@ -323,8 +323,8 @@ export function monthlyCheckEffects(
             .updateBudgetHistoryEntry(monthId, budgetId, entry)
             .pipe(
               mapResponse({
-                next: () =>
-                  monthlyCheckEvents.updateBudgetHistoryEntrySuccess(),
+                next: (res) =>
+                  monthlyCheckEvents.updateBudgetHistoryEntrySuccess(res),
                 error: (error) =>
                   monthlyCheckEvents.updateBudgetHistoryEntryFailure(error),
               })
@@ -338,8 +338,7 @@ export function monthlyCheckEffects(
         monthlyCheckEvents.addBudgetSuccess,
         monthlyCheckEvents.deleteBudgetSuccess,
         monthlyCheckEvents.addBudgetHistoryEntrySuccess,
-        monthlyCheckEvents.deleteBudgetHistoryEntrySuccess,
-        monthlyCheckEvents.updateBudgetHistoryEntrySuccess
+        monthlyCheckEvents.deleteBudgetHistoryEntrySuccess
       )
       .pipe(
         map(() => getState(store).month!.month),

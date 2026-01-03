@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
 import {
   AddVariableCostResponse,
+  ChangeBudgetHistoryResponse,
   ChangeVariableCostResponse,
   HistoryEntry,
   VariableCost,
@@ -189,13 +190,19 @@ export class VariableCostsDataService {
     monthId: string,
     budgetId: string,
     history: HistoryEntry
-  ) {
+  ): Observable<ChangeBudgetHistoryResponse> {
     return from(
-      supabase.rpc('update_budget_history_entry', {
-        p_snapshot_id: monthId,
-        p_line_id: budgetId,
-        p_history_item: history as unknown as Json,
-      })
+      supabase
+        .rpc('update_budget_history_entry', {
+          p_snapshot_id: monthId,
+          p_line_id: budgetId,
+          p_history_item: history as unknown as Json,
+        })
+        .select('*')
+    ).pipe(
+      map((res) => ({
+        budgets: res.data!.budget_lines as unknown as VariableCost[],
+      }))
     );
   }
 }

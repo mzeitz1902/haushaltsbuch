@@ -10,21 +10,18 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import {
-  ButtonComponent,
-  IconComponent,
-} from '@haushaltsbuch/shared/ui-components';
+import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   HistoryEntry,
   MonthlyCheckFacade,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
-import { debounce, Field, form } from '@angular/forms/signals';
+import { Field, form } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-history',
-  imports: [ButtonComponent, CurrencyPipe, DatePipe, Field, IconComponent],
+  imports: [ButtonComponent, CurrencyPipe, DatePipe, Field],
   templateUrl: './history.component.html',
 })
 export class HistoryComponent {
@@ -42,9 +39,7 @@ export class HistoryComponent {
   selectedEntry = signal<string | null>(null);
   formModel = signal(this.initForm());
 
-  form = form(this.formModel, (schema) => {
-    debounce(schema.value, 500);
-  });
+  form = form(this.formModel);
 
   valueRef = viewChild<ElementRef>('value');
   noteRef = viewChild<ElementRef>('note');

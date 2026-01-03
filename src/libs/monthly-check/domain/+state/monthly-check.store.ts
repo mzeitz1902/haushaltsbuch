@@ -184,6 +184,17 @@ export const monthlyCheckStore = signalStore(
       }
     ),
     on(
+      monthlyCheckEvents.updateBudgetHistoryEntrySuccess,
+      ({ payload: { budgets } }, { month }) => {
+        return {
+          month: {
+            ...month,
+            budget_lines: budgets,
+          } as Month,
+        };
+      }
+    ),
+    on(
       monthlyCheckEvents.addVariableCostHistoryEntry,
       monthlyCheckEvents.addBudgetHistoryEntry,
       () => ({

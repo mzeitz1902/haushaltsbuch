@@ -117,9 +117,7 @@
 
             <ng-container matColumnDef="value">
               <td mat-header-cell *matHeaderCellDef class="!text-right">
-                @if (displayedColumns().includes('forecast')) {
-                  Wert
-                }
+                Wert
               </td>
               <td
                 mat-cell
@@ -193,11 +191,14 @@
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
-            <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns()"
-              class="!h-7 *:!pr-2 **:!text-gray-100"
-            ></tr>
+            @if (displayedColumns().includes('forecast')) {
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns()"
+                class="!h-7 *:!pr-2 **:!text-gray-100"
+              ></tr>
+            }
+
             <tr
               mat-row
               *matRowDef="let row; columns: displayedColumns()"
