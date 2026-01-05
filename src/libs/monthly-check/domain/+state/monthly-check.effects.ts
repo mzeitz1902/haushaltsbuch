@@ -256,6 +256,21 @@ export function monthlyCheckEffects(
       )
     ),
 
+    updateBudget$: events.on(monthlyCheckEvents.updateBudget).pipe(
+      map(({ payload: budget }) => ({
+        budget,
+        monthId: getState(store).month!.id,
+      })),
+      switchMap(({ budget, monthId }) =>
+        variableCostsDataService.updateBudget(monthId, budget).pipe(
+          mapResponse({
+            next: () => monthlyCheckEvents.updateBudgetSuccess(),
+            error: (error) => monthlyCheckEvents.updateBudgetFailure(error),
+          })
+        )
+      )
+    ),
+
     deleteBudget$: events.on(monthlyCheckEvents.deleteBudget).pipe(
       map(({ payload: id }) => ({ id, monthId: getState(store).month!.id })),
       switchMap(({ id, monthId }) =>
@@ -338,7 +353,8 @@ export function monthlyCheckEffects(
         monthlyCheckEvents.addBudgetSuccess,
         monthlyCheckEvents.deleteBudgetSuccess,
         monthlyCheckEvents.addBudgetHistoryEntrySuccess,
-        monthlyCheckEvents.deleteBudgetHistoryEntrySuccess
+        monthlyCheckEvents.deleteBudgetHistoryEntrySuccess,
+        monthlyCheckEvents.updateBudgetSuccess
       )
       .pipe(
         map(() => getState(store).month!.month),

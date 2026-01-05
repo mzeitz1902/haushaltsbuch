@@ -281,6 +281,15 @@ export interface Database {
           isSetofReturn: false;
         };
       };
+      update_monthly_snapshot_budget_line: {
+        Args: { p_line_id: string; p_new_values: Json; p_snapshot_id: string };
+        Returns: {
+          out_id: string;
+          out_updated_at: string;
+          out_variable_costs_lines: Json;
+          out_variable_costs_total: number;
+        }[];
+      };
       update_monthly_snapshot_fixed_costs_line: {
         Args: {
           p_line_id: string;
@@ -311,22 +320,20 @@ export interface Database {
           retval_updated_at: string;
         }[];
       };
-      update_monthly_snapshot_variable_costs_line:
-        | { Args: { p_history: Json; p_line_id: string }; Returns: undefined }
-        | {
-            Args: {
-              p_line_id: string;
-              p_new_values: Json;
-              p_snapshot_id: string;
-              p_updated_by?: string;
-            };
-            Returns: {
-              out_id: string;
-              out_updated_at: string;
-              out_variable_costs_lines: Json;
-              out_variable_costs_total: number;
-            }[];
-          };
+      update_monthly_snapshot_variable_costs_line: {
+        Args: {
+          p_line_id: string;
+          p_new_values: Json;
+          p_snapshot_id: string;
+          p_updated_by?: string;
+        };
+        Returns: {
+          out_id: string;
+          out_updated_at: string;
+          out_variable_costs_lines: Json;
+          out_variable_costs_total: number;
+        }[];
+      };
       update_variable_costs_history_entry: {
         Args: {
           p_history_item: Json;

@@ -154,6 +154,20 @@ export class VariableCostsDataService {
     );
   }
 
+  updateBudget(monthId: string, budget: VariableCost) {
+    return from(
+      supabase.rpc('update_monthly_snapshot_budget_line', {
+        p_snapshot_id: monthId,
+        p_line_id: budget.id.toString(),
+        p_new_values: {
+          value: budget.value,
+          category: budget.category,
+          forecast: budget.forecast,
+        },
+      })
+    );
+  }
+
   deleteBudget(monthId: string, budgetLineId: string) {
     return from(
       supabase.rpc('delete_monthly_snapshot_budget_line', {

@@ -101,6 +101,10 @@ const events = eventGroup({
     addBudgetSuccess: type<void>(),
     addBudgetFailure: type<unknown>(),
 
+    updateBudget: type<VariableCost>(),
+    updateBudgetSuccess: type<void>(),
+    updateBudgetFailure: type<unknown>(),
+
     deleteBudget: type<string>(),
     deleteBudgetSuccess: type<void>(),
     deleteBudgetFailure: type<unknown>(),
@@ -193,6 +197,10 @@ export const monthlyCheckEvents = {
   addBudget: events.addBudget,
   addBudgetSuccess: events.addBudgetSuccess,
   addBudgetFailure: events.addBudgetFailure,
+
+  updateBudget: events.updateBudget,
+  updateBudgetSuccess: events.updateBudgetSuccess,
+  updateBudgetFailure: events.updateBudgetFailure,
 
   deleteBudget: events.deleteBudget,
   deleteBudgetSuccess: events.deleteBudgetSuccess,

@@ -181,6 +181,10 @@ export class MonthlyCheckFacade {
     this.events.addBudget();
   }
 
+  updateBudget(budget: VariableCost) {
+    this.events.updateBudget(budget);
+  }
+
   deleteBudget(budgetId: number) {
     this.events.deleteBudget(budgetId.toString());
   }

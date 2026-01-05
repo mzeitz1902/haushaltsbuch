@@ -29,7 +29,7 @@ export class MonthlyBudgetsTableComponent {
   }
 
   update(cost: VariableCost) {
-    this.facade.updateVariableCost(cost);
+    this.facade.updateBudget(cost);
   }
 
   addHistory(budgetId: string) {
