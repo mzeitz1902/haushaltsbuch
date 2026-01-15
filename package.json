@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "generate:types": "npx supabase gen types typescript --project-id wxltfyevnqrmqrtszpkp > src/libs/shared/sdks/model/database.ts && npm run lint:fix",
+    "generate:types": "npx supabase gen types typescript --project-id wxltfyevnqrmqrtszpkp > src/libs/shared/sdks/model/database-generated.ts && npm run lint:fix",
     "deploy": "ng deploy"
   },
   "private": true,
@@ -37,7 +37,7 @@
     "supabase": "^2.70.5",
     "tailwindcss": "^4.1.18",
     "tslib": "^2.3.0",
-    "type-fest": "^2.3.4"
+    "type-fest": "^5.4.1"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^21.1.0",

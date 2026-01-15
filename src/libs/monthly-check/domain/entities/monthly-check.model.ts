@@ -1,4 +1,4 @@
-import { MonthDto } from '@haushaltsbuch/shared/sdks';
+import { HistoryEntryPayload, MonthDto } from '@haushaltsbuch/shared/sdks';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
@@ -50,12 +50,7 @@ export interface CreatedMonth {
   translated: string;
 }
 
-export interface HistoryEntry {
-  id: string;
-  value: number;
-  date: Date;
-  note: string;
-}
+export type HistoryEntry = HistoryEntryPayload;
 
 export interface VariableCost {
   id: string;

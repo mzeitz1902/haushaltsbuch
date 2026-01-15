@@ -8,7 +8,6 @@ import {
   VariableCost,
 } from '../entities/monthly-check.model';
 import { supabase } from '@haushaltsbuch/shared/sdks';
-import { Json } from '../../../shared/sdks/model/database';
 
 @Injectable()
 export class VariableCostsDataService {
@@ -109,7 +108,7 @@ export class VariableCostsDataService {
         .rpc('update_variable_costs_history_entry', {
           p_snapshot_id: monthId,
           p_line_id: variableCostId,
-          p_history_item: history as unknown as Json,
+          p_history_item: history,
         })
         .select('*')
         .single()
@@ -210,7 +209,7 @@ export class VariableCostsDataService {
         .rpc('update_budget_history_entry', {
           p_snapshot_id: monthId,
           p_line_id: budgetId,
-          p_history_item: history as unknown as Json,
+          p_history_item: history,
         })
         .select('*')
     ).pipe(

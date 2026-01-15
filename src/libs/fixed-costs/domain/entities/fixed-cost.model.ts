@@ -1,5 +1,5 @@
 import { FixedCostDto } from '@haushaltsbuch/shared/sdks';
-import { Enums } from '../../../shared/sdks/model/database';
+import { Enums } from '../../../shared/sdks/model/database-generated';
 
 export type FixedCost = Omit<FixedCostDto, 'created_at'>;
 export type AddFixedCostPayload = Pick<

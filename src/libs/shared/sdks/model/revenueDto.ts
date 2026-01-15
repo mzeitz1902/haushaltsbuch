@@ -1,3 +1,3 @@
-import { Tables } from './database';
+import { Tables } from './database-generated';
 
 export type RevenueDto = Tables<'revenue'>;

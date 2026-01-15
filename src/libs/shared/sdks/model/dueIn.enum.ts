@@ -1,4 +1,4 @@
-import { Enums } from './database';
+import { Enums } from './database-generated';
 
 export type DueIn = Enums<'due_in'>;
 
