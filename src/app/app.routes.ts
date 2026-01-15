@@ -6,6 +6,7 @@ import { authGuard } from '../libs/user/domain/application/auth.guard';
 import { loginRedirectGuard } from '../libs/user/domain/application/login-redirect.guard';
 import { provideMonthlyCheckDomain } from '@haushaltsbuch/monthly-check/domain';
 import dayjs from 'dayjs';
+import { provideWeeklyCheckDomain } from '@haushaltsbuch/weekly-check/domain';
 
 const currentDate = dayjs();
 
@@ -36,6 +37,7 @@ export const routes: Routes = [
         (m) => m.WeeklyCheckComponent
       ),
     canActivate: [authGuard],
+    providers: [provideWeeklyCheckDomain()],
   },
   {
     path: 'monthly-check',
