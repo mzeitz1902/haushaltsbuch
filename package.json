@@ -37,7 +37,7 @@
     "supabase": "^2.70.5",
     "tailwindcss": "^4.1.18",
     "tslib": "^2.3.0",
-    "type-fest": "^5.2.0"
+    "type-fest": "^2.3.4"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^21.1.0",
