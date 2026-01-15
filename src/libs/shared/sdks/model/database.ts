@@ -115,13 +115,49 @@ export interface Database {
       };
       weekly_check: {
         Row: {
+          away: Json;
+          baker_butcher: Json;
+          cw: number;
+          dateFrom: string;
+          dateTo: string;
+          drugstore: Json;
+          edeka: Json;
           id: number;
+          kaufland: Json;
+          lidl: Json;
+          misc: Json;
+          month: Database['public']['Enums']['month'];
+          total: number;
         };
         Insert: {
+          away: Json;
+          baker_butcher: Json;
+          cw: number;
+          dateFrom: string;
+          dateTo: string;
+          drugstore: Json;
+          edeka: Json;
           id?: number;
+          kaufland: Json;
+          lidl: Json;
+          misc: Json;
+          month: Database['public']['Enums']['month'];
+          total: number;
         };
         Update: {
+          away?: Json;
+          baker_butcher?: Json;
+          cw?: number;
+          dateFrom?: string;
+          dateTo?: string;
+          drugstore?: Json;
+          edeka?: Json;
           id?: number;
+          kaufland?: Json;
+          lidl?: Json;
+          misc?: Json;
+          month?: Database['public']['Enums']['month'];
+          total?: number;
         };
         Relationships: [];
       };
@@ -354,6 +390,19 @@ export interface Database {
       due_date: '15' | '1';
       due_in: 'Alle' | 'Quartal' | 'Sonder';
       fixed_cost_type: 'Fix' | 'Budget';
+      month:
+        | 'Januar'
+        | 'Februar'
+        | 'März'
+        | 'April'
+        | 'Mai'
+        | 'Juni'
+        | 'Juli'
+        | 'August'
+        | 'September'
+        | 'Oktober'
+        | 'November'
+        | 'Dezember';
     };
     CompositeTypes: {
       update_budget_history_result: {
@@ -492,6 +541,20 @@ export const Constants = {
       due_date: ['15', '1'],
       due_in: ['Alle', 'Quartal', 'Sonder'],
       fixed_cost_type: ['Fix', 'Budget'],
+      month: [
+        'Januar',
+        'Februar',
+        'März',
+        'April',
+        'Mai',
+        'Juni',
+        'Juli',
+        'August',
+        'September',
+        'Oktober',
+        'November',
+        'Dezember',
+      ],
     },
   },
 } as const;
