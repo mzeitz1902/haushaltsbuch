@@ -1,1 +1,8 @@
 <app-header title="Wochencheck" />
+<cdk-accordion
+  class="container-max-sm mt-2 flex w-full flex-col items-center gap-2 p-2 *:w-full md:p-6"
+>
+  @for (week of weeklyChecks(); track week.id) {
+    <app-week [week]="week" />
+  }
+</cdk-accordion>

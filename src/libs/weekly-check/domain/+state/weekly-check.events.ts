@@ -1,12 +1,12 @@
 import { eventGroup } from '@ngrx/signals/events';
 import { type } from '@ngrx/signals';
-import { WeeklyCheck } from '../entities/weekly-check.model';
+import { Week } from '../entities/weekly-check.model';
 
 const events = eventGroup({
   source: 'Weekly Check',
   events: {
     load: type<void>(),
-    loadSuccess: type<WeeklyCheck[] | null>(),
+    loadSuccess: type<Week[] | null>(),
   },
 });
 

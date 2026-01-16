@@ -1,4 +1,4 @@
-import { WeeklyCheck } from '../entities/weekly-check.model';
+import { Week } from '../entities/weekly-check.model';
 import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { signalStore, withState } from '@ngrx/signals';
@@ -7,7 +7,7 @@ import { weeklyCheckEvents } from './weekly-check.events';
 import { weeklyCheckEffects } from './weekly-check.effects';
 
 interface State {
-  weeklyChecks: WeeklyCheck[];
+  weeklyChecks: Week[];
   loadProcessStatus: ProcessStatus;
 }
 

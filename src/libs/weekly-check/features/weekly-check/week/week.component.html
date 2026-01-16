@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-content>
+    <cdk-accordion-item #accItem="cdkAccordionItem" [expanded]="isExpanded()">
+      <header
+        class="flex items-center justify-between"
+        (click)="accItem.toggle()"
+      >
+        <div class="flex items-center gap-2">
+          <h2 class="font-semibold">KW {{ week().cw }}</h2>
+          <h1
+            class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+          >
+            {{ week().dateFrom | date: 'dd.MM.' }} -
+            {{ week().dateTo | date: 'dd.MM.' }}
+          </h1>
+        </div>
+        <app-icon
+          [icon]="accItem.expanded ? 'ChevronUp' : 'ChevronDown'"
+          size="small"
+          class="ml-1"
+        />
+      </header>
+
+      <div
+        class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
+        [style.max-height]="accItem.expanded ? '1000px' : '0px'"
+      >
+        Content
+      </div>
+    </cdk-accordion-item>
+  </mat-card-content>
+</mat-card>
