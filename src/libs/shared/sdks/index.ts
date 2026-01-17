@@ -7,3 +7,4 @@ export * from './model/monthDto';
 export * from './model/historyEntryPayload';
 export * from './model/historyEntryDto';
 export * from './model/weeklyCheckDto';
+export * from './model/weeklyCheckEntryDto';
