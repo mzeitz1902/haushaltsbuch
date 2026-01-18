@@ -22,7 +22,7 @@ export class WeeklyEntryComponent {
     this.isOpened.set(true);
     this.bottomSheet
       .open(WeeklyHistoryComponent, {
-        data: { history: this.entry().history },
+        data: { id: this.entry().id, history: this.entry().history },
       })
       .afterDismissed()
       .pipe(

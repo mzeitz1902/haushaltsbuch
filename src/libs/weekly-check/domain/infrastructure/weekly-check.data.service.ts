@@ -11,7 +11,12 @@ export class WeeklyCheckDataService {
     );
   }
 
-  addLidlHistoryEntry() {
-    return from(supabase.from('weekly_check').update({ lidl: '' }));
+  addHistoryEntry(id: number, column: 'lidl' | 'edeka') {
+    return from(
+      supabase.rpc('append_weekly_check_history', {
+        p_weekly_check_id: id,
+        p_shop_column: column,
+      })
+    );
   }
 }

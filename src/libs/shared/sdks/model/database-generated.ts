@@ -213,6 +213,10 @@ export interface Database {
           variable_costs_total: number;
         }[];
       };
+      append_weekly_check_history: {
+        Args: { p_shop_column: string; p_weekly_check_id: number };
+        Returns: undefined;
+      };
       create_monthly_snapshot: {
         Args: { p_created_by?: string; p_month: string };
         Returns: {
