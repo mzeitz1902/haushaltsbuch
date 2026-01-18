@@ -16,7 +16,7 @@
           class="self-right flex w-8 justify-end"
           (click)="editValue(entry)"
         >
-          {{ entry.value | currency: 'EUR' }}
+          {{ entry.value | currency }}
         </span>
       }
 
@@ -31,11 +31,6 @@
         />
       } @else {
         <span (click)="editNote(entry)">{{ entry.note }}</span>
-        <!--        <app-icon-->
-        <!--          icon="Info"-->
-        <!--          (click)="editNote(entry)"-->
-        <!--          [class.w-20]="selectedEntry() !== null"-->
-        <!--        />-->
       }
       <button
         maffiButton

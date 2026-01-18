@@ -10,4 +10,8 @@ export class WeeklyCheckDataService {
       map((res) => res.data ?? null)
     );
   }
+
+  addLidlHistoryEntry() {
+    return from(supabase.from('weekly_check').update({ lidl: '' }));
+  }
 }

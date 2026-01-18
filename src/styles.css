@@ -4,6 +4,7 @@
 
 html, body {
   height: 100%;
+  --mat-sys-surface-container-low: var(--color-gray-700);
 }
 
 body {
@@ -78,3 +79,4 @@ body .ng-dropdown-panel.ng-select-multiple {
 .mat-mdc-dialog-surface {
   background-color: var(--color-gray-800) !important;
 }
+

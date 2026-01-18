@@ -25,7 +25,7 @@ import { IconComponent } from '../icon/icon.component';
           <h1
             class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
           >
-            {{ balance() | currency: 'EUR' }}
+            {{ balance() | currency }}
           </h1>
         </div>
       </mat-card-content>

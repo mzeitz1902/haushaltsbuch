@@ -37,10 +37,14 @@ export class WeekComponent {
   isExpanded = computed(() => {
     const week = this.week();
     const today = dayjs();
+    const isToday =
+      dayjs(week.dateFrom).isSame(today, 'day') ||
+      dayjs(week.dateTo).isSame(today, 'day');
 
     return (
-      dayjs(week.dateFrom).isBefore(today, 'day') &&
-      dayjs(week.dateTo).isAfter(today, 'day')
+      isToday ||
+      (dayjs(week.dateFrom).isBefore(today, 'day') &&
+        dayjs(week.dateTo).isAfter(today, 'day'))
     );
   });
 }

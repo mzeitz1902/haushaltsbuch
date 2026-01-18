@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  DEFAULT_CURRENCY_CODE,
   importProvidersFrom,
   LOCALE_ID,
   provideBrowserGlobalErrorListeners,
@@ -32,5 +33,6 @@ export const appConfig: ApplicationConfig = {
     provideUsersDomain(),
     provideAppInitializers(),
     { provide: LOCALE_ID, useValue: 'de-DE' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
   ],
 };

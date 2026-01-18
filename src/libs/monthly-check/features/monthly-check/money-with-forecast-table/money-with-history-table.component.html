@@ -14,7 +14,7 @@
           <h1
             class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
           >
-            {{ total() | currency: 'EUR' }}
+            {{ total() | currency }}
           </h1>
         </div>
 
@@ -101,7 +101,7 @@
                     (click)="editForecast(row)"
                   >
                     <span>
-                      {{ row.forecast | currency: 'EUR' }}
+                      {{ row.forecast | currency }}
                     </span>
                   </div>
                 }
@@ -111,7 +111,7 @@
                 *matFooterCellDef
                 class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
               >
-                {{ forecastTotal() | currency: 'EUR' }}
+                {{ forecastTotal() | currency }}
               </td>
             </ng-container>
 
@@ -135,7 +135,7 @@
                   [mtxPopoverTriggerFor]="popover"
                   [mtxPopoverTriggerOn]="'click'"
                 >
-                  {{ row.value | currency: 'EUR' }}
+                  {{ row.value | currency }}
                 </span>
                 <mtx-popover
                   #popover="mtxPopover"
@@ -168,7 +168,7 @@
                   showForecast() && total() > forecastTotal()
                 "
               >
-                {{ total() | currency: 'EUR' }}
+                {{ total() | currency }}
               </td>
             </ng-container>
 

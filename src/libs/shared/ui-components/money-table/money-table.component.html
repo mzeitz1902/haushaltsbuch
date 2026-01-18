@@ -17,7 +17,7 @@
             <h1
               class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
             >
-              {{ total() | currency: 'EUR' }}
+              {{ total() | currency }}
             </h1>
           </div>
           <app-icon
@@ -108,7 +108,7 @@
                     />
                   } @else {
                     <span class="block h-5 w-full" (click)="editValue(row)">
-                      {{ row.value | currency: 'EUR' }}
+                      {{ row.value | currency }}
                     </span>
                   }
                 </td>
@@ -117,7 +117,7 @@
                   *matFooterCellDef
                   class="!p-0 !pt-2 !text-right font-semibold !text-gray-100"
                 >
-                  {{ total() | currency: 'EUR' }}
+                  {{ total() | currency }}
                 </td>
               </ng-container>
 
