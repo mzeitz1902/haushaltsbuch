@@ -16,11 +16,8 @@ import {
 export class WeeklyHistoryComponent {
   private readonly facade = inject(WeeklyCheckFacade);
 
-  readonly data: {
-    weeklyCheckId: number;
-    history: HistoryEntryDto[];
-    shop: keyof WeeklyCheckShops;
-  } = inject(MAT_BOTTOM_SHEET_DATA);
+  // todo history muss aus store gezogen werden um up 2 date zu sein
+  readonly data: WeeklyHistoryData = inject(MAT_BOTTOM_SHEET_DATA);
 
   deleteEntry(id: string) {
     return id;
@@ -29,4 +26,10 @@ export class WeeklyHistoryComponent {
   addEntry() {
     this.facade.addHistoryEntry(this.data.weeklyCheckId, this.data.shop);
   }
+}
+
+export interface WeeklyHistoryData {
+  weeklyCheckId: number;
+  history: HistoryEntryDto[];
+  shop: keyof WeeklyCheckShops;
 }

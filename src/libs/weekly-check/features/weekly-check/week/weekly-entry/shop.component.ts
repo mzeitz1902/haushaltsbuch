@@ -11,18 +11,22 @@ import {
 } from '@haushaltsbuch/weekly-check/domain';
 import { CurrencyPipe } from '@angular/common';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { WeeklyHistoryComponent } from './weekly-history/weekly-history.component';
+import {
+  WeeklyHistoryComponent,
+  WeeklyHistoryData,
+} from './weekly-history/weekly-history.component';
 import { take, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-weekly-check-entry',
+  selector: 'app-weekly-check-shop',
   imports: [CurrencyPipe],
-  templateUrl: './weekly-entry.component.html',
+  templateUrl: './shop.component.html',
 })
-export class WeeklyEntryComponent {
+export class ShopComponent {
   private readonly bottomSheet = inject(MatBottomSheet);
   private readonly viewContainerRef = inject(ViewContainerRef);
 
+  weeklyCheckId = input.required<number>();
   label = input.required<string>();
   entry = input.required<WeeklyCheckEntry>();
   shop = input.required<keyof WeeklyCheckShops>();
@@ -31,13 +35,14 @@ export class WeeklyEntryComponent {
 
   openBottomSheet() {
     this.isOpened.set(true);
+    const data: WeeklyHistoryData = {
+      weeklyCheckId: this.weeklyCheckId(),
+      history: this.entry().history,
+      shop: this.shop(),
+    };
     this.bottomSheet
       .open(WeeklyHistoryComponent, {
-        data: {
-          id: this.entry().id,
-          history: this.entry().history,
-          shop: this.shop(),
-        },
+        data,
         viewContainerRef: this.viewContainerRef,
       })
       .afterDismissed()

@@ -9,7 +9,7 @@ import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { IconComponent } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
 import { DatePipe } from '@angular/common';
-import { WeeklyEntryComponent } from './weekly-entry/weekly-entry.component';
+import { ShopComponent } from './weekly-entry/shop.component';
 
 @Component({
   selector: 'app-week',
@@ -19,7 +19,7 @@ import { WeeklyEntryComponent } from './weekly-entry/weekly-entry.component';
     CdkAccordionItem,
     IconComponent,
     DatePipe,
-    WeeklyEntryComponent,
+    ShopComponent,
   ],
   templateUrl: './week.component.html',
 })

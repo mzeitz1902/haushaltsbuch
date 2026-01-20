@@ -25,7 +25,8 @@
       >
         <div class="grid grid-cols-4 gap-2">
           @for (entry of entries(); track $index) {
-            <app-weekly-check-entry
+            <app-weekly-check-shop
+              [weeklyCheckId]="week().id"
               [label]="entry.label"
               [entry]="entry.entry"
               [shop]="entry.shop"
