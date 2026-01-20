@@ -1,27 +1,32 @@
 import { Component, inject } from '@angular/core';
 import { HistoryEntryDto } from '@haushaltsbuch/shared/sdks';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
-import { WeeklyCheckDataService } from '../../../../../domain/infrastructure/weekly-check.data.service';
+import {
+  WeeklyCheckFacade,
+  WeeklyCheckShops,
+} from '@haushaltsbuch/weekly-check/domain';
 
 @Component({
   selector: 'app-weekly-history',
-  imports: [DatePipe, CurrencyPipe, ButtonComponent],
+  imports: [CurrencyPipe, ButtonComponent],
   templateUrl: './weekly-history.component.html',
-  providers: [WeeklyCheckDataService],
 })
 export class WeeklyHistoryComponent {
-  readonly data: { id: string; history: HistoryEntryDto[] } = inject(
-    MAT_BOTTOM_SHEET_DATA
-  );
-  dataService = inject(WeeklyCheckDataService);
+  private readonly facade = inject(WeeklyCheckFacade);
+
+  readonly data: {
+    id: string;
+    history: HistoryEntryDto[];
+    shop: keyof WeeklyCheckShops;
+  } = inject(MAT_BOTTOM_SHEET_DATA);
 
   deleteEntry(id: string) {
     return;
   }
 
   addEntry() {
-    this.dataService.addHistoryEntry(+this.data.id, 'lidl').subscribe();
+    this.facade.addHistoryEntry(this.data.shop);
   }
 }

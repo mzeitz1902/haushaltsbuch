@@ -80,3 +80,6 @@ body .ng-dropdown-panel.ng-select-multiple {
   background-color: var(--color-gray-800) !important;
 }
 
+.mat-bottom-sheet-container {
+  padding: 0 !important;
+}

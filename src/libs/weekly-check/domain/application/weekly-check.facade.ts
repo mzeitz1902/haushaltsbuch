@@ -2,6 +2,7 @@ import { computed, inject, Injectable } from '@angular/core';
 import { injectDispatch } from '@ngrx/signals/events';
 import { WeeklyCheckStore } from '../+state/weekly-check.store';
 import { weeklyCheckEvents } from '../+state/weekly-check.events';
+import { WeeklyCheckShops } from '../entities/weekly-check.model';
 
 @Injectable()
 export class WeeklyCheckFacade {
@@ -15,5 +16,9 @@ export class WeeklyCheckFacade {
 
   loadWeeklyChecks() {
     this.events.load();
+  }
+
+  addHistoryEntry(column: keyof WeeklyCheckShops) {
+    this.events.addHistoryEntry({ column });
   }
 }

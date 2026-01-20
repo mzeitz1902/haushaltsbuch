@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
-import { Week } from '../entities/weekly-check.model';
+import { Week, WeeklyCheckShops } from '../entities/weekly-check.model';
 import { supabase } from '@haushaltsbuch/shared/sdks';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class WeeklyCheckDataService {
     );
   }
 
-  addHistoryEntry(id: number, column: 'lidl' | 'edeka') {
+  addHistoryEntry(id: number, column: keyof WeeklyCheckShops) {
     return from(
       supabase.rpc('append_weekly_check_history', {
         p_weekly_check_id: id,

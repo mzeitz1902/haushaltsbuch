@@ -1,5 +1,9 @@
 import { Component, computed, input } from '@angular/core';
-import { Week, WeeklyCheckEntry } from '@haushaltsbuch/weekly-check/domain';
+import {
+  Week,
+  WeeklyCheckEntry,
+  WeeklyCheckShops,
+} from '@haushaltsbuch/weekly-check/domain';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { IconComponent } from '@haushaltsbuch/shared/ui-components';
@@ -25,12 +29,12 @@ export class WeekComponent {
   entries = computed<Entry[]>(() => {
     const week = this.week();
     return [
-      { label: 'Lidl', entry: week.lidl },
-      { label: 'Drogerie', entry: week.drugstore },
-      { label: 'Edeka', entry: week.edeka },
-      { label: 'Sonstige', entry: week.misc },
-      { label: 'Kaufland', entry: week.kaufland },
-      { label: 'Auswärts', entry: week.away },
+      { label: 'Lidl', entry: week.lidl, shop: 'lidl' },
+      { label: 'Drogerie', entry: week.drugstore, shop: 'drugstore' },
+      { label: 'Edeka', entry: week.edeka, shop: 'edeka' },
+      { label: 'Sonstige', entry: week.misc, shop: 'misc' },
+      { label: 'Kaufland', entry: week.kaufland, shop: 'kaufland' },
+      { label: 'Auswärts', entry: week.away, shop: 'away' },
     ];
   });
 
@@ -52,4 +56,5 @@ export class WeekComponent {
 interface Entry {
   label: string;
   entry: WeeklyCheckEntry;
+  shop: keyof WeeklyCheckShops;
 }
