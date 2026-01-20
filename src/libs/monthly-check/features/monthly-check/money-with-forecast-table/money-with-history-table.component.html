@@ -52,7 +52,7 @@
                   <input
                     #category
                     class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-                    [field]="form.category"
+                    [formField]="form.category"
                     (blur)="updateAndReset()"
                     (keyup.enter)="onCategoryEnterPressed()"
                   />
@@ -92,7 +92,7 @@
                     #forecast
                     type="number"
                     class="w-24 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-                    [field]="form.forecast"
+                    [formField]="form.forecast"
                     (blur)="updateAndReset()"
                   />
                 } @else {

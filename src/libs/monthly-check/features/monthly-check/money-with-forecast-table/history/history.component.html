@@ -8,7 +8,7 @@
           #value
           type="number"
           class="w-10 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-          [field]="form.value"
+          [formField]="form.value"
           (blur)="submitAndReset()"
         />
       } @else {
@@ -26,7 +26,7 @@
           #note
           type="text"
           class="w-20 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-          [field]="form.note"
+          [formField]="form.note"
           (blur)="submitAndReset()"
         />
       } @else {

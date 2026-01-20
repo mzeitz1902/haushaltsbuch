@@ -33,7 +33,7 @@ import { Icon } from '@haushaltsbuch/shared/util-icons';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { IconComponent } from '../icon/icon.component';
 import { MatTooltip } from '@angular/material/tooltip';
-import { debounce, Field, form } from '@angular/forms/signals';
+import { debounce, form, FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-money-table',
@@ -59,7 +59,7 @@ import { debounce, Field, form } from '@angular/forms/signals';
     CurrencyPipe,
     IconComponent,
     MatTooltip,
-    Field,
+    FormField,
   ],
   providers: [DecimalPipe],
   templateUrl: './money-table.component.html',

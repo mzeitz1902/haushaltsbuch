@@ -17,11 +17,11 @@ import {
   MonthlyCheckFacade,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
-import { Field, form } from '@angular/forms/signals';
+import { form, FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-history',
-  imports: [ButtonComponent, CurrencyPipe, DatePipe, Field],
+  imports: [ButtonComponent, CurrencyPipe, DatePipe, FormField],
   templateUrl: './history.component.html',
 })
 export class HistoryComponent {

@@ -38,7 +38,7 @@ import {
   HistoryEntry,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
-import { Field, form } from '@angular/forms/signals';
+import { form, FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-money-with-history-table',
@@ -66,7 +66,7 @@ import { Field, form } from '@angular/forms/signals';
     MatFooterCellDef,
     MatHeaderCellDef,
     MtxPopoverTrigger,
-    Field,
+    FormField,
   ],
   templateUrl: './money-with-history-table.component.html',
 })

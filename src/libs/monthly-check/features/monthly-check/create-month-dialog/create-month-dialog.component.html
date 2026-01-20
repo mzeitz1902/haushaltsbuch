@@ -5,7 +5,7 @@
       <ng-select
         [items]="years"
         [clearable]="false"
-        [field]="form.year"
+        [formField]="form.year"
         placeholder="Jahr auswählen"
         appendTo=".mat-mdc-dialog-title"
       />
@@ -14,7 +14,7 @@
         bindValue="value"
         [items]="months()"
         [clearable]="false"
-        [field]="form.month"
+        [formField]="form.month"
         placeholder="Monat auswählen"
         appendTo=".mat-mdc-dialog-title"
       />

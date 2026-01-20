@@ -23,7 +23,7 @@ export class WeeklyHistoryComponent {
   } = inject(MAT_BOTTOM_SHEET_DATA);
 
   deleteEntry(id: string) {
-    return;
+    return id;
   }
 
   addEntry() {

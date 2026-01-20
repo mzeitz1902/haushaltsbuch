@@ -11,7 +11,7 @@
     <ng-select
       [items]="createdYears()"
       [clearable]="false"
-      [field]="form.year"
+      [formField]="form.year"
       placeholder="Jahr auswählen"
     />
     <ng-select
@@ -20,7 +20,7 @@
       bindValue="month"
       [items]="currentYearSnapshots()"
       [clearable]="false"
-      [field]="form.snapshot"
+      [formField]="form.snapshot"
       placeholder="Monat auswählen"
     />
   </div>

@@ -1,8 +1,12 @@
 import { Week } from '../entities/weekly-check.model';
 import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
-import { withDevtools } from '@angular-architects/ngrx-toolkit';
+import {
+  withDevtools,
+  withGlitchTracking,
+  withTrackedReducer,
+} from '@angular-architects/ngrx-toolkit';
 import { signalStore, withState } from '@ngrx/signals';
-import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
+import { on, withEventHandlers } from '@ngrx/signals/events';
 import { weeklyCheckEvents } from './weekly-check.events';
 import { weeklyCheckEffects } from './weekly-check.effects';
 
@@ -12,13 +16,13 @@ interface State {
 }
 
 export const WeeklyCheckStore = signalStore(
-  withDevtools('weekly-check'),
+  withDevtools('weekly-check', withGlitchTracking()),
   withState<State>({
     weeklyChecks: [],
     loadProcessStatus: 'init',
   }),
   withEventHandlers(() => weeklyCheckEffects()),
-  withReducer(
+  withTrackedReducer(
     on(weeklyCheckEvents.load, () => ({
       loadProcessStatus: 'pending' as ProcessStatus,
     })),

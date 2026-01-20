@@ -17,7 +17,7 @@ import {
 } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { Field, form } from '@angular/forms/signals';
+import { form, FormField } from '@angular/forms/signals';
 import { RevenueMonthTableComponent } from './revenue-month-table/revenue-month-table.component';
 import { FixedCostsMonthTableComponent } from './fixed-costs-month-table/fixed-costs-month-table.component';
 import { CdkAccordion } from '@angular/cdk/accordion';
@@ -34,7 +34,6 @@ import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-bu
     ReactiveFormsModule,
     NgSelectComponent,
     AppHeaderComponent,
-    Field,
     RevenueMonthTableComponent,
     FixedCostsMonthTableComponent,
     CdkAccordion,
@@ -42,6 +41,7 @@ import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-bu
     ButtonComponent,
     BalanceComponent,
     MonthlyBudgetsTableComponent,
+    FormField,
   ],
   templateUrl: './monthly-check.component.html',
 })

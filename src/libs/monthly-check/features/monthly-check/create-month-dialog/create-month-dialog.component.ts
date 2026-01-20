@@ -6,7 +6,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { Field, form } from '@angular/forms/signals';
+import { form, FormField } from '@angular/forms/signals';
 import dayjs from 'dayjs';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
 import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
@@ -17,8 +17,8 @@ import { CreatedMonth } from '@haushaltsbuch/monthly-check/domain';
     MatDialogTitle,
     MatDialogContent,
     NgSelectComponent,
-    Field,
     ButtonComponent,
+    FormField,
   ],
   templateUrl: './create-month-dialog.component.html',
 })
