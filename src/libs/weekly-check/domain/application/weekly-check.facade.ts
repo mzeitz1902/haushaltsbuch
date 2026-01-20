@@ -18,7 +18,7 @@ export class WeeklyCheckFacade {
     this.events.load();
   }
 
-  addHistoryEntry(column: keyof WeeklyCheckShops) {
-    this.events.addHistoryEntry({ column });
+  addHistoryEntry(weeklyCheckId: number, column: keyof WeeklyCheckShops) {
+    this.events.addHistoryEntry({ weeklyCheckId, column });
   }
 }

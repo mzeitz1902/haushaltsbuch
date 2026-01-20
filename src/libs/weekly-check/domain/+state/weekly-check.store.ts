@@ -10,18 +10,18 @@ import { on, withEventHandlers } from '@ngrx/signals/events';
 import { weeklyCheckEvents } from './weekly-check.events';
 import { weeklyCheckEffects } from './weekly-check.effects';
 
-interface State {
+export interface WeeklyCheckState {
   weeklyChecks: Week[];
   loadProcessStatus: ProcessStatus;
 }
 
 export const WeeklyCheckStore = signalStore(
   withDevtools('weekly-check', withGlitchTracking()),
-  withState<State>({
+  withState<WeeklyCheckState>({
     weeklyChecks: [],
     loadProcessStatus: 'init',
   }),
-  withEventHandlers(() => weeklyCheckEffects()),
+  withEventHandlers((store) => weeklyCheckEffects(store)),
   withTrackedReducer(
     on(weeklyCheckEvents.load, () => ({
       loadProcessStatus: 'pending' as ProcessStatus,

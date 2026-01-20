@@ -17,7 +17,7 @@ export class WeeklyHistoryComponent {
   private readonly facade = inject(WeeklyCheckFacade);
 
   readonly data: {
-    id: string;
+    weeklyCheckId: number;
     history: HistoryEntryDto[];
     shop: keyof WeeklyCheckShops;
   } = inject(MAT_BOTTOM_SHEET_DATA);
@@ -27,6 +27,6 @@ export class WeeklyHistoryComponent {
   }
 
   addEntry() {
-    this.facade.addHistoryEntry(this.data.shop);
+    this.facade.addHistoryEntry(this.data.weeklyCheckId, this.data.shop);
   }
 }
