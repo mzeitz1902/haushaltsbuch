@@ -27,7 +27,7 @@ export class WeeklyHistoryComponent {
   }
 
   deleteEntry(id: string) {
-    return id;
+    return this.facade.deleteHistoryEntry(id);
   }
 
   addEntry() {

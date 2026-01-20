@@ -13,23 +13,32 @@ export function weeklyCheckEffects(
   events = inject(ReducerEvents),
   dataService = inject(WeeklyCheckDataService)
 ) {
-  function getWeekIdAndShop(): UnaryFunction<
-    Observable<EventInstance<string, void>>,
-    Observable<{ weeklyCheckId: number; shop: keyof WeeklyCheckShops }>
+  function getWeekIdAndShop<T extends string | void>(): UnaryFunction<
+    Observable<EventInstance<string, T>>,
+    Observable<{
+      weeklyCheckId: number;
+      shop: keyof WeeklyCheckShops;
+      payload: T;
+    }>
   > {
     return pipe(
-      map(() => {
+      map((event) => {
         const state = getState(store);
         return {
           weeklyCheckId: state.currentWeekId!,
           shop: state.currentShop!,
+          payload: event.payload,
         };
       })
     );
   }
   return {
     load$: events
-      .on(weeklyCheckEvents.load, weeklyCheckEvents.addHistoryEntrySuccess)
+      .on(
+        weeklyCheckEvents.load,
+        weeklyCheckEvents.addHistoryEntrySuccess,
+        weeklyCheckEvents.deleteHistoryEntrySuccess
+      )
       .pipe(
         switchMap(() =>
           dataService.getWeeklyChecks().pipe(
@@ -51,6 +60,20 @@ export function weeklyCheckEffects(
           })
         )
       )
+    ),
+
+    deleteHistoryEntry$: events.on(weeklyCheckEvents.deleteHistoryEntry).pipe(
+      getWeekIdAndShop(),
+      switchMap(({ weeklyCheckId, shop, payload: historyId }) => {
+        return dataService
+          .deleteHistoryEntry(weeklyCheckId, historyId, shop)
+          .pipe(
+            mapResponse({
+              next: () => weeklyCheckEvents.deleteHistoryEntrySuccess(),
+              error: console.error,
+            })
+          );
+      })
     ),
   };
 }

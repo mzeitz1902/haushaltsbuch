@@ -15,6 +15,9 @@ const events = eventGroup({
 
     addHistoryEntry: type<void>(),
     addHistoryEntrySuccess: type<void>(),
+
+    deleteHistoryEntry: type<string>(),
+    deleteHistoryEntrySuccess: type<void>(),
   },
 });
 
@@ -26,4 +29,7 @@ export const weeklyCheckEvents = {
 
   addHistoryEntry: events.addHistoryEntry,
   addHistoryEntrySuccess: events.addHistoryEntrySuccess,
+
+  deleteHistoryEntry: events.deleteHistoryEntry,
+  deleteHistoryEntrySuccess: events.deleteHistoryEntrySuccess,
 };

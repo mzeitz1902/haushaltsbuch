@@ -35,4 +35,8 @@ export class WeeklyCheckFacade {
   addHistoryEntry() {
     this.events.addHistoryEntry();
   }
+
+  deleteHistoryEntry(id: string) {
+    return this.events.deleteHistoryEntry(id);
+  }
 }

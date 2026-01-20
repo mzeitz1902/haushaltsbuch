@@ -19,4 +19,18 @@ export class WeeklyCheckDataService {
       })
     );
   }
+
+  deleteHistoryEntry(
+    weeklyCheckId: number,
+    historyId: string,
+    shop: keyof WeeklyCheckShops
+  ) {
+    return from(
+      supabase.rpc('delete_weekly_check_history', {
+        p_history_id: historyId,
+        p_shop: shop,
+        p_weekly_check_id: weeklyCheckId,
+      })
+    );
+  }
 }
