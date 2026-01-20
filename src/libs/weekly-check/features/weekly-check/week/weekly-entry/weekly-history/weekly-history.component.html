@@ -3,7 +3,7 @@
     <div
       class="flex w-full flex-col items-center justify-center gap-2 **:text-white"
     >
-      @for (entry of data.history; track entry.id) {
+      @for (entry of history(); track entry.id) {
         <div
           class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2 [&_span]:p-4"
           [class.border-b-gray-50]="!$last"

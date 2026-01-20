@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { HistoryEntryDto } from '@haushaltsbuch/shared/sdks';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { CurrencyPipe } from '@angular/common';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
@@ -16,8 +15,16 @@ import {
 export class WeeklyHistoryComponent {
   private readonly facade = inject(WeeklyCheckFacade);
 
-  // todo history muss aus store gezogen werden um up 2 date zu sein
   readonly data: WeeklyHistoryData = inject(MAT_BOTTOM_SHEET_DATA);
+
+  history = this.facade.currentHistory;
+
+  constructor() {
+    this.facade.setCurrentHistoryInformation(
+      this.data.weeklyCheckId,
+      this.data.shop
+    );
+  }
 
   deleteEntry(id: string) {
     return id;
@@ -30,6 +37,5 @@ export class WeeklyHistoryComponent {
 
 export interface WeeklyHistoryData {
   weeklyCheckId: number;
-  history: HistoryEntryDto[];
   shop: keyof WeeklyCheckShops;
 }

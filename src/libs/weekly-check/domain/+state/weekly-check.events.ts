@@ -8,6 +8,11 @@ const events = eventGroup({
     load: type<void>(),
     loadSuccess: type<Week[] | null>(),
 
+    setCurrentHistoryInformation: type<{
+      weeklyCheckId: number;
+      shop: keyof WeeklyCheckShops;
+    }>(),
+
     addHistoryEntry: type<{
       weeklyCheckId: number;
       column: keyof WeeklyCheckShops;
@@ -19,6 +24,8 @@ const events = eventGroup({
 export const weeklyCheckEvents = {
   load: events.load,
   loadSuccess: events.loadSuccess,
+
+  setCurrentHistoryInformation: events.setCurrentHistoryInformation,
 
   addHistoryEntry: events.addHistoryEntry,
   addHistoryEntrySuccess: events.addHistoryEntrySuccess,

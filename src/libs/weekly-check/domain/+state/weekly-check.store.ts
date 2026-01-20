@@ -1,4 +1,4 @@
-import { Week } from '../entities/weekly-check.model';
+import { Week, WeeklyCheckShops } from '../entities/weekly-check.model';
 import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
 import {
   withDevtools,
@@ -13,6 +13,8 @@ import { weeklyCheckEffects } from './weekly-check.effects';
 export interface WeeklyCheckState {
   weeklyChecks: Week[];
   loadProcessStatus: ProcessStatus;
+  currentWeekId: number | null; // needed for history
+  currentShop: keyof WeeklyCheckShops | null; // needed for history
 }
 
 export const WeeklyCheckStore = signalStore(
@@ -20,6 +22,8 @@ export const WeeklyCheckStore = signalStore(
   withState<WeeklyCheckState>({
     weeklyChecks: [],
     loadProcessStatus: 'init',
+    currentWeekId: null,
+    currentShop: null,
   }),
   withEventHandlers((store) => weeklyCheckEffects(store)),
   withTrackedReducer(
@@ -33,6 +37,14 @@ export const WeeklyCheckStore = signalStore(
         weeklyChecks,
         loadProcessStatus: 'success' as ProcessStatus,
       };
-    })
+    }),
+
+    on(
+      weeklyCheckEvents.setCurrentHistoryInformation,
+      ({ payload: { weeklyCheckId, shop } }) => ({
+        currentWeekId: weeklyCheckId,
+        currentShop: shop,
+      })
+    )
   )
 );

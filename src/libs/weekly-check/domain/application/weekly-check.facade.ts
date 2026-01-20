@@ -11,11 +11,25 @@ export class WeeklyCheckFacade {
 
   loadProcessStatus = this.store.loadProcessStatus;
   weeklyChecks = this.store.weeklyChecks;
+  currentWeekId = this.store.currentWeekId;
+  currentShop = this.store.currentShop;
 
   isLoading = computed(() => this.loadProcessStatus() === 'pending');
+  currentHistory = computed(() => {
+    const week = this.weeklyChecks().find((w) => w.id === this.currentWeekId());
+    if (!week || !this.currentShop()) return null;
+    return week[this.currentShop() as keyof WeeklyCheckShops].history;
+  });
 
   loadWeeklyChecks() {
     this.events.load();
+  }
+
+  setCurrentHistoryInformation(
+    weeklyCheckId: number,
+    shop: keyof WeeklyCheckShops
+  ) {
+    this.events.setCurrentHistoryInformation({ weeklyCheckId, shop });
   }
 
   addHistoryEntry(weeklyCheckId: number, column: keyof WeeklyCheckShops) {

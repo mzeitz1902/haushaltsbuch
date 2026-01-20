@@ -13,16 +13,18 @@ export function weeklyCheckEffects(
   dataService = inject(WeeklyCheckDataService)
 ) {
   return {
-    load$: events.on(weeklyCheckEvents.load).pipe(
-      switchMap(() =>
-        dataService.getWeeklyChecks().pipe(
-          mapResponse({
-            next: (checks) => weeklyCheckEvents.loadSuccess(checks),
-            error: console.error,
-          })
+    load$: events
+      .on(weeklyCheckEvents.load, weeklyCheckEvents.addHistoryEntrySuccess)
+      .pipe(
+        switchMap(() =>
+          dataService.getWeeklyChecks().pipe(
+            mapResponse({
+              next: (checks) => weeklyCheckEvents.loadSuccess(checks),
+              error: console.error,
+            })
+          )
         )
-      )
-    ),
+      ),
 
     addHistoryEntry$: events.on(weeklyCheckEvents.addHistoryEntry).pipe(
       switchMap(({ payload: { weeklyCheckId, column } }) =>

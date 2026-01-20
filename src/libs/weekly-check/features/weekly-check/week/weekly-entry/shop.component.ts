@@ -37,7 +37,6 @@ export class ShopComponent {
     this.isOpened.set(true);
     const data: WeeklyHistoryData = {
       weeklyCheckId: this.weeklyCheckId(),
-      history: this.entry().history,
       shop: this.shop(),
     };
     this.bottomSheet
