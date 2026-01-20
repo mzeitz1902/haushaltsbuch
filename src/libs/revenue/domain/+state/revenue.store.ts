@@ -1,6 +1,10 @@
 import { signalStore, withState } from '@ngrx/signals';
-import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
+import {
+  withDevtools,
+  withGlitchTracking,
+  withTrackedReducer,
+} from '@angular-architects/ngrx-toolkit';
+import { on, withEventHandlers } from '@ngrx/signals/events';
 import { revenueEffects } from './revenue.effects';
 import { revenueEvents } from './revenue.events';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
@@ -14,7 +18,7 @@ interface State {
 }
 
 export const RevenueStore = signalStore(
-  withDevtools('revenue'),
+  withDevtools('revenue', withGlitchTracking()),
   withState<State>({
     revenue: new Array<Revenue>(),
     loadProcessStatus: 'init',
@@ -22,7 +26,7 @@ export const RevenueStore = signalStore(
     addProcessStatus: 'init',
   }),
   withEventHandlers(() => revenueEffects()),
-  withReducer(
+  withTrackedReducer(
     on(revenueEvents.load, () => ({ loadProcessStatus: 'pending' })),
     on(revenueEvents.loadSuccess, ({ payload: revenue }) => ({
       revenue: revenue ?? [],

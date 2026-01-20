@@ -1,6 +1,10 @@
 import { signalStore, withState } from '@ngrx/signals';
-import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
+import {
+  withDevtools,
+  withGlitchTracking,
+  withTrackedReducer,
+} from '@angular-architects/ngrx-toolkit';
+import { on, withEventHandlers } from '@ngrx/signals/events';
 import { usersEvents } from './users.events';
 import { User } from '@supabase/supabase-js';
 import { usersEffects } from './users.effects';
@@ -14,7 +18,7 @@ interface State {
 }
 
 export const UsersStore = signalStore(
-  withDevtools('users'),
+  withDevtools('users', withGlitchTracking()),
   withState<State>({
     user: null,
     loadProcessStatus: 'init',
@@ -22,7 +26,7 @@ export const UsersStore = signalStore(
     loginError: null,
   }),
   withEventHandlers(() => usersEffects()),
-  withReducer(
+  withTrackedReducer(
     on(usersEvents.getUserSuccess, ({ payload: user }) => ({
       user: user ?? null,
       loadProcessStatus: 'success',

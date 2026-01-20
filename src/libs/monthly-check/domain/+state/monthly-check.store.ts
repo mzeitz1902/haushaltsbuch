@@ -1,7 +1,11 @@
 import { Month, VariableCost } from '@haushaltsbuch/monthly-check/domain';
 import { signalStore, withState } from '@ngrx/signals';
-import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
+import {
+  withDevtools,
+  withGlitchTracking,
+  withTrackedReducer,
+} from '@angular-architects/ngrx-toolkit';
+import { on, withEventHandlers } from '@ngrx/signals/events';
 import { monthlyCheckEvents } from './monthly-check.events';
 import { monthlyCheckEffects } from './monthly-check.effects';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
@@ -34,7 +38,7 @@ export interface MonthlyCheckState {
 }
 
 export const monthlyCheckStore = signalStore(
-  withDevtools('monthly-check'),
+  withDevtools('monthly-check', withGlitchTracking()),
   withState<MonthlyCheckState>({
     month: null,
     createdMonths: [],
@@ -54,7 +58,7 @@ export const monthlyCheckStore = signalStore(
     addBudgetProcessStatus: INIT,
   }),
   withEventHandlers((store) => monthlyCheckEffects(store)),
-  withReducer(
+  withTrackedReducer(
     on(monthlyCheckEvents.create, () => ({ createProcessStatus: PENDING })),
     on(monthlyCheckEvents.createSuccess, () => ({
       createProcessStatus: SUCCESS,

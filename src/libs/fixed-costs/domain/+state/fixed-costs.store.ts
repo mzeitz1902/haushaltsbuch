@@ -1,6 +1,10 @@
 import { signalStore, withState } from '@ngrx/signals';
-import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { on, withEventHandlers, withReducer } from '@ngrx/signals/events';
+import {
+  withDevtools,
+  withGlitchTracking,
+  withTrackedReducer,
+} from '@angular-architects/ngrx-toolkit';
+import { on, withEventHandlers } from '@ngrx/signals/events';
 import { fixedCostsEffects } from './fixed-costs.effects';
 import { fixedCostsEvents } from './fixed-costs.events';
 import { FixedCost } from '../entities/fixed-cost.model';
@@ -20,7 +24,7 @@ interface State {
 }
 
 export const FixedCostsStore = signalStore(
-  withDevtools('fixed-costs'),
+  withDevtools('fixed-costs', withGlitchTracking()),
   withState<State>({
     fixedCosts: [],
     quarterlyCosts: [],
@@ -34,7 +38,7 @@ export const FixedCostsStore = signalStore(
     addBudgetProcessStatus: 'init',
   }),
   withEventHandlers(() => fixedCostsEffects()),
-  withReducer(
+  withTrackedReducer(
     on(fixedCostsEvents.load, () => ({ loadProcessStatus: 'pending' })),
     on(fixedCostsEvents.loadSuccess, ({ payload: fixedCosts }, state) => {
       if (!fixedCosts) return state;
