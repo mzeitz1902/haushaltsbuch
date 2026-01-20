@@ -31,7 +31,7 @@ export class WeeklyHistoryComponent {
   }
 
   addEntry() {
-    this.facade.addHistoryEntry(this.data.weeklyCheckId, this.data.shop);
+    this.facade.addHistoryEntry();
   }
 }
 

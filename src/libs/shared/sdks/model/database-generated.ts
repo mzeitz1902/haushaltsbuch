@@ -307,6 +307,14 @@ export interface Database {
           variable_costs_total: number;
         }[];
       };
+      delete_weekly_check_history: {
+        Args: {
+          p_history_id: string;
+          p_shop: string;
+          p_weekly_check_id: number;
+        };
+        Returns: Json;
+      };
       update_budget_history_entry: {
         Args: {
           p_history_item: Json;

@@ -1,17 +1,32 @@
 import { inject } from '@angular/core';
-import { ReducerEvents } from '@ngrx/signals/events';
+import { EventInstance, ReducerEvents } from '@ngrx/signals/events';
 import { WeeklyCheckDataService } from '../infrastructure/weekly-check.data.service';
 import { weeklyCheckEvents } from './weekly-check.events';
-import { switchMap } from 'rxjs';
+import { map, Observable, pipe, switchMap, UnaryFunction } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
-import { StateSource } from '@ngrx/signals';
+import { getState, StateSource } from '@ngrx/signals';
 import { WeeklyCheckState } from './weekly-check.store';
+import { WeeklyCheckShops } from '@haushaltsbuch/weekly-check/domain';
 
 export function weeklyCheckEffects(
   store: StateSource<WeeklyCheckState>,
   events = inject(ReducerEvents),
   dataService = inject(WeeklyCheckDataService)
 ) {
+  function getWeekIdAndShop(): UnaryFunction<
+    Observable<EventInstance<string, void>>,
+    Observable<{ weeklyCheckId: number; shop: keyof WeeklyCheckShops }>
+  > {
+    return pipe(
+      map(() => {
+        const state = getState(store);
+        return {
+          weeklyCheckId: state.currentWeekId!,
+          shop: state.currentShop!,
+        };
+      })
+    );
+  }
   return {
     load$: events
       .on(weeklyCheckEvents.load, weeklyCheckEvents.addHistoryEntrySuccess)
@@ -27,8 +42,9 @@ export function weeklyCheckEffects(
       ),
 
     addHistoryEntry$: events.on(weeklyCheckEvents.addHistoryEntry).pipe(
-      switchMap(({ payload: { weeklyCheckId, column } }) =>
-        dataService.addHistoryEntry(weeklyCheckId, column).pipe(
+      getWeekIdAndShop(),
+      switchMap(({ weeklyCheckId, shop }) =>
+        dataService.addHistoryEntry(weeklyCheckId, shop).pipe(
           mapResponse({
             next: () => weeklyCheckEvents.addHistoryEntrySuccess(),
             error: console.error,

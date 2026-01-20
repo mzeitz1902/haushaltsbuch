@@ -13,10 +13,7 @@ const events = eventGroup({
       shop: keyof WeeklyCheckShops;
     }>(),
 
-    addHistoryEntry: type<{
-      weeklyCheckId: number;
-      column: keyof WeeklyCheckShops;
-    }>(),
+    addHistoryEntry: type<void>(),
     addHistoryEntrySuccess: type<void>(),
   },
 });
