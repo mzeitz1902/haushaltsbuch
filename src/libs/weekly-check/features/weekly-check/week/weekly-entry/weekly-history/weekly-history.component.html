@@ -1,16 +1,47 @@
 <section class="flex flex-col gap-2 overflow-hidden pb-2">
   <div class="max-h-64 overflow-auto">
-    <div
-      class="flex w-full flex-col items-center justify-center gap-2 **:text-white"
-    >
+    <div class="flex w-full flex-col items-center justify-center **:text-white">
       @for (entry of history(); track entry.id) {
+        @let styleClass = 'ml-2 my-2 p-4';
         <div
-          class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2 [&_span]:p-4"
+          class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2"
           [class.border-b-gray-50]="!$last"
           [class.border-b]="!$last"
         >
-          <span>{{ entry.note }}</span>
-          <span class="text-right">{{ entry.value | currency }}</span>
+          <span
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() === entry.id"
+            (click)="edit(entry, 'note')"
+          >
+            {{ entry.note }}
+          </span>
+          <span
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() === entry.id"
+            (click)="edit(entry, 'value')"
+            class="text-right"
+          >
+            {{ entry.value | currency }}
+          </span>
+          <input
+            #noteInput
+            class="w-full rounded border-1 border-blue-400 bg-gray-600 outline-none"
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() !== entry.id"
+            [formField]="form.note"
+            (blur)="submitAndReset()"
+            (keyup.enter)="submitAndReset()"
+          />
+          <input
+            type="number"
+            #valueInput
+            class="w-full rounded border-1 border-blue-400 bg-gray-600 text-right outline-none"
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() !== entry.id"
+            [formField]="form.value"
+            (blur)="submitAndReset()"
+            (keyup.enter)="submitAndReset()"
+          />
           <button
             class="mr-2"
             maffiButton
