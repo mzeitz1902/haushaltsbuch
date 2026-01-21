@@ -1,6 +1,10 @@
 import { eventGroup } from '@ngrx/signals/events';
 import { type } from '@ngrx/signals';
-import { Week, WeeklyCheckShops } from '../entities/weekly-check.model';
+import {
+  Week,
+  WeeklyCheckShops,
+  WeeklyHistoryForm,
+} from '../entities/weekly-check.model';
 
 const events = eventGroup({
   source: 'Weekly Check',
@@ -18,6 +22,9 @@ const events = eventGroup({
 
     deleteHistoryEntry: type<string>(),
     deleteHistoryEntrySuccess: type<void>(),
+
+    updateHistoryEntry: type<WeeklyHistoryForm>(),
+    updateHistoryEntrySuccess: type<void>(),
   },
 });
 
@@ -32,4 +39,7 @@ export const weeklyCheckEvents = {
 
   deleteHistoryEntry: events.deleteHistoryEntry,
   deleteHistoryEntrySuccess: events.deleteHistoryEntrySuccess,
+
+  updateHistoryEntry: events.updateHistoryEntry,
+  updateHistoryEntrySuccess: events.updateHistoryEntrySuccess,
 };

@@ -2,7 +2,10 @@ import { computed, inject, Injectable } from '@angular/core';
 import { injectDispatch } from '@ngrx/signals/events';
 import { WeeklyCheckStore } from '../+state/weekly-check.store';
 import { weeklyCheckEvents } from '../+state/weekly-check.events';
-import { WeeklyCheckShops } from '../entities/weekly-check.model';
+import {
+  WeeklyCheckShops,
+  WeeklyHistoryForm,
+} from '../entities/weekly-check.model';
 
 @Injectable()
 export class WeeklyCheckFacade {
@@ -38,5 +41,9 @@ export class WeeklyCheckFacade {
 
   deleteHistoryEntry(id: string) {
     return this.events.deleteHistoryEntry(id);
+  }
+
+  updateHistoryEntry(payload: WeeklyHistoryForm) {
+    this.events.updateHistoryEntry(payload);
   }
 }

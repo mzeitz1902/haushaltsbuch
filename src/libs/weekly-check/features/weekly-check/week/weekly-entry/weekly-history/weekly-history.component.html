@@ -19,7 +19,7 @@
             [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"
             (click)="edit(entry, 'value')"
-            class="text-right"
+            class="!m-0 !my-0 w-full text-right"
           >
             {{ entry.value | currency }}
           </span>

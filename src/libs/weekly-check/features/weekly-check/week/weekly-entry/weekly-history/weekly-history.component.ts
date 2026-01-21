@@ -10,9 +10,9 @@ import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
 import {
   WeeklyCheckFacade,
   WeeklyCheckShops,
+  WeeklyHistoryForm,
 } from '@haushaltsbuch/weekly-check/domain';
-import { form, FormField } from '@angular/forms/signals';
-import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
+import { form, FormField, required } from '@angular/forms/signals';
 import { HistoryEntryDto } from '@haushaltsbuch/shared/sdks';
 import { CurrencyPipe } from '@angular/common';
 
@@ -32,8 +32,12 @@ export class WeeklyHistoryComponent {
   valueRef = viewChild.required<ElementRef>('valueInput');
 
   selectedEntry = signal<string | null>(null);
-  formModel = signal<Form>(this.initForm());
-  form = form(this.formModel);
+  formModel = signal<WeeklyHistoryForm>(this.initForm());
+  form = form(this.formModel, (schemaPath) => {
+    required(schemaPath.id);
+    required(schemaPath.value);
+    required(schemaPath.note);
+  });
 
   constructor() {
     this.facade.setCurrentHistoryInformation(
@@ -60,22 +64,24 @@ export class WeeklyHistoryComponent {
     setTimeout(() => {
       switch (field) {
         case 'note':
-          this.noteRef().nativeElement.focus();
+          this.noteRef().nativeElement.select();
           break;
         case 'value':
-          this.valueRef().nativeElement.focus();
+          this.valueRef().nativeElement.select();
           break;
       }
     });
   }
 
   submitAndReset() {
-    //   todo facade update call
-    this.selectedEntry.set(null);
-    this.formModel.set(this.initForm());
+    if (this.form().valid()) {
+      this.facade.updateHistoryEntry(this.formModel());
+      this.selectedEntry.set(null);
+      this.formModel.set(this.initForm());
+    }
   }
 
-  private initForm(): Form {
+  private initForm(): WeeklyHistoryForm {
     return {
       id: null!,
       value: null!,
@@ -88,5 +94,3 @@ export interface WeeklyHistoryData {
   weeklyCheckId: number;
   shop: keyof WeeklyCheckShops;
 }
-
-type Form = Omit<HistoryEntry, 'date'>;

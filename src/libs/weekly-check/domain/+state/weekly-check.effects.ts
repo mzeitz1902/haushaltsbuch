@@ -6,14 +6,19 @@ import { map, Observable, pipe, switchMap, UnaryFunction } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
 import { getState, StateSource } from '@ngrx/signals';
 import { WeeklyCheckState } from './weekly-check.store';
-import { WeeklyCheckShops } from '@haushaltsbuch/weekly-check/domain';
+import {
+  WeeklyCheckShops,
+  WeeklyHistoryForm,
+} from '@haushaltsbuch/weekly-check/domain';
 
 export function weeklyCheckEffects(
   store: StateSource<WeeklyCheckState>,
   events = inject(ReducerEvents),
   dataService = inject(WeeklyCheckDataService)
 ) {
-  function getWeekIdAndShop<T extends string | void>(): UnaryFunction<
+  function getWeekIdAndShop<
+    T extends string | void | WeeklyHistoryForm,
+  >(): UnaryFunction<
     Observable<EventInstance<string, T>>,
     Observable<{
       weeklyCheckId: number;
@@ -37,7 +42,8 @@ export function weeklyCheckEffects(
       .on(
         weeklyCheckEvents.load,
         weeklyCheckEvents.addHistoryEntrySuccess,
-        weeklyCheckEvents.deleteHistoryEntrySuccess
+        weeklyCheckEvents.deleteHistoryEntrySuccess,
+        weeklyCheckEvents.updateHistoryEntrySuccess
       )
       .pipe(
         switchMap(() =>
@@ -74,6 +80,18 @@ export function weeklyCheckEffects(
             })
           );
       })
+    ),
+
+    updateHistoryEntry$: events.on(weeklyCheckEvents.updateHistoryEntry).pipe(
+      getWeekIdAndShop(),
+      switchMap(({ weeklyCheckId, shop, payload }) =>
+        dataService.updateHistoryEntry(weeklyCheckId, shop, payload).pipe(
+          mapResponse({
+            next: () => weeklyCheckEvents.updateHistoryEntrySuccess(),
+            error: console.error,
+          })
+        )
+      )
     ),
   };
 }

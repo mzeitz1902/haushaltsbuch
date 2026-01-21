@@ -397,6 +397,16 @@ export interface Database {
           variable_costs_total: number;
         }[];
       };
+      update_weekly_check_history: {
+        Args: {
+          p_history_id: string;
+          p_new_note: string;
+          p_new_value: number;
+          p_shop: string;
+          p_weekly_check_id: number;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       due_date: '15' | '1';
