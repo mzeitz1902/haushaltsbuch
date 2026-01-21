@@ -11,7 +11,7 @@ export const loginRedirectGuard: CanActivateFn = () => {
     filter((value) => value === 'success'),
     map(() => {
       if (usersFacade.user() !== null) {
-        return new RedirectCommand(router.parseUrl('/base'));
+        return new RedirectCommand(router.parseUrl('/monthly-check'));
       }
       return true;
     })
