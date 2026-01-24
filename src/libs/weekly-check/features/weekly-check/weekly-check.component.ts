@@ -21,17 +21,24 @@ import { form, FormField } from '@angular/forms/signals';
 export class WeeklyCheckComponent {
   private readonly facade = inject(WeeklyCheckFacade);
 
-  weeklyChecks = this.facade.weeklyChecks;
+  weeks = this.facade.weeklyChecks;
   isLoading = this.facade.isLoading;
 
   formModel = signal<{ month: { label: string; value: string } }>({
-    month: { label: dayjs().format('MM'), value: dayjs().format('YYYY-MM-DD') },
+    month: {
+      label: dayjs().format('MMMM'),
+      value: dayjs().format('YYYY-MM-DD'),
+    },
   });
 
   form = form(this.formModel);
 
   constructor() {
     this.facade.loadWeeklyChecks();
+  }
+
+  compareWith(o1: { value: string }, o2: { value: string }) {
+    return o1?.value === o2?.value;
   }
 
   readonly months = Array.from({ length: 12 }, (_, i) => {

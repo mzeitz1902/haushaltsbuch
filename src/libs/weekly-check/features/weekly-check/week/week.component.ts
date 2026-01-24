@@ -8,7 +8,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { IconComponent } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ShopComponent } from './weekly-entry/shop.component';
 
 @Component({
@@ -20,6 +20,7 @@ import { ShopComponent } from './weekly-entry/shop.component';
     IconComponent,
     DatePipe,
     ShopComponent,
+    CurrencyPipe,
   ],
   templateUrl: './week.component.html',
 })
