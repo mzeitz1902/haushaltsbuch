@@ -23,13 +23,22 @@ export class MonthlyCheckDataService {
 
   getCreatedMonths() {
     return from(supabase.from('monthly_snapshots').select('month')).pipe(
-      map((res) => res.data?.map((item) => item.month) ?? [])
+      map(
+        (res) =>
+          // remove -01 at the end
+          res.data?.map((item) => (item.month as string).substring(0, 7)) ?? []
+      )
     );
   }
 
   getMonth(month: string): Observable<Month> {
+    const _month = `${month}-01`;
     return from(
-      supabase.from('monthly_snapshots').select('*').eq('month', month).single()
+      supabase
+        .from('monthly_snapshots')
+        .select('*')
+        .eq('month', _month)
+        .single()
     ).pipe(map((res) => res.data! as unknown as Month));
   }
 

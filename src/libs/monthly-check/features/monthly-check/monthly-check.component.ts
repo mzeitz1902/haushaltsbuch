@@ -54,17 +54,12 @@ export class MonthlyCheckComponent {
 
   snapshots = this.facade.snapshots;
   createdYears = this.facade.createdYears;
-  isLoaded = this.facade.isMonthLoaded;
 
   formModel = linkedSignal<Form>(() => {
     let snapshot = dayjs().format('YYYY-MM-DD');
     let year = this.year()!;
     if (this.year() && this.month()) {
-      snapshot = `${this.year()}-${this.month()}-01`;
-    }
-    // User has entered a month / year combination that has not been created yet, or the current snapshot is not created -> set snapshot to null
-    if (!this.isSnapshotCreated(snapshot)) {
-      snapshot = null!;
+      snapshot = `${this.year()}-${this.month()}`;
     }
     // User entered a year that has no been created yet -> set year to null
     if (year && !this.isYearValid(year)) {
@@ -111,8 +106,9 @@ export class MonthlyCheckComponent {
 
   navigateOnFormModelChange = effect(() => {
     const { snapshot, year } = this.formModel();
+    const areMonthsLoaded = this.facade.areMonthsLoaded();
     untracked(() => {
-      if (!this.facade.areMonthsLoaded()) return;
+      if (!areMonthsLoaded) return;
       const _month = snapshot ? dayjs(snapshot).format('MM') : null;
       if (year && !snapshot) {
         this.facade.navigateTo(year);
