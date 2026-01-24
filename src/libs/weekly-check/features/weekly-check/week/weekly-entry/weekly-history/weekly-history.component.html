@@ -19,28 +19,32 @@
             [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"
             (click)="edit(entry, 'value')"
-            class="!m-0 !my-0 w-full text-right"
+            class="m-0! my-0! w-full text-right"
           >
             {{ entry.value | currency }}
           </span>
           <input
             #noteInput
-            class="w-full rounded border-1 border-blue-400 bg-gray-600 outline-none"
+            [attr.data-id]="entry.id"
+            class="w-full rounded border border-blue-400 bg-gray-600 outline-none"
             [class]="styleClass"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.note"
-            (blur)="submitAndReset()"
-            (keyup.enter)="submitAndReset()"
+            (click)="noteInput.select()"
+            (blur)="submit()"
+            (keyup.enter)="submit(); reset()"
           />
           <input
             type="number"
             #valueInput
-            class="w-full rounded border-1 border-blue-400 bg-gray-600 text-right outline-none"
+            [attr.data-id]="entry.id"
+            class="w-full rounded border border-blue-400 bg-gray-600 text-right outline-none"
             [class]="styleClass"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.value"
-            (blur)="submitAndReset()"
-            (keyup.enter)="submitAndReset()"
+            (click)="valueInput.select()"
+            (blur)="submit()"
+            (keyup.enter)="submit(); reset()"
           />
           <button
             class="mr-2"

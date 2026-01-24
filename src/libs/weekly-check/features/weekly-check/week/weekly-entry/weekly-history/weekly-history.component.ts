@@ -3,7 +3,7 @@ import {
   ElementRef,
   inject,
   signal,
-  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
@@ -28,8 +28,8 @@ export class WeeklyHistoryComponent {
 
   readonly data: WeeklyHistoryData = inject(MAT_BOTTOM_SHEET_DATA);
 
-  noteRef = viewChild.required<ElementRef>('noteInput');
-  valueRef = viewChild.required<ElementRef>('valueInput');
+  noteInputs = viewChildren<ElementRef<HTMLInputElement>>('noteInput');
+  valueInputs = viewChildren<ElementRef<HTMLInputElement>>('valueInput');
 
   selectedEntry = signal<string | null>(null);
   formModel = signal<WeeklyHistoryForm>(this.initForm());
@@ -61,24 +61,39 @@ export class WeeklyHistoryComponent {
       value: entry.value,
       note: entry.note,
     });
+    // Give the DOM time to render the inputs, then select the matching one
     setTimeout(() => {
+      const selectedId = this.selectedEntry();
+      if (!selectedId) return;
+
       switch (field) {
-        case 'note':
-          this.noteRef().nativeElement.select();
+        case 'note': {
+          const el = this.noteInputs().find(
+            (ref) => ref.nativeElement.dataset['id'] === selectedId
+          )!.nativeElement;
+          el.select();
           break;
-        case 'value':
-          this.valueRef().nativeElement.select();
+        }
+        case 'value': {
+          const el = this.valueInputs().find(
+            (ref) => ref.nativeElement.dataset['id'] === selectedId
+          )!.nativeElement;
+          el.select();
           break;
+        }
       }
     });
   }
 
-  submitAndReset() {
+  submit() {
     if (this.form().valid()) {
       this.facade.updateHistoryEntry(this.formModel());
-      this.selectedEntry.set(null);
-      this.formModel.set(this.initForm());
     }
+  }
+
+  reset() {
+    this.selectedEntry.set(null);
+    this.formModel.set(this.initForm());
   }
 
   private initForm(): WeeklyHistoryForm {
