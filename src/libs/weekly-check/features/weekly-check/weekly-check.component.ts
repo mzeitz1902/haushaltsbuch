@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { AppHeaderComponent } from '@haushaltsbuch/shared/ui-components';
 import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 import { WeekComponent } from './week/week.component';
@@ -24,25 +24,22 @@ export class WeeklyCheckComponent {
   weeks = this.facade.weeklyChecks;
   isLoading = this.facade.isLoading;
 
-  formModel = signal<{ month: { label: string; value: string } }>({
-    month: {
-      label: dayjs().format('MMMM'),
-      value: dayjs().format('YYYY-MM-DD'),
-    },
+  formModel = signal<{ month: string }>({
+    month: dayjs().format('MMMM'),
   });
 
   form = form(this.formModel);
+
+  filteredWeeks = computed(() =>
+    this.weeks().filter((week) => week.month === this.formModel().month)
+  );
 
   constructor() {
     this.facade.loadWeeklyChecks();
   }
 
-  compareWith(o1: { value: string }, o2: { value: string }) {
-    return o1?.value === o2?.value;
-  }
-
   readonly months = Array.from({ length: 12 }, (_, i) => {
     const d = dayjs().month(i);
-    return { label: d.format('MMMM'), value: d.format('YYYY-MM-DD') };
+    return d.format('MMMM');
   });
 }

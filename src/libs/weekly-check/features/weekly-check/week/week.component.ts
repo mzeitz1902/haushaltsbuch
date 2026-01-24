@@ -35,6 +35,11 @@ export class WeekComponent {
       { label: 'Edeka', entry: week.edeka, shop: 'edeka' },
       { label: 'Sonstige', entry: week.misc, shop: 'misc' },
       { label: 'Kaufland', entry: week.kaufland, shop: 'kaufland' },
+      {
+        label: 'Bäcker / Fleischer',
+        entry: week.baker_butcher,
+        shop: 'baker_butcher',
+      },
       { label: 'Auswärts', entry: week.away, shop: 'away' },
     ];
   });

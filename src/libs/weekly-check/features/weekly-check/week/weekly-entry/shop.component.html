@@ -4,6 +4,6 @@
   [class.bg-gray-700]="!isOpened()"
   (click)="openBottomSheet()"
 >
-  <span>{{ label() }}</span>
-  <span>{{ entry().value | currency }}</span>
+  <span class="text-xs whitespace-nowrap">{{ label() }}</span>
+  <span class="text-sm">{{ entry().value | currency }}</span>
 </div>
