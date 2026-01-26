@@ -6,6 +6,9 @@ import { CdkAccordion } from '@angular/cdk/accordion';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import dayjs from 'dayjs';
 import { form, FormField } from '@angular/forms/signals';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+
+dayjs.extend(weekOfYear);
 
 @Component({
   selector: 'app-weekly-check',
@@ -29,6 +32,8 @@ export class WeeklyCheckComponent {
   });
 
   form = form(this.formModel);
+
+  currentCW = dayjs().week();
 
   filteredWeeks = computed(() =>
     this.weeks().filter((week) => week.month === this.formModel().month)
