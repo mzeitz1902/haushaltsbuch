@@ -50,7 +50,7 @@ export class WeekComponent {
     ];
   });
 
-  isExpanded = computed(() => {
+  isCurrent = computed(() => {
     const week = this.week();
     const currentCw = dayjs().week();
     return week.cw === currentCw;

@@ -1,6 +1,6 @@
-<mat-card>
+<mat-card [class.bg-gray-700!]="isCurrent()" class="cursor-pointer">
   <mat-card-content>
-    <cdk-accordion-item #accItem="cdkAccordionItem" [expanded]="isExpanded()">
+    <cdk-accordion-item #accItem="cdkAccordionItem" [expanded]="isCurrent()">
       <header
         class="grid w-full grid-cols-[5rem_1fr_1.5rem] gap-2"
         (click)="accItem.toggle()"
@@ -48,6 +48,8 @@
         <div class="grid grid-cols-3 gap-2">
           @for (entry of entries(); track $index) {
             <app-weekly-check-shop
+              [class.*:bg-gray-600]="isCurrent()"
+              [class.*:hover:bg-gray-500]="isCurrent()"
               [weeklyCheckId]="week().id"
               [label]="entry.label"
               [entry]="entry.entry"
