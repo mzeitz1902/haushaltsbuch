@@ -25,6 +25,9 @@ const events = eventGroup({
 
     updateHistoryEntry: type<WeeklyHistoryForm>(),
     updateHistoryEntrySuccess: type<void>(),
+
+    createWeek: type<void>(),
+    createWeekSuccess: type<void>(),
   },
 });
 
@@ -42,4 +45,7 @@ export const weeklyCheckEvents = {
 
   updateHistoryEntry: events.updateHistoryEntry,
   updateHistoryEntrySuccess: events.updateHistoryEntrySuccess,
+
+  createWeek: events.createWeek,
+  createWeekSuccess: events.createWeekSuccess,
 };

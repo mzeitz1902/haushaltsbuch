@@ -126,7 +126,8 @@ export interface Database {
           kaufland: Json;
           lidl: Json;
           misc: Json;
-          month: Database['public']['Enums']['month'];
+          month: string | null;
+          monthly_snapshot_id: string | null;
           total: number;
         };
         Insert: {
@@ -141,7 +142,8 @@ export interface Database {
           kaufland: Json;
           lidl: Json;
           misc: Json;
-          month: Database['public']['Enums']['month'];
+          month?: string | null;
+          monthly_snapshot_id?: string | null;
           total: number;
         };
         Update: {
@@ -156,10 +158,19 @@ export interface Database {
           kaufland?: Json;
           lidl?: Json;
           misc?: Json;
-          month?: Database['public']['Enums']['month'];
+          month?: string | null;
+          monthly_snapshot_id?: string | null;
           total?: number;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'weekly_check_monthly_snapshot_id_fkey';
+            columns: ['monthly_snapshot_id'];
+            isOneToOne: false;
+            referencedRelation: 'monthly_snapshots';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: Record<never, never>;
@@ -314,6 +325,11 @@ export interface Database {
           p_weekly_check_id: number;
         };
         Returns: Json;
+      };
+      insert_next_weekly_check: { Args: never; Returns: undefined };
+      iso_week_monday: {
+        Args: { iso_week: number; iso_year: number };
+        Returns: string;
       };
       update_budget_history_entry: {
         Args: {

@@ -43,7 +43,8 @@ export function weeklyCheckEffects(
         weeklyCheckEvents.load,
         weeklyCheckEvents.addHistoryEntrySuccess,
         weeklyCheckEvents.deleteHistoryEntrySuccess,
-        weeklyCheckEvents.updateHistoryEntrySuccess
+        weeklyCheckEvents.updateHistoryEntrySuccess,
+        weeklyCheckEvents.createWeekSuccess
       )
       .pipe(
         switchMap(() =>
@@ -88,6 +89,17 @@ export function weeklyCheckEffects(
         dataService.updateHistoryEntry(weeklyCheckId, shop, payload).pipe(
           mapResponse({
             next: () => weeklyCheckEvents.updateHistoryEntrySuccess(),
+            error: console.error,
+          })
+        )
+      )
+    ),
+
+    createWeek$: events.on(weeklyCheckEvents.createWeek).pipe(
+      switchMap(() =>
+        dataService.createWeek().pipe(
+          mapResponse({
+            next: () => weeklyCheckEvents.createWeekSuccess(),
             error: console.error,
           })
         )

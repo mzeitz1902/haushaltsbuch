@@ -9,20 +9,30 @@
     [compareWith]="compareWith"
   />
 </app-header>
-<div class="self-end pt-2 pr-4">
+<header class="flex items-center justify-between px-4 pt-2">
+  <span class="flex items-center gap-2">
+    {{ totalBudget() | currency }}
+    |
+    <span
+      [class.text-green-500]="totalSpent() <= totalBudget()"
+      [class.text-red-500]="totalSpent() > totalBudget()"
+    >
+      {{ totalSpent() | currency }}
+    </span>
+  </span>
   @switch (state()) {
     @case ('closed') {
-      <span class="cursor-pointer" (click)="expandAll()">
+      <span class="cursor-pointer text-sm" (click)="expandAll()">
         Alle ausklappen
       </span>
     }
     @case ('open') {
-      <span class="cursor-pointer" (click)="collapseAll()">
+      <span class="cursor-pointer text-sm" (click)="collapseAll()">
         Alle einklappen
       </span>
     }
   }
-</div>
+</header>
 
 <cdk-accordion
   class="container-max-sm flex w-full flex-col items-center gap-2 p-2 *:w-full md:p-6"
@@ -34,3 +44,12 @@
     Noch keine Wochen angelegt
   }
 </cdk-accordion>
+
+<button
+  maffiButton
+  class="self-center"
+  icon="CirclePlus"
+  (click)="createWeek()"
+>
+  Neue Woche anlegen
+</button>

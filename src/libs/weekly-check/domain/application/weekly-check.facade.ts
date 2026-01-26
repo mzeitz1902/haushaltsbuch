@@ -46,4 +46,8 @@ export class WeeklyCheckFacade {
   updateHistoryEntry(payload: WeeklyHistoryForm) {
     this.events.updateHistoryEntry(payload);
   }
+
+  createWeek() {
+    this.events.createWeek();
+  }
 }

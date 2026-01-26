@@ -5,13 +5,17 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { AppHeaderComponent } from '@haushaltsbuch/shared/ui-components';
+import {
+  AppHeaderComponent,
+  ButtonComponent,
+} from '@haushaltsbuch/shared/ui-components';
 import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 import { WeekComponent } from './week/week.component';
 import { CdkAccordion } from '@angular/cdk/accordion';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import dayjs from 'dayjs';
 import { form, FormField } from '@angular/forms/signals';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-weekly-check',
@@ -21,6 +25,8 @@ import { form, FormField } from '@angular/forms/signals';
     CdkAccordion,
     NgSelectComponent,
     FormField,
+    ButtonComponent,
+    CurrencyPipe,
   ],
   templateUrl: './weekly-check.component.html',
   host: {
@@ -49,6 +55,11 @@ export class WeeklyCheckComponent {
     this.weeks().filter((week) => week.month === this.formModel().month.value)
   );
 
+  totalBudget = computed(() => this.filteredWeeks().length * 250);
+  totalSpent = computed(() =>
+    this.filteredWeeks().reduce((sum, week) => sum + week.total, 0)
+  );
+
   constructor() {
     this.facade.loadWeeklyChecks();
   }
@@ -65,6 +76,10 @@ export class WeeklyCheckComponent {
   collapseAll() {
     this.items()?.forEach((item) => item.item().close());
     this.state.set('closed');
+  }
+
+  createWeek() {
+    this.facade.createWeek();
   }
 
   readonly months: Month[] = Array.from({ length: 12 }, (_, i) => {

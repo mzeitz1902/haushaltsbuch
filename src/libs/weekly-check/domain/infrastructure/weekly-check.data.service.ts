@@ -53,4 +53,8 @@ export class WeeklyCheckDataService {
       })
     );
   }
+
+  createWeek() {
+    return from(supabase.rpc('insert_next_weekly_check'));
+  }
 }
