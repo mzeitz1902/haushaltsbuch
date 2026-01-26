@@ -1,13 +1,32 @@
 <app-header title="Wochencheck">
   <ng-select
     class="w-40"
+    bindLabel="label"
+    bindValue="value"
     [items]="months"
     [clearable]="false"
     [formField]="form.month"
+    [compareWith]="compareWith"
   />
 </app-header>
+<div class="self-end pt-2 pr-4">
+  @switch (state()) {
+    @case ('closed') {
+      <span class="cursor-pointer" (click)="expandAll()">
+        Alle ausklappen
+      </span>
+    }
+    @case ('open') {
+      <span class="cursor-pointer" (click)="collapseAll()">
+        Alle einklappen
+      </span>
+    }
+  }
+</div>
+
 <cdk-accordion
-  class="container-max-sm mt-2 flex w-full flex-col items-center gap-2 p-2 *:w-full md:p-6"
+  class="container-max-sm flex w-full flex-col items-center gap-2 p-2 *:w-full md:p-6"
+  [multi]="true"
 >
   @for (week of filteredWeeks(); track week.id) {
     <app-week [week]="week" />
@@ -15,5 +34,3 @@
     Noch keine Wochen angelegt
   }
 </cdk-accordion>
-
-Current CW {{ currentCW }}

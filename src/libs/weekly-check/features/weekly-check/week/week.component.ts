@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, viewChild } from '@angular/core';
 import {
   Week,
   WeeklyCheckEntry,
@@ -10,6 +10,10 @@ import { IconComponent } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ShopComponent } from './weekly-entry/shop.component';
+
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+
+dayjs.extend(weekOfYear);
 
 @Component({
   selector: 'app-week',
@@ -26,6 +30,8 @@ import { ShopComponent } from './weekly-entry/shop.component';
 })
 export class WeekComponent {
   week = input.required<Week>();
+
+  item = viewChild.required(CdkAccordionItem);
 
   entries = computed<Entry[]>(() => {
     const week = this.week();
@@ -46,16 +52,8 @@ export class WeekComponent {
 
   isExpanded = computed(() => {
     const week = this.week();
-    const today = dayjs();
-    const isToday =
-      dayjs(week.dateFrom).isSame(today, 'day') ||
-      dayjs(week.dateTo).isSame(today, 'day');
-
-    return (
-      isToday ||
-      (dayjs(week.dateFrom).isBefore(today, 'day') &&
-        dayjs(week.dateTo).isAfter(today, 'day'))
-    );
+    const currentCw = dayjs().week();
+    return week.cw === currentCw;
   });
 }
 
