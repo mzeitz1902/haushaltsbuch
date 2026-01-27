@@ -1,14 +1,16 @@
 <app-header title="Wochencheck">
   <ng-select
     class="w-40"
-    bindLabel="label"
-    bindValue="value"
     [items]="months"
     [clearable]="false"
     [formField]="form.month"
-    [compareWith]="compareWith"
-  />
+  >
+    <ng-template ng-label-tmp ng-option-tmp let-item="item">
+      {{ format(item).format('MMMM') }}
+    </ng-template>
+  </ng-select>
 </app-header>
+
 <header class="container-max-sm flex items-center justify-between px-4 pt-2">
   <span class="flex items-center gap-2">
     {{ totalBudget() | currency }}

@@ -12,7 +12,11 @@ import {
 import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 import { WeekComponent } from './week/week.component';
 import { CdkAccordion } from '@angular/cdk/accordion';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  NgLabelTemplateDirective,
+  NgOptionTemplateDirective,
+  NgSelectComponent,
+} from '@ng-select/ng-select';
 import dayjs from 'dayjs';
 import { form, FormField } from '@angular/forms/signals';
 import { CurrencyPipe } from '@angular/common';
@@ -27,6 +31,8 @@ import { CurrencyPipe } from '@angular/common';
     FormField,
     ButtonComponent,
     CurrencyPipe,
+    NgLabelTemplateDirective,
+    NgOptionTemplateDirective,
   ],
   templateUrl: './weekly-check.component.html',
   host: {
@@ -43,16 +49,13 @@ export class WeeklyCheckComponent {
 
   state = signal<'closed' | 'open'>('closed');
 
-  formModel = signal<{ month: Month }>({
-    month: {
-      label: dayjs().format('MMMM'),
-      value: dayjs().format('YYYY-MM-01'),
-    },
+  formModel = signal<{ month: string }>({
+    month: dayjs().format('YYYY-MM-01'),
   });
   form = form(this.formModel);
 
   filteredWeeks = computed(() =>
-    this.weeks().filter((week) => week.month === this.formModel().month.value)
+    this.weeks().filter((week) => week.month === this.formModel().month)
   );
 
   totalBudget = computed(() => this.filteredWeeks().length * 250);
@@ -62,10 +65,6 @@ export class WeeklyCheckComponent {
 
   constructor() {
     this.facade.loadWeeklyChecks();
-  }
-
-  compareWith(o1: { value: string }, o2: { value: string }) {
-    return o1?.value === o2?.value;
   }
 
   expandAll() {
@@ -82,16 +81,10 @@ export class WeeklyCheckComponent {
     this.facade.createWeek();
   }
 
-  readonly months: Month[] = Array.from({ length: 12 }, (_, i) => {
+  readonly months: string[] = Array.from({ length: 12 }, (_, i) => {
     const d = dayjs().month(i);
-    return {
-      label: d.format('MMMM'),
-      value: d.format('YYYY-MM-01'),
-    };
+    return d.format('YYYY-MM-01');
   });
-}
 
-interface Month {
-  label: string; // e.g. Januar
-  value: string; // e.g. 2026-01-01
+  readonly format = dayjs;
 }
