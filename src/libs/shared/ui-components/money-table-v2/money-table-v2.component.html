@@ -1,0 +1,104 @@
+<mat-card>
+  <mat-card-content>
+    <cdk-accordion-item
+      #accItem="cdkAccordionItem"
+      class="flex flex-col"
+      [class.gap-3]="accItem.expanded"
+    >
+      @if (headerTitle()) {
+        <header
+          class="sticky top-14 z-10 grid w-full grid-cols-[2rem_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
+          (click)="accItem.toggle()"
+        >
+          <app-icon [icon]="headerIcon()" size="medium" />
+          <div #col2 class="flex items-center gap-2">
+            <h2 class="w-min text-sm font-semibold text-gray-100">
+              {{ headerTitle() }}
+            </h2>
+            @if (isSaving()) {
+              <mat-spinner diameter="18" />
+            }
+            <h1
+              class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+            >
+              {{ total() | currency }}
+            </h1>
+          </div>
+          <app-icon
+            [icon]="accItem.expanded ? 'ChevronUp' : 'ChevronDown'"
+            size="small"
+            class="ml-1"
+          />
+        </header>
+
+        <main
+          class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
+          [style.max-height]="accItem.expanded ? '1000px' : '0px'"
+        >
+          @if (isLoading()) {
+            <mat-spinner class="self-center" />
+          } @else {
+            <section
+              class="flex w-full flex-col gap-3 rounded-lg bg-gray-800 p-1"
+              animate.enter="animate-fade-in"
+            >
+              @for (row of data(); track row.id) {
+                <div
+                  class="grid grid-cols-[1fr_1fr_auto] gap-2 border-b border-b-gray-500 text-sm"
+                >
+                  @let isRowSelected = selectedRow() === row.id;
+                  @let isCategoryField = selectedField() === 'category';
+                  @let isValueField = selectedField() === 'value';
+
+                  @if (isRowSelected && isCategoryField) {
+                    <app-string-input
+                      [formField]="form.category"
+                      (blurred)="submitAndReset()"
+                      (enterPress)="onCategoryEnterPressed()"
+                    />
+                  } @else {
+                    <span (click)="editCategory(row)">{{ row.category }}</span>
+                  }
+
+                  @if (isRowSelected && isValueField) {
+                    <app-number-input
+                      [formField]="form.value"
+                      (blurred)="submitAndReset()"
+                    />
+                  } @else {
+                    <span (click)="editValue(row)">
+                      {{ row.value | currency }}
+                    </span>
+                  }
+
+                  <button
+                    maffiButton
+                    class="mb-1"
+                    icon="Trash"
+                    size="mini"
+                    theme="secondary"
+                    (click)="deleteRow.emit(row.id)"
+                  ></button>
+                </div>
+              }
+
+              @if (accItem.expanded) {
+                <button
+                  class="w-5 self-center"
+                  maffiButton
+                  icon="CirclePlus"
+                  size="small"
+                  (click)="addRow.emit(); $event.stopPropagation()"
+                  animate.enter="animate-fade-in"
+                  animate.leave="animate-fade-out"
+                >
+                  Hinzufügen
+                </button>
+              }
+            </section>
+          }
+        </main>
+      }
+    </cdk-accordion-item>
+  </mat-card-content>
+</mat-card>

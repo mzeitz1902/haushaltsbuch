@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
+import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 import { MonthlyCheckFacade } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 
 @Component({
   selector: 'app-revenue-month-table',
-  imports: [MoneyTableComponent],
+  imports: [MoneyTableV2Component],
   templateUrl: './revenue-month-table.component.html',
 })
 export class RevenueMonthTableComponent {
