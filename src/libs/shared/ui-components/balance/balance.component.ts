@@ -16,11 +16,11 @@ import { IconComponent } from '../icon/icon.component';
   template: `
     <mat-card>
       <mat-card-content>
-        <div class="grid h-5 w-full grid-cols-[127px_1fr] items-center gap-4">
-          <div class="flex items-center gap-1">
-            <app-icon icon="Scale" size="medium" />
-            <span class="text-sm font-semibold">Saldo:</span>
-          </div>
+        <div
+          class="grid h-5 w-full grid-cols-[2rem_5rem_1rem] items-center gap-2"
+        >
+          <app-icon icon="Scale" size="medium" />
+          <span class="text-sm font-semibold">Saldo</span>
 
           <h1
             class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
