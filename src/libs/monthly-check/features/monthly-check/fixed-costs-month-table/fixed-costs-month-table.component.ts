@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { MonthlyCheckFacade } from '@haushaltsbuch/monthly-check/domain';
-import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
+import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
 
 @Component({
   selector: 'app-fixed-costs-month-table',
-  imports: [MoneyTableComponent],
+  imports: [MoneyTableV2Component],
   templateUrl: './fixed-costs-month-table.component.html',
   styles: ``,
 })

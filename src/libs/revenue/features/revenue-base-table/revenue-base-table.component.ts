@@ -1,12 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
+import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 import { Revenue, RevenueFacade } from '@haushaltsbuch/revenue/domain';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-revenue-base-table',
-  imports: [MatProgressSpinnerModule, ReactiveFormsModule, MoneyTableComponent],
+  imports: [
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    MoneyTableV2Component,
+  ],
   templateUrl: './revenue-base-table.component.html',
 })
 export class RevenueBaseTableComponent {

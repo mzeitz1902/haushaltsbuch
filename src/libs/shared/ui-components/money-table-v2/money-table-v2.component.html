@@ -31,13 +31,10 @@
           />
         </header>
 
-        <main
-          class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
-          [style.max-height]="accItem.expanded ? '1000px' : '0px'"
-        >
+        <main>
           @if (isLoading()) {
             <mat-spinner class="self-center" />
-          } @else {
+          } @else if (accItem.expanded) {
             <section
               class="flex w-full flex-col gap-3 rounded-lg bg-gray-800 p-1"
               animate.enter="animate-fade-in"
@@ -45,6 +42,7 @@
               @for (row of data(); track row.id) {
                 <div
                   class="grid grid-cols-[1fr_1fr_auto] gap-2 border-b border-b-gray-500 text-sm"
+                  [class.border-b-0]="$last"
                 >
                   @let isRowSelected = selectedRow() === row.id;
                   @let isCategoryField = selectedField() === 'category';

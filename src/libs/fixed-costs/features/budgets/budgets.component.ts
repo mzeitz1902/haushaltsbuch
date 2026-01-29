@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
-import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
+import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 
 @Component({
   selector: 'app-budgets',
-  imports: [MoneyTableComponent],
+  imports: [MoneyTableV2Component],
   templateUrl: './budgets.component.html',
 })
 export class BudgetsComponent {

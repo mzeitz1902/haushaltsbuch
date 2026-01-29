@@ -1,12 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
+import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-fixed-costs-table',
-  imports: [MatProgressSpinnerModule, MoneyTableComponent, ReactiveFormsModule],
+  imports: [
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    MoneyTableV2Component,
+  ],
   templateUrl: './fixed-costs-table.component.html',
 })
 export class FixedCostsTableComponent {
