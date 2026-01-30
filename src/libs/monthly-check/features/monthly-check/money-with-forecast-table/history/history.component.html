@@ -1,53 +1,69 @@
-<div class="mb-2 flex flex-col gap-1">
-  @for (entry of history(); track entry.id) {
-    <span
-      class="grid grid-cols-[2.5rem_4rem_4rem_min-content] items-center gap-4"
-    >
-      @if (selectedEntry() === entry.id) {
-        <input
-          #value
-          type="number"
-          class="w-10 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-          [formField]="form.value"
-          (blur)="submitAndReset()"
-        />
-      } @else {
-        <span
-          class="self-right flex w-8 justify-end"
-          (click)="editValue(entry)"
+<section class="flex flex-col gap-2 overflow-hidden pb-2">
+  <div class="max-h-64 overflow-auto">
+    <div class="flex w-full flex-col items-center justify-center **:text-white">
+      @for (entry of history(); track entry.id) {
+        @let styleClass = 'ml-2 my-2 p-4';
+        <div
+          class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2"
+          [class.border-b-gray-50]="!$last"
+          [class.border-b]="!$last"
         >
-          {{ entry.value | currency }}
-        </span>
+          <span
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() === entry.id"
+            (click)="editNote(entry)"
+          >
+            {{ entry.note }}
+          </span>
+          <span
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() === entry.id"
+            (click)="editValue(entry)"
+            class="m-0! my-0! w-full text-right"
+          >
+            {{ entry.value | currency }}
+          </span>
+          <input
+            #noteInput
+            [attr.data-id]="entry.id"
+            class="w-full rounded border border-blue-400 bg-gray-600 outline-none"
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() !== entry.id"
+            [formField]="form.note"
+            (click)="noteInput.select()"
+            (blur)="submitAndReset()"
+            (keyup.enter)="submitAndReset()"
+          />
+          <input
+            type="number"
+            #valueInput
+            [attr.data-id]="entry.id"
+            class="w-full rounded border border-blue-400 bg-gray-600 text-right outline-none"
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() !== entry.id"
+            [formField]="form.value"
+            (click)="valueInput.select()"
+            (blur)="submitAndReset()"
+            (keyup.enter)="submitAndReset()"
+          />
+          <button
+            class="mr-2"
+            maffiButton
+            icon="Trash"
+            (click)="deleteHistory(entry.id)"
+          ></button>
+        </div>
+      } @empty {
+        <div class="p-2">Noch keine Einträge vorhanden.</div>
       }
-
-      <span>{{ entry.date | date }}</span>
-      @if (selectedEntry() === entry.id) {
-        <input
-          #note
-          type="text"
-          class="w-20 rounded border-1 border-blue-400 bg-gray-600 p-1 outline-none"
-          [formField]="form.note"
-          (blur)="submitAndReset()"
-        />
-      } @else {
-        <span (click)="editNote(entry)">{{ entry.note }}</span>
-      }
-      <button
-        maffiButton
-        icon="CircleMinus"
-        (click)="deleteHistory.emit(entry.id)"
-      ></button>
-    </span>
-  } @empty {
-    Keine Historie vorhanden.
-  }
-</div>
-<button
-  maffiButton
-  size="mini"
-  class="w-full !justify-center"
-  icon="CirclePlus"
-  (click)="addHistory.emit()"
->
-  Hinzufügen
-</button>
+    </div>
+  </div>
+  <button
+    class="self-center"
+    maffiButton
+    icon="CirclePlus"
+    (click)="addHistory()"
+  >
+    Hinzufügen
+  </button>
+</section>

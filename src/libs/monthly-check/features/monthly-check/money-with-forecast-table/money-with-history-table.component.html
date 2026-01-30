@@ -142,19 +142,19 @@
                   class="!p-4 **:text-xs"
                   [position]="['above', 'before']"
                 >
-                  <app-history
-                    [row]="row"
-                    (addHistory)="addHistory.emit(row.id)"
-                    (deleteHistory)="
-                      deleteHistory.emit({ rowId: row.id, historyId: $event })
-                    "
-                    (updateHistory)="
-                      updateHistory.emit({
-                        rowId: row.id,
-                        entry: $event,
-                      })
-                    "
-                  />
+                  <!--                  <app-history-->
+                  <!--                    [row]="row"-->
+                  <!--                    (addHistory)="addHistory.emit(row.id)"-->
+                  <!--                    (deleteHistory)="-->
+                  <!--                      deleteHistory.emit({ rowId: row.id, historyId: $event })-->
+                  <!--                    "-->
+                  <!--                    (updateHistory)="-->
+                  <!--                      updateHistory.emit({-->
+                  <!--                        rowId: row.id,-->
+                  <!--                        entry: $event,-->
+                  <!--                      })-->
+                  <!--                    "-->
+                  <!--                  />-->
                 </mtx-popover>
               </td>
               <td

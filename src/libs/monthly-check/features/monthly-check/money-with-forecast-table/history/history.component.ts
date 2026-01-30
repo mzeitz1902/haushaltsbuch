@@ -4,13 +4,12 @@ import {
   effect,
   ElementRef,
   inject,
-  output,
   signal,
   untracked,
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import {
   HistoryEntry,
   MonthlyCheckFacade,
@@ -21,17 +20,13 @@ import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-history',
-  imports: [ButtonComponent, CurrencyPipe, DatePipe, FormField],
+  imports: [ButtonComponent, CurrencyPipe, FormField],
   templateUrl: './history.component.html',
 })
 export class HistoryComponent {
   private readonly facade = inject(MonthlyCheckFacade);
 
   readonly data: HistoryData = inject(MAT_BOTTOM_SHEET_DATA);
-
-  addHistory = output<void>();
-  updateHistory = output<HistoryEntry>();
-  deleteHistory = output<string>();
 
   isAdded = this.facade.isHistoryEntryAdded;
   isMonthLoaded = this.facade.isMonthLoaded;
@@ -59,8 +54,16 @@ export class HistoryComponent {
     }
   });
 
-  update() {
-    this.updateHistory.emit(this.form().value());
+  addHistory() {
+    this.facade.addBudgetHistoryEntry(this.data.row.id);
+  }
+
+  deleteHistory(historyId: string) {
+    this.facade.deleteBudgetHistoryEntry(this.data.row.id, historyId);
+  }
+
+  updateHistory({ rowId, entry }: { rowId: string; entry: HistoryEntry }) {
+    this.facade.updateBudgetHistoryEntry(rowId, entry);
   }
 
   editValue(entry: HistoryEntry) {
@@ -76,7 +79,7 @@ export class HistoryComponent {
   }
 
   submitAndReset() {
-    this.update();
+    // this.updateHistory();
     this.selectedEntry.set(null);
     this.formModel.set(this.initForm());
   }
