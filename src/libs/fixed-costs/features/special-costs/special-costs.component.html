@@ -1,4 +1,4 @@
-<app-money-table
+<app-money-table-v2
   headerTitle="Sonderkosten"
   headerIcon="BanknoteArrowDown"
   [data]="specialCosts()"
@@ -6,7 +6,7 @@
   [isLoading]="isLoading()"
   [isSaving]="false"
   [isAdded]="isAdded()"
-  [customColumns]="additionalColumns()"
+  [col3Template]="dueInMonth"
   (addRow)="add()"
   (updateRow)="addValue($event)"
   (deleteRow)="delete($event)"
@@ -28,12 +28,15 @@
         (close)="selectedRow.set(null)"
       />
     } @else {
-      <span
+      <app-icon
+        icon="Info"
         class="block h-5 w-24 flex-auto pl-3"
+        [mtxPopoverTriggerFor]="popover"
         (click)="selectRow(row.id, row.due_in_month)"
-      >
-        {{ row.due_in_month | toMonth }}
-      </span>
+      />
+      <mtx-popover #popover [position]="['above', 'before']">
+        <span>{{ row.due_in_month | toMonth }}</span>
+      </mtx-popover>
     }
   </div>
 </ng-template>

@@ -4,11 +4,12 @@ import {
   input,
   output,
   signal,
+  TemplateRef,
   viewChild,
 } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgTemplateOutlet } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Icon } from '@haushaltsbuch/shared/util-icons';
@@ -30,6 +31,7 @@ import { NumberInputComponent } from './editable-field/number-input/number-input
     StringInputComponent,
     FormField,
     NumberInputComponent,
+    NgTemplateOutlet,
   ],
   templateUrl: './money-table-v2.component.html',
 })
@@ -44,6 +46,7 @@ export class MoneyTableV2Component<
   headerIcon = input.required<Icon>();
 
   headerTitle = input<string>();
+  col3Template = input<TemplateRef<unknown>>();
 
   updateRow = output<DATA>();
   deleteRow = output<number>();

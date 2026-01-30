@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
   name: 'toMonth',
 })
 export class ToMonthPipe implements PipeTransform {
-  transform(value: string[] | null): string[] | null {
-    if (value === null) return null;
+  transform(value: string[] | null): string | null {
+    if (!value || value.length === 0) return null;
 
-    return value.map((val) => dayjs(val).format('MMMM'));
+    return value.map((val) => dayjs(val).format('MMMM')).join(', ');
   }
 }

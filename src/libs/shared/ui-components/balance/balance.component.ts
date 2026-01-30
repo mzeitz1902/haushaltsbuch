@@ -17,7 +17,7 @@ import { IconComponent } from '../icon/icon.component';
     <mat-card>
       <mat-card-content>
         <div
-          class="grid h-5 w-full grid-cols-[2rem_5rem_1rem] items-center gap-2"
+          class="grid h-5 w-full grid-cols-[1.5rem_6.5rem_1rem] items-center gap-2"
         >
           <app-icon icon="Scale" size="medium" />
           <span class="text-sm font-semibold">Saldo</span>

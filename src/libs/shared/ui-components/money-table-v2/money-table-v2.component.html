@@ -4,10 +4,11 @@
       #accItem="cdkAccordionItem"
       class="flex flex-col"
       [class.gap-3]="accItem.expanded"
+      [expanded]="true"
     >
       @if (headerTitle()) {
         <header
-          class="sticky top-14 z-10 grid w-full grid-cols-[2rem_5rem_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
+          class="sticky top-14 z-10 grid w-full grid-cols-[auto_32%_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
           (click)="accItem.toggle()"
         >
           <app-icon [icon]="headerIcon()" size="medium" #col1 />
@@ -22,7 +23,9 @@
           <h1
             class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
           >
-            {{ total() | currency }}
+            @if (!accItem.expanded) {
+              {{ total() | currency }}
+            }
           </h1>
           <app-icon
             #col3
@@ -42,33 +45,47 @@
             >
               @for (row of data(); track row.id) {
                 <div
-                  class="grid grid-cols-[1fr_1fr_auto] gap-2 border-b border-b-gray-500 text-sm"
+                  class="grid grid-cols-[40%_20%_1fr_auto] items-center gap-2 border-b border-b-gray-500 text-sm"
                   [class.border-b-0]="$last"
                 >
                   @let isRowSelected = selectedRow() === row.id;
                   @let isCategoryField = selectedField() === 'category';
-                  @let isValueField = selectedField() === 'value';
 
-                  @if (isRowSelected && isCategoryField) {
-                    <app-string-input
-                      [formField]="form.category"
-                      (blurred)="submitAndReset()"
-                      (enterPress)="onCategoryEnterPressed()"
-                    />
-                  } @else {
-                    <span (click)="editCategory(row)">{{ row.category }}</span>
-                  }
+                  <ng-container #categoryCell>
+                    @if (isRowSelected && isCategoryField) {
+                      <app-string-input
+                        [formField]="form.category"
+                        (blurred)="submitAndReset()"
+                        (enterPress)="onCategoryEnterPressed()"
+                      />
+                    } @else {
+                      <span (click)="editCategory(row)">{{
+                        row.category
+                      }}</span>
+                    }
+                  </ng-container>
 
-                  @if (isRowSelected && isValueField) {
-                    <app-number-input
-                      [formField]="form.value"
-                      (blurred)="submitAndReset()"
+                  <ng-container #valueCell>
+                    @let isValueField = selectedField() === 'value';
+                    @if (isRowSelected && isValueField) {
+                      <app-number-input
+                        [formField]="form.value"
+                        (blurred)="submitAndReset()"
+                      />
+                    } @else {
+                      <span class="text-right" (click)="editValue(row)">
+                        {{ row.value | currency }}
+                      </span>
+                    }
+                  </ng-container>
+
+                  <div #col3>
+                    <ng-template
+                      [ngTemplateOutlet]="col3Template()"
+                      [ngTemplateOutletContext]="{ $implicit: row }"
                     />
-                  } @else {
-                    <span (click)="editValue(row)">
-                      {{ row.value | currency }}
-                    </span>
-                  }
+                    <!--placeholder-->
+                  </div>
 
                   <button
                     maffiButton
@@ -82,17 +99,23 @@
               }
 
               @if (accItem.expanded) {
-                <button
-                  class="w-5 self-center"
-                  maffiButton
-                  icon="CirclePlus"
-                  size="small"
-                  (click)="addRow.emit(); $event.stopPropagation()"
-                  animate.enter="animate-fade-in"
-                  animate.leave="animate-fade-out"
+                <div
+                  class="grid w-full grid-cols-[43%_20%_1fr_auto] items-center [&_span]:font-semibold"
                 >
-                  Hinzufügen
-                </button>
+                  <span>Summe</span>
+                  <span class="text-right">{{ total() | currency }}</span>
+                  <div><!--placeholder--></div>
+                  <button
+                    class="w-5 justify-self-end"
+                    maffiButton
+                    size="small"
+                    (click)="addRow.emit(); $event.stopPropagation()"
+                    animate.enter="animate-fade-in"
+                    animate.leave="animate-fade-out"
+                  >
+                    Hinzufügen
+                  </button>
+                </div>
               }
             </section>
           }

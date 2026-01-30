@@ -6,20 +6,27 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { MoneyTableComponent } from '@haushaltsbuch/shared/ui-components';
+import {
+  IconComponent,
+  MoneyTableV2Component,
+} from '@haushaltsbuch/shared/ui-components';
 import { FixedCost, FixedCostsFacade } from '@haushaltsbuch/fixed-costs/domain';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import dayjs from 'dayjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ToMonthPipe } from '@haushaltsbuch/shared/util-pipes';
+import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
 
 @Component({
   selector: 'app-special-costs',
   imports: [
-    MoneyTableComponent,
     NgSelectComponent,
     ReactiveFormsModule,
     ToMonthPipe,
+    MoneyTableV2Component,
+    IconComponent,
+    MtxPopover,
+    MtxPopoverTrigger,
   ],
   templateUrl: './special-costs.component.html',
   styles: ``,
