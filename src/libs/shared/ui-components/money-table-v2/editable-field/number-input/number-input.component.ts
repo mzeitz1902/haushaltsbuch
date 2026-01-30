@@ -17,9 +17,9 @@ import { FormValueControl } from '@angular/forms/signals';
   `,
 })
 export class NumberInputComponent implements FormValueControl<
-  number | undefined
+  number | undefined | null
 > {
-  value = model<number | undefined>();
+  value = model<number | undefined | null>();
 
   blurred = output();
   enterPress = output();

@@ -103,7 +103,8 @@ export class MonthlyCheckFacade {
   }
 
   getMonth(month: string) {
-    this.events.getMonth(month);
+    const _month = `${month}-01`;
+    this.events.getMonth(_month);
   }
 
   addRevenue() {

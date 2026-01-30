@@ -5,10 +5,18 @@ import {
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
 import { MoneyWithHistoryTableComponent } from '../money-with-forecast-table/money-with-history-table.component';
+import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 
 @Component({
   selector: 'app-monthly-budgets-table',
-  imports: [MoneyWithHistoryTableComponent],
+  imports: [
+    MoneyWithHistoryTableComponent,
+    MoneyTableV2Component,
+    // ButtonComponent,
+    // CurrencyPipe,
+    // NumberInputComponent,
+    // StringInputComponent,
+  ],
   templateUrl: './monthly-budgets-table.component.html',
 })
 export class MonthlyBudgetsTableComponent {

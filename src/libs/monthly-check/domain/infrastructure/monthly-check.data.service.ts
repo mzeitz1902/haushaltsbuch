@@ -32,13 +32,8 @@ export class MonthlyCheckDataService {
   }
 
   getMonth(month: string): Observable<Month> {
-    const _month = `${month}-01`;
     return from(
-      supabase
-        .from('monthly_snapshots')
-        .select('*')
-        .eq('month', _month)
-        .single()
+      supabase.from('monthly_snapshots').select('*').eq('month', month).single()
     ).pipe(map((res) => res.data! as unknown as Month));
   }
 

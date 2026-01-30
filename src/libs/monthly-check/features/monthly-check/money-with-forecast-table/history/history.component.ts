@@ -4,7 +4,6 @@ import {
   effect,
   ElementRef,
   inject,
-  input,
   output,
   signal,
   untracked,
@@ -18,6 +17,7 @@ import {
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
 import { form, FormField } from '@angular/forms/signals';
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-history',
@@ -27,7 +27,7 @@ import { form, FormField } from '@angular/forms/signals';
 export class HistoryComponent {
   private readonly facade = inject(MonthlyCheckFacade);
 
-  row = input.required<VariableCost>();
+  readonly data: HistoryData = inject(MAT_BOTTOM_SHEET_DATA);
 
   addHistory = output<void>();
   updateHistory = output<HistoryEntry>();
@@ -44,7 +44,7 @@ export class HistoryComponent {
   valueRef = viewChild<ElementRef>('value');
   noteRef = viewChild<ElementRef>('note');
 
-  history = computed(() => this.row().history);
+  history = computed(() => this.data.row.history);
 
   focusValueOnAdd = effect(() => {
     if (this.isAdded() && this.isMonthLoaded()) {
@@ -103,3 +103,7 @@ export class HistoryComponent {
 type Form = {
   [K in keyof HistoryEntry]: HistoryEntry[K];
 };
+
+export interface HistoryData {
+  row: VariableCost;
+}
