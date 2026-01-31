@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Cutting board background -->
+  <rect x="8" y="12" width="48" height="40" rx="2" fill="#D4A574" stroke="#8B6F47" stroke-width="2"/>
+  
+  <!-- Bread loaf -->
+  <ellipse cx="24" cy="32" rx="10" ry="8" fill="#E8C07D"/>
+  <path d="M14 32 Q14 38 24 38 Q34 38 34 32" fill="#D4A574"/>
+  <!-- Scoring marks -->
+  <path d="M18 30 Q24 28 30 30" stroke="#B8935C" stroke-width="1.5" fill="none"/>
+  <path d="M18 34 Q24 32 30 34" stroke="#B8935C" stroke-width="1.5" fill="none"/>
+  
+  <!-- Meat/steak -->
+  <ellipse cx="44" cy="34" rx="8" ry="6" fill="#C94747"/>
+  <ellipse cx="44" cy="34" rx="6" ry="4" fill="#E06666"/>
+  <!-- Marbling -->
+  <circle cx="42" cy="33" r="1" fill="#F5D5D5"/>
+  <circle cx="46" cy="35" r="1" fill="#F5D5D5"/>
+  
+  <!-- Knife crossing diagonally -->
+  <g>
+    <rect x="30" y="18" width="4" height="28" rx="0.5" fill="#C0C0C0" transform="rotate(45 32 32)"/>
+    <polygon points="38,26 42,30 40,32 36,28" fill="#8B4513"/>
+  </g>
+</svg>

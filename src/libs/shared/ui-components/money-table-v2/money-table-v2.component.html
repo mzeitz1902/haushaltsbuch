@@ -35,7 +35,7 @@
         </header>
 
         <app-money-table-content
-          [isExpanded]="true"
+          [isExpanded]="accItem.expanded"
           [data]="data()"
           [isLoading]="isLoading()"
           [isSaving]="isSaving()"
@@ -44,7 +44,7 @@
           [hasSum]="hasSum()"
           [col3Template]="col3Template()"
           [useDataTemplate]="useDataTemplate()"
-          [headerTemplate]="headerTemplate()"
+          [valuesWithHistoryKind]="valuesWithHistoryKind()"
           (updateRow)="updateRow.emit($event)"
           (deleteRow)="deleteRow.emit($event)"
           (addRow)="addRow.emit()"

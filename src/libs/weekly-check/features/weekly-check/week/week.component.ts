@@ -37,16 +37,24 @@ export class WeekComponent {
     const week = this.week();
     return [
       { label: 'Lidl', entry: week.lidl, shop: 'lidl' },
-      { label: 'Drogerie', entry: week.drugstore, shop: 'drugstore' },
-      { label: 'Edeka', entry: week.edeka, shop: 'edeka' },
+      {
+        label: 'Drogerie',
+        entry: week.drugstore,
+        shop: 'drugstore',
+      },
+      {
+        label: 'Edeka',
+        entry: week.edeka,
+        shop: 'edeka',
+      },
       { label: 'Sonstige', entry: week.misc, shop: 'misc' },
       { label: 'Kaufland', entry: week.kaufland, shop: 'kaufland' },
+      { label: 'Auswärts', entry: week.away, shop: 'away' },
       {
         label: 'Bäcker / Fleischer',
         entry: week.baker_butcher,
         shop: 'baker_butcher',
       },
-      { label: 'Auswärts', entry: week.away, shop: 'away' },
     ];
   });
 

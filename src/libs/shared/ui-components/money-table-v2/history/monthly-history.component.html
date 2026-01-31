@@ -1,7 +1,7 @@
 <section class="flex flex-col gap-2 overflow-hidden pb-2">
   <div class="max-h-64 overflow-auto">
     <div class="flex w-full flex-col items-center justify-center **:text-white">
-      @for (entry of history(); track entry.id) {
+      @for (entry of currentHistory(); track entry.id) {
         @let styleClass = 'ml-2 my-2 p-4';
         <div
           class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2"
@@ -11,14 +11,14 @@
           <span
             [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"
-            (click)="editNote(entry)"
+            (click)="edit(entry, 'note')"
           >
             {{ entry.note }}
           </span>
           <span
             [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"
-            (click)="editValue(entry)"
+            (click)="edit(entry, 'value')"
             class="m-0! my-0! w-full text-right"
           >
             {{ entry.value | currency }}
@@ -32,7 +32,7 @@
             [formField]="form.note"
             (click)="noteInput.select()"
             (blur)="submitAndReset()"
-            (keyup.enter)="submitAndReset()"
+            (keyup.enter)="selectedEntry.set(null)"
           />
           <input
             type="number"
@@ -44,7 +44,7 @@
             [formField]="form.value"
             (click)="valueInput.select()"
             (blur)="submitAndReset()"
-            (keyup.enter)="submitAndReset()"
+            (keyup.enter)="selectedEntry.set(null)"
           />
           <button
             class="mr-2"

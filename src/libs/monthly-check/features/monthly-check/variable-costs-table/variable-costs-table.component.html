@@ -1,16 +1,16 @@
-<app-money-with-history-table
-  title="Variabel"
-  [expanded]="true"
-  [showForecast]="false"
+<app-money-table-v2
+  headerTitle="Variabel"
+  headerIcon="BanknoteArrowUp"
+  useDataTemplate="valuesWithHistory"
+  valuesWithHistoryKind="variableCosts"
   [data]="data()"
   [isAdded]="isAdded()"
   [isLoading]="isLoading()"
   [isSaving]="isSaving()"
   [total]="total()"
+  [hasSum]="false"
   (addRow)="add()"
   (deleteRow)="delete($event)"
   (updateRow)="update($event)"
-  (addHistory)="addHistory($event)"
-  (deleteHistory)="deleteHistory($event)"
-  (updateHistory)="updateHistory($event)"
-/>
+>
+</app-money-table-v2>

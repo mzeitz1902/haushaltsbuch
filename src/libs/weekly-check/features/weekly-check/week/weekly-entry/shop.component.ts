@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   input,
   signal,
@@ -32,6 +33,8 @@ export class ShopComponent {
   shop = input.required<keyof WeeklyCheckShops>();
 
   isOpened = signal(false);
+
+  iconPath = computed(() => `/assets/${this.shop()}.svg`);
 
   openBottomSheet() {
     this.isOpened.set(true);

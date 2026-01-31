@@ -1,41 +1,16 @@
-<app-money-with-history-table
-  title="Budgets"
-  [expanded]="false"
-  [showForecast]="true"
-  [data]="budgets()"
-  [isAdded]="isAdded()"
-  [isLoading]="isLoading()"
-  [isSaving]="isSaving()"
-  [total]="total()"
-  (addRow)="add()"
-  (deleteRow)="delete($event)"
-  (updateRow)="update($event)"
-  (addHistory)="addHistory($event)"
-  (deleteHistory)="deleteHistory($event)"
-  (updateHistory)="updateHistory($event)"
-/>
-
 <app-money-table-v2
   headerTitle="Budgets"
   headerIcon="BanknoteArrowUp"
   useDataTemplate="valuesWithHistory"
-  [data]="budgets()"
+  valuesWithHistoryKind="budgets"
+  [data]="data()"
   [isAdded]="isAdded()"
   [isLoading]="isLoading()"
   [isSaving]="isSaving()"
   [total]="total()"
-  [headerTemplate]="header"
   [hasSum]="false"
   (addRow)="add()"
   (deleteRow)="delete($event)"
   (updateRow)="update($event)"
 >
-  <ng-template #header>
-    <div class="grid grid-cols-[43%_20%_18%_1fr] items-center gap-2">
-      <div></div>
-      <span class="text-right text-sm">Forecast</span>
-      <span class="text-right text-sm">Wert</span>
-      <div></div>
-    </div>
-  </ng-template>
 </app-money-table-v2>

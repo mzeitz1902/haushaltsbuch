@@ -10,7 +10,7 @@ import { monthlyCheckEvents } from './monthly-check.events';
 import { monthlyCheckEffects } from './monthly-check.effects';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
-import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
+import { ProcessStatus } from '@haushaltsbuch/shared/util-types'; // Add typed status constants to avoid "string is not assignable" issues
 
 // Add typed status constants to avoid "string is not assignable" issues
 const INIT: ProcessStatus = 'init';

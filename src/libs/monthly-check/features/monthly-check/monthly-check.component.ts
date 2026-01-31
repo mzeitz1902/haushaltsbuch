@@ -88,7 +88,8 @@ export class MonthlyCheckComponent {
     const totalFixedCosts = this.facade.totalFixedCosts();
     const totalVariableCosts = this.facade.totalVariableCosts();
     const totalRevenue = this.facade.totalRevenue();
-    return totalRevenue - (totalFixedCosts + totalVariableCosts);
+    const totalBudgets = this.facade.totalBudgets();
+    return totalRevenue - (totalFixedCosts + totalVariableCosts + totalBudgets);
   });
 
   loadMonth = effect(() => {

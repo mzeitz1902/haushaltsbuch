@@ -38,7 +38,7 @@ export class MoneyTableV2Component<
   hasSum = input(true);
   col3Template = input<TemplateRef<unknown>>();
   useDataTemplate = input<'values' | 'valuesWithHistory'>('values');
-  headerTemplate = input<TemplateRef<unknown>>();
+  valuesWithHistoryKind = input<'budgets' | 'variableCosts'>();
 
   updateRow = output<DATA>();
   deleteRow = output<number>();

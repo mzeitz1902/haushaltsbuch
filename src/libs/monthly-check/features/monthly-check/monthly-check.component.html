@@ -30,8 +30,8 @@
     animate.enter="animate-fade-in"
   >
     @if (selectedMonth()) {
-      <!--      <app-revenue-month-table />-->
-      <!--      <app-fixed-costs-month-table />-->
+      <app-revenue-month-table />
+      <app-fixed-costs-month-table />
       <app-monthly-budgets-table />
       <app-variable-costs-table />
       <app-balance [balance]="balance()" />

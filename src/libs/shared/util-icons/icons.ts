@@ -12,6 +12,7 @@ import {
   HandCoins,
   Info,
   LogOut,
+  Pill,
   ReceiptEuro,
   Scale,
   Trash,
@@ -34,6 +35,7 @@ export const icons = {
   BanknoteArrowDown,
   Scale,
   Info,
+  Pill,
 };
 
 export type Icon = keyof typeof icons;

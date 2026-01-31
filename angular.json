@@ -47,7 +47,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": ["src/styles.css", "src/styles.scss", "src/styles.scss"],
             "outputPath": "dist/haushaltsbuch"
@@ -105,7 +106,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": ["src/styles.css", "src/styles.scss"]
           }

@@ -5,7 +5,14 @@
       animate.enter="animate-fade-in"
     >
       <header class="empty:hidden">
-        <ng-container [ngTemplateOutlet]="headerTemplate()" />
+        @if (useDataTemplate() === 'valuesWithHistory') {
+          <div class="grid grid-cols-[43%_20%_18%_1fr] items-center gap-2">
+            <div></div>
+            <span class="text-right text-sm">Forecast</span>
+            <span class="text-right text-sm">Wert</span>
+            <div></div>
+          </div>
+        }
       </header>
       @for (row of data(); track row.id) {
         <ng-container
@@ -148,8 +155,11 @@
     </ng-container>
 
     <ng-container #valueCell>
-      <div class="flex items-center justify-end">
-        <!--        todo on click open bottom sheet-->
+      <div
+        class="flex items-center justify-end"
+        [class.text-green-500]="row.value <= row.forecast"
+        [class.text-red-500]="row.value > row.forecast"
+      >
         <span class="h-full" (click)="editValue(row)">
           {{ row.value | currency }}
         </span>

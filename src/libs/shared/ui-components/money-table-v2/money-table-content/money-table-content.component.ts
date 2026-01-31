@@ -16,7 +16,7 @@ import { StringInputComponent } from '../editable-field/string-input/string-inpu
 import { form, FormField } from '@angular/forms/signals';
 import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { HistoryComponent } from '../../../../monthly-check/features/monthly-check/money-with-forecast-table/history/history.component';
+import { MonthlyHistoryComponent } from '../history/monthly-history.component';
 
 @Component({
   selector: 'app-money-table-content',
@@ -52,7 +52,7 @@ export class MoneyTableContentComponent<
   hasSum = input(true);
   col3Template = input<TemplateRef<unknown>>();
   useDataTemplate = input<'values' | 'valuesWithHistory'>('values');
-  headerTemplate = input<TemplateRef<unknown>>();
+  valuesWithHistoryKind = input<'budgets' | 'variableCosts'>();
 
   updateRow = output<DATA>();
   deleteRow = output<number>();
@@ -75,12 +75,16 @@ export class MoneyTableContentComponent<
   }
 
   editValue(row: DATA) {
+    if (row.category === 'Einkauf') return;
     this.setForm(row);
     this.selectedRow.set(row.id);
-    this.bottomSheet.open(HistoryComponent, {
-      data: { row },
-      viewContainerRef: this.viewContainerRef,
-    });
+    this.selectedField.set('value');
+    if (row.history) {
+      this.bottomSheet.open(MonthlyHistoryComponent, {
+        data: { row, kind: this.valuesWithHistoryKind() },
+        viewContainerRef: this.viewContainerRef,
+      });
+    }
   }
 
   editForecast(row: DATA) {
