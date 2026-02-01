@@ -56,7 +56,7 @@ export class MonthlyHistoryComponent {
     }
   });
 
-  focusValueOnAdd = effect(() => {
+  focusOnAdd = effect(() => {
     if (this.isAdded() && this.isMonthLoaded()) {
       untracked(() => {
         const list = this.currentHistory();
@@ -64,7 +64,10 @@ export class MonthlyHistoryComponent {
 
         const newest = list.at(-1)!;
 
-        this.edit(newest, 'value');
+        this.edit(
+          newest,
+          this.data.row.category === 'Amazon' ? 'note' : 'value'
+        );
 
         // scroll to bottom after DOM updates
         setTimeout(() => {
