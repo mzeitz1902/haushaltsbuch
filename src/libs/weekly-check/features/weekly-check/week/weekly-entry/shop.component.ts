@@ -10,7 +10,7 @@ import {
   WeeklyCheckEntry,
   WeeklyCheckShops,
 } from '@haushaltsbuch/weekly-check/domain';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   WeeklyHistoryComponent,
@@ -20,7 +20,7 @@ import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-weekly-check-shop',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, NgOptimizedImage],
   templateUrl: './shop.component.html',
 })
 export class ShopComponent {
@@ -34,7 +34,7 @@ export class ShopComponent {
 
   isOpened = signal(false);
 
-  iconPath = computed(() => `/assets/${this.shop()}.svg`);
+  iconPath = computed(() => `assets/${this.shop()}.svg`);
 
   openBottomSheet() {
     this.isOpened.set(true);
