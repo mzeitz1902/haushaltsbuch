@@ -6,6 +6,7 @@ import {
   inject,
   signal,
   untracked,
+  viewChild,
   viewChildren,
 } from '@angular/core';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
@@ -38,6 +39,7 @@ export class MonthlyHistoryComponent {
 
   valueInputs = viewChildren<ElementRef>('valueInput');
   noteInputs = viewChildren<ElementRef<HTMLInputElement>>('noteInput');
+  historyScroll = viewChild<ElementRef<HTMLDivElement>>('historyScroll');
 
   currentHistory = computed(() => {
     switch (this.data.kind) {
@@ -63,6 +65,14 @@ export class MonthlyHistoryComponent {
         const newest = list.at(-1)!;
 
         this.edit(newest, 'value');
+
+        // scroll to bottom after DOM updates
+        setTimeout(() => {
+          const el = this.historyScroll()?.nativeElement;
+          if (el) {
+            el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+          }
+        });
       });
     }
   });
