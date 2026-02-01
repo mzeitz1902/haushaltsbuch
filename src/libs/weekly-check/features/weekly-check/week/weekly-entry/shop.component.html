@@ -4,7 +4,7 @@
   [class.bg-gray-700]="!isOpened()"
   (click)="openBottomSheet()"
 >
-  <img [ngSrc]="iconPath()" alt="icon" class="h-7 w-7 object-contain" />
+  <img [src]="iconPath()" alt="icon" class="h-7 w-7 object-contain" />
   <div class="flex min-w-0 flex-col gap-1">
     <span class="text-xs">{{ label() }}</span>
     <span class="text-sm">{{ entry().value | currency }}</span>

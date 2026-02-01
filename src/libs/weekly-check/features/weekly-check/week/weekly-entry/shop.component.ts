@@ -10,7 +10,7 @@ import {
   WeeklyCheckEntry,
   WeeklyCheckShops,
 } from '@haushaltsbuch/weekly-check/domain';
-import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   WeeklyHistoryComponent,
@@ -20,7 +20,7 @@ import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-weekly-check-shop',
-  imports: [CurrencyPipe, NgOptimizedImage],
+  imports: [CurrencyPipe],
   templateUrl: './shop.component.html',
 })
 export class ShopComponent {
