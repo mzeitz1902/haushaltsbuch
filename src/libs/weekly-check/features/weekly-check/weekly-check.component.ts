@@ -68,6 +68,7 @@ export class WeeklyCheckComponent {
     month: this.currentMonth(),
   }));
   form = form(this.formModel);
+  x = 0;
 
   constructor() {
     this.facade.loadWeeklyChecks();
