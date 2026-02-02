@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   inject,
+  linkedSignal,
   signal,
   viewChildren,
 } from '@angular/core';
@@ -49,10 +50,10 @@ export class WeeklyCheckComponent {
 
   state = signal<'closed' | 'open'>('closed');
 
-  formModel = signal<{ month: string }>({
-    month: dayjs().format('YYYY-MM-01'),
+  currentMonth = computed(() => {
+    const currentCw = dayjs().week();
+    return this.weeks().find((week) => week.cw === currentCw)!.month;
   });
-  form = form(this.formModel);
 
   filteredWeeks = computed(() =>
     this.weeks().filter((week) => week.month === this.formModel().month)
@@ -62,6 +63,11 @@ export class WeeklyCheckComponent {
   totalSpent = computed(() =>
     this.filteredWeeks().reduce((sum, week) => sum + week.total, 0)
   );
+
+  formModel = linkedSignal<{ month: string }>(() => ({
+    month: this.currentMonth(),
+  }));
+  form = form(this.formModel);
 
   constructor() {
     this.facade.loadWeeklyChecks();
