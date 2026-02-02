@@ -36,7 +36,6 @@ export class WeeklyHistoryComponent {
   form = form(this.formModel, (schemaPath) => {
     required(schemaPath.id);
     required(schemaPath.value);
-    required(schemaPath.note);
   });
 
   constructor() {
@@ -88,6 +87,7 @@ export class WeeklyHistoryComponent {
   submit() {
     if (this.form().valid()) {
       this.facade.updateHistoryEntry(this.formModel());
+      return;
     }
   }
 

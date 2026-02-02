@@ -52,6 +52,7 @@ export class WeeklyCheckComponent {
 
   currentMonth = computed(() => {
     const currentCw = dayjs().week();
+    if (this.weeks().length === 0) return;
     return this.weeks().find((week) => week.cw === currentCw)!.month;
   });
 
@@ -64,11 +65,10 @@ export class WeeklyCheckComponent {
     this.filteredWeeks().reduce((sum, week) => sum + week.total, 0)
   );
 
-  formModel = linkedSignal<{ month: string }>(() => ({
-    month: this.currentMonth(),
+  formModel = linkedSignal<{ month: string | null }>(() => ({
+    month: this.currentMonth() ?? null,
   }));
   form = form(this.formModel);
-  x = 0;
 
   constructor() {
     this.facade.loadWeeklyChecks();
