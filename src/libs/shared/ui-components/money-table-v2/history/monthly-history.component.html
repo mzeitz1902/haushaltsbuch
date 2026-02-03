@@ -31,8 +31,8 @@
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.note"
             (click)="noteInput.select()"
-            (blur)="submitAndReset()"
-            (keyup.enter)="selectedEntry.set(null)"
+            (blur)="submit()"
+            (keyup.enter)="submit(); reset()"
           />
           <input
             type="number"
@@ -43,8 +43,8 @@
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.value"
             (click)="valueInput.select()"
-            (blur)="submitAndReset()"
-            (keyup.enter)="selectedEntry.set(null)"
+            (blur)="submit()"
+            (keyup.enter)="submit(); reset()"
           />
           <button
             class="mr-2"

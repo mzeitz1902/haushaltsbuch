@@ -148,8 +148,11 @@ export class MonthlyHistoryComponent {
     });
   }
 
-  submitAndReset() {
-    this.updateHistory(this.form().value());
+  submit() {
+    this.updateHistory(this.formModel());
+  }
+
+  reset() {
     this.selectedEntry.set(null);
     this.formModel.set(this.initForm());
   }
