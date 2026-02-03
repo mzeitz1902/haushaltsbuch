@@ -52,6 +52,9 @@ export class MoneyTableContentComponent<
   hasSum = input(true);
   col3Template = input<TemplateRef<unknown>>();
   useDataTemplate = input<'values' | 'valuesWithHistory'>('values');
+  /**
+   * Determines which data to take out of {@link MonthlyCheckFacade}, either {@link MonthlyCheckFacade.budgets} or {@link MonthlyCheckFacade.variableCosts}
+   */
   valuesWithHistoryKind = input<'budgets' | 'variableCosts'>();
 
   updateRow = output<DATA>();
@@ -78,12 +81,13 @@ export class MoneyTableContentComponent<
     if (row.category === 'Einkauf') return;
     this.setForm(row);
     this.selectedRow.set(row.id);
-    this.selectedField.set('value');
     if (row.history) {
       this.bottomSheet.open(MonthlyHistoryComponent, {
         data: { row, kind: this.valuesWithHistoryKind() },
         viewContainerRef: this.viewContainerRef,
       });
+    } else {
+      this.selectedField.set('value');
     }
   }
 
