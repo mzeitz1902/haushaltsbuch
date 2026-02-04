@@ -97,13 +97,11 @@ export class MoneyTableContentComponent<
     this.selectedField.set('forecast');
   }
 
-  onCategoryEnterPressed() {
-    this.selectedField.set('value');
-    setTimeout(() => this.valueRef()?.nativeElement.select());
+  submit() {
+    this.updateRow.emit(this.formModel() as DATA);
   }
 
-  submitAndReset() {
-    this.updateRow.emit(this.formModel() as DATA);
+  reset() {
     this.selectedRow.set(null);
     this.selectedField.set(null);
     this.formModel.set(this.initForm());

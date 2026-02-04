@@ -58,39 +58,31 @@
     [class.border-b-0]="last"
   >
     @let isRowSelected = selectedRow() === row.id;
-    @let isCategoryField = selectedField() === 'category';
 
-    <ng-container #categoryCell>
-      @if (isRowSelected && isCategoryField) {
-        <app-string-input
-          [formField]="form.category"
-          (blurred)="submitAndReset()"
-          (enterPress)="onCategoryEnterPressed()"
-        />
-      } @else {
-        <div class="flex items-center">
-          <span class="h-full" (click)="editCategory(row)">
-            {{ row.category }}
-          </span>
-        </div>
-      }
-    </ng-container>
+    <ng-container
+      [ngTemplateOutlet]="categoryCell"
+      [ngTemplateOutletContext]="{ isRowSelected, row }"
+    />
 
     <ng-container #valueCell>
       @let isValueField = selectedField() === 'value';
-      @if (isRowSelected && isValueField) {
-        <app-number-input
-          [formField]="form.value"
-          (blurred)="submitAndReset()"
-          (enterPress)="selectedField.set(null)"
-        />
-      } @else {
-        <div class="flex items-center justify-end">
-          <span class="h-full" (click)="editValue(row)">
-            {{ row.value | currency }}
-          </span>
-        </div>
-      }
+      <app-number-input
+        #valueInput
+        class="hidden"
+        [class.block!]="isRowSelected && isValueField"
+        [formField]="form.value"
+        (blurred)="submit()"
+        (enterPress)="submit(); reset()"
+      />
+      <div
+        class="hidden items-center justify-end"
+        [class.flex!]="!isRowSelected || (isRowSelected && !isValueField)"
+        (click)="valueInput.select()"
+      >
+        <span class="h-full" (click)="editValue(row)">
+          {{ row.value | currency }}
+        </span>
+      </div>
     </ng-container>
 
     <div #col3>
@@ -119,22 +111,10 @@
   >
     @let isRowSelected = selectedRow() === row.id;
 
-    <ng-container #categoryCell>
-      @let isCategoryField = selectedField() === 'category';
-      @if (isRowSelected && isCategoryField) {
-        <app-string-input
-          [formField]="form.category"
-          (blurred)="submitAndReset()"
-          (enterPress)="onCategoryEnterPressed()"
-        />
-      } @else {
-        <div class="flex items-center">
-          <span class="h-full" (click)="editCategory(row)">
-            {{ row.category }}
-          </span>
-        </div>
-      }
-    </ng-container>
+    <ng-container
+      [ngTemplateOutlet]="categoryCell"
+      [ngTemplateOutletContext]="{ isRowSelected, row }"
+    />
 
     <ng-container #forecastCell>
       @let isForecastField = selectedField() === 'forecast';
@@ -142,8 +122,8 @@
         <app-number-input
           class="*:w-20"
           [formField]="form.forecast"
-          (blurred)="submitAndReset()"
-          (enterPress)="selectedField.set(null)"
+          (blurred)="submit()"
+          (enterPress)="submit(); reset()"
         />
       } @else {
         <div class="flex items-center justify-end">
@@ -174,5 +154,27 @@
       theme="secondary"
       (click)="deleteRow.emit(row.id)"
     ></button>
+  </div>
+</ng-template>
+
+<ng-template #categoryCell let-isRowSelected="isRowSelected" let-row="row">
+  @let isCategoryField = selectedField() === 'category';
+
+  <app-string-input
+    #categoryInput
+    class="hidden"
+    [class.block!]="isRowSelected && isCategoryField"
+    [formField]="form.category"
+    (blurred)="submit()"
+    (enterPress)="submit(); reset()"
+  />
+  <div
+    class="hidden items-center"
+    [class.flex!]="!isRowSelected || (isRowSelected && !isCategoryField)"
+    (click)="categoryInput.select()"
+  >
+    <span class="h-full" (click)="editCategory(row)">
+      {{ row.category }}
+    </span>
   </div>
 </ng-template>

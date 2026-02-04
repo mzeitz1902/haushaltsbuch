@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core';
+import { Component, ElementRef, model, output, viewChild } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { FormsModule } from '@angular/forms';
 
@@ -23,4 +23,10 @@ export class StringInputComponent implements FormValueControl<
 
   blurred = output();
   enterPress = output();
+
+  inputRef = viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
+
+  select() {
+    setTimeout(() => this.inputRef().nativeElement.select());
+  }
 }

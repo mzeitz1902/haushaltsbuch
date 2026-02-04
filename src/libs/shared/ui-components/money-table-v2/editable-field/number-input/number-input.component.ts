@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core';
+import { Component, ElementRef, model, output, viewChild } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -24,8 +24,14 @@ export class NumberInputComponent implements FormValueControl<
   blurred = output();
   enterPress = output();
 
+  inputRef = viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
+
   setValue(value: string | undefined): void {
     if (!value) return;
     this.value.set(+value);
+  }
+
+  select() {
+    setTimeout(() => this.inputRef().nativeElement.select());
   }
 }
