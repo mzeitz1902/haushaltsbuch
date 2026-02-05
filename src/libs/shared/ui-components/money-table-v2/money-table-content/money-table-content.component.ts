@@ -13,7 +13,7 @@ import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
 import { CurrencyPipe, NgTemplateOutlet } from '@angular/common';
 import { NumberInputComponent } from '../editable-field/number-input/number-input.component';
 import { StringInputComponent } from '../editable-field/string-input/string-input.component';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required } from '@angular/forms/signals';
 import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MonthlyHistoryComponent } from '../history/monthly-history.component';
@@ -68,7 +68,9 @@ export class MoneyTableContentComponent<
   selectedField = signal<'category' | 'value' | 'forecast' | null>(null);
 
   formModel = signal<MoneyForm>(this.initForm());
-  form = form(this.formModel);
+  form = form(this.formModel, (schema) => {
+    required(schema.id); // prevents empty form submission when blur is fired and submit already happened because of enter
+  });
 
   editCategory(row: DATA) {
     this.setForm(row);
@@ -98,7 +100,9 @@ export class MoneyTableContentComponent<
   }
 
   submit() {
-    this.updateRow.emit(this.formModel() as DATA);
+    if (this.form().valid()) {
+      this.updateRow.emit(this.formModel() as DATA);
+    }
   }
 
   reset() {

@@ -122,7 +122,7 @@
         <app-number-input
           class="*:w-20"
           [formField]="form.forecast"
-          (blurred)="submit()"
+          (blurred)="submit(); selectedField.set(null)"
           (enterPress)="submit(); reset()"
         />
       } @else {
@@ -165,7 +165,7 @@
     class="hidden"
     [class.block!]="isRowSelected && isCategoryField"
     [formField]="form.category"
-    (blurred)="submit()"
+    (blurred)="submit(); reset()"
     (enterPress)="submit(); reset()"
   />
   <div

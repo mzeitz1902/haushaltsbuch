@@ -16,7 +16,7 @@ import {
   MonthlyCheckFacade,
   VariableCost,
 } from '@haushaltsbuch/monthly-check/domain';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required } from '@angular/forms/signals';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
@@ -33,9 +33,11 @@ export class MonthlyHistoryComponent {
   isMonthLoaded = this.facade.isMonthLoaded;
 
   selectedEntry = signal<string | null>(null);
-  formModel = signal(this.initForm());
+  formModel = signal<Form>(this.initForm());
 
-  form = form(this.formModel);
+  form = form(this.formModel, (schema) => {
+    required(schema.id); // prevents empty form submission when blur is fired and submit already happened because of enter
+  });
 
   valueInputs = viewChildren<ElementRef>('valueInput');
   noteInputs = viewChildren<ElementRef<HTMLInputElement>>('noteInput');
@@ -149,7 +151,9 @@ export class MonthlyHistoryComponent {
   }
 
   submit() {
-    this.updateHistory(this.formModel());
+    if (this.form().valid()) {
+      this.updateHistory(this.formModel());
+    }
   }
 
   reset() {
