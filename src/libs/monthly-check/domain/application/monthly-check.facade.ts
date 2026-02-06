@@ -11,6 +11,7 @@ import {
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { Router } from '@angular/router';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class MonthlyCheckFacade {
@@ -19,6 +20,8 @@ export class MonthlyCheckFacade {
   private readonly router = inject(Router);
 
   currentMonth = this.store.month;
+  currentWeek = this.store.currentWeek;
+  currentWeek$ = toObservable(this.store.currentWeek);
   areMonthsLoaded = computed(
     () => this.store.getCreatedMonthsProcessStatus() === 'success'
   );
@@ -105,6 +108,10 @@ export class MonthlyCheckFacade {
   getMonth(month: string) {
     const _month = `${month}-01`;
     this.events.getMonth(_month);
+  }
+
+  getCurrentWeek() {
+    this.events.getCurrentWeek();
   }
 
   addRevenue() {

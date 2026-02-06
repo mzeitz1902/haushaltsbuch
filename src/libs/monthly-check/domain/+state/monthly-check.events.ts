@@ -14,6 +14,7 @@ import {
 } from '@haushaltsbuch/monthly-check/domain';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
+import { Week } from '@haushaltsbuch/weekly-check/domain';
 
 const events = eventGroup({
   source: 'Monthly Check',
@@ -21,6 +22,9 @@ const events = eventGroup({
     create: type<string>(),
     createSuccess: type<string>(),
     createFailure: type<unknown>(),
+
+    getCurrentWeek: type<void>(),
+    getCurrentWeekSuccess: type<Week | null>(),
 
     getMonth: type<string>(),
     getMonthSuccess: type<Month>(),
@@ -137,6 +141,9 @@ export const monthlyCheckEvents = {
   getMonth: events.getMonth,
   getMonthSuccess: events.getMonthSuccess,
   getMonthFailure: events.getMonthFailure,
+
+  getCurrentWeek: events.getCurrentWeek,
+  getCurrentWeekSuccess: events.getCurrentWeekSuccess,
 
   getCreatedMonths: events.getCreatedMonths,
   getCreatedMonthsSuccess: events.getCreatedMonthsSuccess,

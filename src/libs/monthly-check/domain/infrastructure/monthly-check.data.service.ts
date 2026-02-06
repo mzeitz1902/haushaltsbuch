@@ -10,6 +10,8 @@ import {
   Month,
 } from '@haushaltsbuch/monthly-check/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
+import dayjs from 'dayjs';
+import { Week } from '@haushaltsbuch/weekly-check/domain';
 
 @Injectable()
 export class MonthlyCheckDataService {
@@ -35,6 +37,13 @@ export class MonthlyCheckDataService {
     return from(
       supabase.from('monthly_snapshots').select('*').eq('month', month).single()
     ).pipe(map((res) => res.data! as unknown as Month));
+  }
+
+  getCurrentWeeklyCheck(): Observable<Week | null> {
+    const currentCw = dayjs().week();
+    return from(
+      supabase.from('weekly_check').select('*').eq('cw', currentCw).single()
+    ).pipe(map((res) => res.data ?? null));
   }
 
   addRevenue(monthId: string): Observable<AddRevenueResponse> {

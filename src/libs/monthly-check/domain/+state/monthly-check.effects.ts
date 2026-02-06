@@ -12,7 +12,7 @@ import { MonthlyCheckState } from './monthly-check.store';
 
 export function monthlyCheckEffects(
   store: StateSource<MonthlyCheckState>,
-  monthlyCheckDataService = inject(MonthlyCheckDataService),
+  dataService = inject(MonthlyCheckDataService),
   variableCostsDataService = inject(VariableCostsDataService),
   events: Events = inject(ReducerEvents),
   router = inject(Router)
@@ -26,14 +26,14 @@ export function monthlyCheckEffects(
 
   return {
     create$: events.on(monthlyCheckEvents.create).pipe(
-      switchMap(({ payload: month }) => {
-        return monthlyCheckDataService.createMonth(month).pipe(
+      switchMap(({ payload: month }) =>
+        dataService.createMonth(month).pipe(
           mapResponse({
             next: () => monthlyCheckEvents.createSuccess(month),
             error: (error) => monthlyCheckEvents.createFailure(error),
           })
-        );
-      })
+        )
+      )
     ),
 
     navigateOnCreateSuccess$: events.on(monthlyCheckEvents.createSuccess).pipe(
@@ -46,32 +46,43 @@ export function monthlyCheckEffects(
     ),
 
     getCreatedMonths$: events.on(monthlyCheckEvents.getCreatedMonths).pipe(
-      switchMap(() => {
-        return monthlyCheckDataService.getCreatedMonths().pipe(
+      switchMap(() =>
+        dataService.getCreatedMonths().pipe(
           mapResponse({
             next: (months) =>
               monthlyCheckEvents.getCreatedMonthsSuccess(months),
             error: (error) => monthlyCheckEvents.getCreatedMonthsFailure(error),
           })
-        );
-      })
+        )
+      )
     ),
 
     getMonth$: events.on(monthlyCheckEvents.getMonth).pipe(
-      switchMap(({ payload: month }) => {
-        return monthlyCheckDataService.getMonth(month).pipe(
+      switchMap(({ payload: month }) =>
+        dataService.getMonth(month).pipe(
           mapResponse({
             next: (month) => monthlyCheckEvents.getMonthSuccess(month),
             error: (error) => monthlyCheckEvents.getMonthFailure(error),
           })
-        );
-      })
+        )
+      )
+    ),
+
+    loadCurrent$: events.on(monthlyCheckEvents.getCurrentWeek).pipe(
+      switchMap(() =>
+        dataService.getCurrentWeeklyCheck().pipe(
+          mapResponse({
+            next: (check) => monthlyCheckEvents.getCurrentWeekSuccess(check),
+            error: console.error,
+          })
+        )
+      )
     ),
 
     addRevenue$: events.on(monthlyCheckEvents.addRevenue).pipe(
       getMonthId(),
       switchMap((monthId) => {
-        return monthlyCheckDataService.addRevenue(monthId).pipe(
+        return dataService.addRevenue(monthId).pipe(
           mapResponse({
             next: (revenue) => monthlyCheckEvents.addRevenueSuccess(revenue),
             error: (error) => monthlyCheckEvents.addRevenueFailure(error),
@@ -82,7 +93,7 @@ export function monthlyCheckEffects(
 
     updateRevenue$: events.on(monthlyCheckEvents.updateRevenue).pipe(
       switchMap(({ payload: { revenue, monthId } }) => {
-        return monthlyCheckDataService.updateRevenue(monthId, revenue).pipe(
+        return dataService.updateRevenue(monthId, revenue).pipe(
           mapResponse({
             next: (revenue) => monthlyCheckEvents.updateRevenueSuccess(revenue),
             error: (error) => monthlyCheckEvents.updateRevenueFailure(error),
@@ -93,7 +104,7 @@ export function monthlyCheckEffects(
 
     deleteRevenue$: events.on(monthlyCheckEvents.deleteRevenue).pipe(
       switchMap(({ payload: { monthId, revenueId } }) => {
-        return monthlyCheckDataService.deleteRevenue(monthId, revenueId).pipe(
+        return dataService.deleteRevenue(monthId, revenueId).pipe(
           mapResponse({
             next: (revenue) => monthlyCheckEvents.deleteRevenueSuccess(revenue),
             error: (error) => monthlyCheckEvents.deleteRevenueFailure(error),
@@ -104,7 +115,7 @@ export function monthlyCheckEffects(
 
     addFixedCost$: events.on(monthlyCheckEvents.addFixedCost).pipe(
       switchMap(({ payload: monthId }) => {
-        return monthlyCheckDataService.addFixedCost(monthId).pipe(
+        return dataService.addFixedCost(monthId).pipe(
           mapResponse({
             next: (fixedCost) =>
               monthlyCheckEvents.addFixedCostSuccess(fixedCost),
@@ -116,7 +127,7 @@ export function monthlyCheckEffects(
 
     updateFixedCost$: events.on(monthlyCheckEvents.updateFixedCost).pipe(
       switchMap(({ payload: { fixedCost, monthId } }) => {
-        return monthlyCheckDataService.updateFixedCost(monthId, fixedCost).pipe(
+        return dataService.updateFixedCost(monthId, fixedCost).pipe(
           mapResponse({
             next: (fixedCost) =>
               monthlyCheckEvents.updateFixedCostSuccess(fixedCost),
@@ -128,16 +139,13 @@ export function monthlyCheckEffects(
 
     deleteFixedCost$: events.on(monthlyCheckEvents.deleteFixedCost).pipe(
       switchMap(({ payload: { monthId, fixedCostId } }) => {
-        return monthlyCheckDataService
-          .deleteFixedCost(monthId, fixedCostId)
-          .pipe(
-            mapResponse({
-              next: (fixedCost) =>
-                monthlyCheckEvents.deleteFixedCostSuccess(fixedCost),
-              error: (error) =>
-                monthlyCheckEvents.deleteFixedCostFailure(error),
-            })
-          );
+        return dataService.deleteFixedCost(monthId, fixedCostId).pipe(
+          mapResponse({
+            next: (fixedCost) =>
+              monthlyCheckEvents.deleteFixedCostSuccess(fixedCost),
+            error: (error) => monthlyCheckEvents.deleteFixedCostFailure(error),
+          })
+        );
       })
     ),
 

@@ -10,7 +10,8 @@ import { monthlyCheckEvents } from './monthly-check.events';
 import { monthlyCheckEffects } from './monthly-check.effects';
 import { Revenue } from '@haushaltsbuch/revenue/domain';
 import { FixedCost } from '@haushaltsbuch/fixed-costs/domain';
-import { ProcessStatus } from '@haushaltsbuch/shared/util-types'; // Add typed status constants to avoid "string is not assignable" issues
+import { ProcessStatus } from '@haushaltsbuch/shared/util-types';
+import { Week } from '@haushaltsbuch/weekly-check/domain'; // Add typed status constants to avoid "string is not assignable" issues
 
 // Add typed status constants to avoid "string is not assignable" issues
 const INIT: ProcessStatus = 'init';
@@ -20,10 +21,12 @@ const ERROR: ProcessStatus = 'error';
 
 export interface MonthlyCheckState {
   month: Month | null;
+  currentWeek: Week | null;
   createdMonths: string[];
   createProcessStatus: ProcessStatus;
   getCreatedMonthsProcessStatus: ProcessStatus;
   getMonthProcessStatus: ProcessStatus;
+  getCurrentWeekProcessStatus: ProcessStatus;
   saveRevenueProcessStatus: ProcessStatus;
   addRevenueProcessStatus: ProcessStatus;
   deleteRevenueProcessStatus: ProcessStatus;
@@ -41,10 +44,12 @@ export const monthlyCheckStore = signalStore(
   withDevtools('monthly-check', withGlitchTracking()),
   withState<MonthlyCheckState>({
     month: null,
+    currentWeek: null,
     createdMonths: [],
     createProcessStatus: INIT,
     getMonthProcessStatus: INIT,
     getCreatedMonthsProcessStatus: INIT,
+    getCurrentWeekProcessStatus: INIT,
     saveRevenueProcessStatus: INIT,
     addRevenueProcessStatus: INIT,
     deleteRevenueProcessStatus: INIT,
@@ -82,6 +87,19 @@ export const monthlyCheckStore = signalStore(
     on(monthlyCheckEvents.getMonthFailure, () => ({
       getMonthProcessStatus: ERROR,
     })),
+
+    on(monthlyCheckEvents.getCurrentWeek, () => ({
+      getCurrentWeekProcessStatus: PENDING,
+    })),
+
+    on(
+      monthlyCheckEvents.getCurrentWeekSuccess,
+      ({ payload: currentWeek }) => ({
+        currentWeek,
+      })
+    ),
+
+    on(monthlyCheckEvents.resetCurrentWeek, () => ({ currentWeek: null })),
 
     on(monthlyCheckEvents.updateRevenue, () => ({
       saveRevenueProcessStatus: PENDING,

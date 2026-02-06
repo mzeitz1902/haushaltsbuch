@@ -11,10 +11,6 @@ import dayjs from 'dayjs';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ShopComponent } from './weekly-entry/shop.component';
 
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-
-dayjs.extend(weekOfYear);
-
 @Component({
   selector: 'app-week',
   imports: [

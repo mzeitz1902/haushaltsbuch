@@ -20,9 +20,11 @@ import { provideUsersDomain } from '../libs/user/domain';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import 'dayjs/locale/de';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 
 dayjs.locale('de');
 dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
 
 export const appConfig: ApplicationConfig = {
   providers: [

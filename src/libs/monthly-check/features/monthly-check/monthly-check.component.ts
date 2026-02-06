@@ -26,6 +26,7 @@ import { CreateMonthDialogComponent } from './create-month-dialog/create-month-d
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { take } from 'rxjs';
 import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-budgets-table.component';
+import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 
 @Component({
   selector: 'app-monthly-check',
@@ -46,14 +47,15 @@ import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-bu
   templateUrl: './monthly-check.component.html',
 })
 export class MonthlyCheckComponent {
-  private readonly facade = inject(MonthlyCheckFacade);
+  private readonly monthlyCheckFacade = inject(MonthlyCheckFacade);
+  private readonly weeklyCheckFacade = inject(WeeklyCheckFacade);
   private readonly mtxDialog = inject(MtxDialog);
 
   year = input<string>(); // from route
   month = input<string>(); // from route
 
-  snapshots = this.facade.snapshots;
-  createdYears = this.facade.createdYears;
+  snapshots = this.monthlyCheckFacade.snapshots;
+  createdYears = this.monthlyCheckFacade.createdYears;
 
   formModel = linkedSignal<Form>(() => {
     let snapshot = dayjs().format('YYYY-MM-DD');
@@ -85,10 +87,10 @@ export class MonthlyCheckComponent {
   selectedYear = computed(() => this.formModel().year);
 
   balance = computed(() => {
-    const totalFixedCosts = this.facade.totalFixedCosts();
-    const totalVariableCosts = this.facade.totalVariableCosts();
-    const totalRevenue = this.facade.totalRevenue();
-    const totalBudgets = this.facade.totalBudgets();
+    const totalFixedCosts = this.monthlyCheckFacade.totalFixedCosts();
+    const totalVariableCosts = this.monthlyCheckFacade.totalVariableCosts();
+    const totalRevenue = this.monthlyCheckFacade.totalRevenue();
+    const totalBudgets = this.monthlyCheckFacade.totalBudgets();
     return totalRevenue - (totalFixedCosts + totalVariableCosts + totalBudgets);
   });
 
@@ -101,28 +103,28 @@ export class MonthlyCheckComponent {
       this.isYearValid(year) &&
       this.isSnapshotCreated(snapshot)
     ) {
-      this.facade.getMonth(snapshot);
+      this.monthlyCheckFacade.getMonth(snapshot);
     }
   });
 
   navigateOnFormModelChange = effect(() => {
     const { snapshot, year } = this.formModel();
-    const areMonthsLoaded = this.facade.areMonthsLoaded();
+    const areMonthsLoaded = this.monthlyCheckFacade.areMonthsLoaded();
     untracked(() => {
       if (!areMonthsLoaded) return;
       const _month = snapshot ? dayjs(snapshot).format('MM') : null;
       if (year && !snapshot) {
-        this.facade.navigateTo(year);
+        this.monthlyCheckFacade.navigateTo(year);
         return;
       }
       if (snapshot) {
-        this.facade.navigateTo(year, _month);
+        this.monthlyCheckFacade.navigateTo(year, _month);
       }
     });
   });
 
   constructor() {
-    this.facade.getCreatedMonths();
+    this.monthlyCheckFacade.getCreatedMonths();
   }
 
   openCreateMonthDialog() {
@@ -142,7 +144,7 @@ export class MonthlyCheckComponent {
 
   createMonth(result: { year: string; month: string }) {
     const dateString = `${result.year}-${result.month}-01`;
-    this.facade.createMonth(dateString);
+    this.monthlyCheckFacade.createMonth(dateString);
   }
 
   private isYearValid(year: string) {
