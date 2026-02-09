@@ -4,10 +4,13 @@
       @for (entry of currentHistory(); track entry.id) {
         @let styleClass = 'ml-2 my-2 p-4';
         <div
-          class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2"
+          class="grid w-full grid-cols-[auto_auto_6rem_min-content] items-center gap-2"
           [class.border-b-gray-50]="!$last"
           [class.border-b]="!$last"
         >
+          <span [class]="styleClass">
+            {{ entry.date | date: 'dd.MM.' }}
+          </span>
           <span
             [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"

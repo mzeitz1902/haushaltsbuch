@@ -10,7 +10,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   HistoryEntry,
   MonthlyCheckFacade,
@@ -21,7 +21,7 @@ import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-monthly-history',
-  imports: [ButtonComponent, CurrencyPipe, FormField],
+  imports: [ButtonComponent, CurrencyPipe, FormField, DatePipe],
   templateUrl: './monthly-history.component.html',
 })
 export class MonthlyHistoryComponent {
