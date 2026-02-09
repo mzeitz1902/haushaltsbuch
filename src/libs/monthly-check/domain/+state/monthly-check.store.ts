@@ -99,8 +99,6 @@ export const monthlyCheckStore = signalStore(
       })
     ),
 
-    on(monthlyCheckEvents.resetCurrentWeek, () => ({ currentWeek: null })),
-
     on(monthlyCheckEvents.updateRevenue, () => ({
       saveRevenueProcessStatus: PENDING,
     })),
