@@ -17,16 +17,20 @@ import { IconComponent } from '../icon/icon.component';
     <mat-card>
       <mat-card-content>
         <div
-          class="grid h-5 w-full grid-cols-[1.5rem_6.5rem_1rem] items-center gap-2"
+          class="grid h-5 w-full grid-cols-[min-content_7rem_1fr_1rem] items-center gap-2"
         >
-          <app-icon icon="Scale" size="medium" />
-          <span class="text-sm font-semibold">Saldo</span>
+          <app-icon #col1 icon="Scale" size="medium" />
+          <span #col2Title class="text-s font-semibold">Saldo</span>
 
           <h1
-            class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+            #col3Value
+            class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
+            [class.text-green-500]="balance() >= 0"
+            [class.text-red-500]="balance() < 0"
           >
             {{ balance() | currency }}
           </h1>
+          <div></div>
         </div>
       </mat-card-content>
     </mat-card>

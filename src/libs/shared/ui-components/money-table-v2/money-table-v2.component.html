@@ -7,11 +7,11 @@
     >
       @if (headerTitle()) {
         <header
-          class="sticky top-14 z-10 grid w-full grid-cols-[auto_32%_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
+          class="sticky top-14 z-10 grid w-full grid-cols-[min-content_3rem_1fr_1rem] items-center gap-2 overflow-hidden bg-gray-800 py-2 backdrop-blur transition-all duration-100 md:top-16"
           (click)="accItem.toggle()"
         >
           <app-icon [icon]="headerIcon()" size="medium" #col1 />
-          <div #col2 class="flex items-center gap-2">
+          <div #col2Title class="flex items-center gap-2">
             <h2 class="w-min text-sm font-semibold text-gray-100">
               {{ headerTitle() }}
             </h2>
@@ -20,14 +20,15 @@
             }
           </div>
           <h1
-            class="text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
+            #col3Value
+            class="text-right text-(length:--text-xs) leading-(--text-sm--line-height) font-medium"
           >
             @if (!accItem.expanded) {
               {{ total() | currency }}
             }
           </h1>
           <app-icon
-            #col3
+            #col4
             [icon]="accItem.expanded ? 'ChevronUp' : 'ChevronDown'"
             size="small"
             class="ml-1"
