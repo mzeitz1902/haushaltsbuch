@@ -18,10 +18,11 @@ import {
 } from '@haushaltsbuch/monthly-check/domain';
 import { form, FormField, required } from '@angular/forms/signals';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-monthly-history',
-  imports: [ButtonComponent, CurrencyPipe, FormField, DatePipe],
+  imports: [ButtonComponent, CurrencyPipe, FormField, DatePipe, MatTooltip],
   templateUrl: './monthly-history.component.html',
 })
 export class MonthlyHistoryComponent {
