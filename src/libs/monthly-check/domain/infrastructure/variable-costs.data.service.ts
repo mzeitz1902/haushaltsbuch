@@ -16,7 +16,7 @@ export class VariableCostsDataService {
       supabase
         .rpc('add_monthly_snapshot_variable_costs_line', {
           p_snapshot_id: monthId,
-          p_line: { value: 0, category: 'Neu', forecast: 0, history: [] },
+          p_line: { value: 0, category: '', forecast: 0, history: [] },
         })
         .select('*')
         .single()

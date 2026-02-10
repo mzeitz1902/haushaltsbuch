@@ -26,7 +26,6 @@ import { CreateMonthDialogComponent } from './create-month-dialog/create-month-d
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { take } from 'rxjs';
 import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-budgets-table.component';
-import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 
 @Component({
   selector: 'app-monthly-check',
@@ -48,7 +47,6 @@ import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 })
 export class MonthlyCheckComponent {
   private readonly monthlyCheckFacade = inject(MonthlyCheckFacade);
-  private readonly weeklyCheckFacade = inject(WeeklyCheckFacade);
   private readonly mtxDialog = inject(MtxDialog);
 
   year = input<string>(); // from route

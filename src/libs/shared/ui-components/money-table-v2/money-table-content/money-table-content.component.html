@@ -75,7 +75,7 @@
         (enterPress)="submit(); reset()"
       />
       <div
-        class="hidden items-center justify-end"
+        class="hidden h-full items-center justify-end"
         [class.flex!]="!isRowSelected || (isRowSelected && !isValueField)"
         (click)="valueInput.select()"
       >
@@ -169,11 +169,11 @@
     (enterPress)="submit(); reset()"
   />
   <div
-    class="hidden items-center"
+    class="hidden h-full w-full items-center"
     [class.flex!]="!isRowSelected || (isRowSelected && !isCategoryField)"
-    (click)="categoryInput.select()"
+    (click)="editCategory(row); categoryInput.select()"
   >
-    <span class="h-full" (click)="editCategory(row)">
+    <span class="h-full">
       {{ row.category }}
     </span>
   </div>
