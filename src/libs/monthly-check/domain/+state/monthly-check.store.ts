@@ -240,6 +240,9 @@ export const monthlyCheckStore = signalStore(
     })),
     on(monthlyCheckEvents.addBudgetSuccess, () => ({
       addBudgetProcessStatus: SUCCESS,
+    })),
+    on(monthlyCheckEvents.resetAddHistoryEntryProcessStatus, () => ({
+      addHistoryEntryProcessStatus: INIT,
     }))
   )
 );

@@ -130,6 +130,8 @@ const events = eventGroup({
     }>(),
     updateBudgetHistoryEntrySuccess: type<ChangeBudgetHistoryResponse>(),
     updateBudgetHistoryEntryFailure: type<unknown>(),
+
+    resetAddHistoryEntryProcessStatus: type<void>(),
   },
 });
 
@@ -224,4 +226,6 @@ export const monthlyCheckEvents = {
   updateBudgetHistoryEntry: events.updateBudgetHistoryEntry,
   updateBudgetHistoryEntrySuccess: events.updateBudgetHistoryEntrySuccess,
   updateBudgetHistoryEntryFailure: events.updateBudgetHistoryEntryFailure,
+
+  resetAddHistoryEntryProcessStatus: events.resetAddHistoryEntryProcessStatus,
 };

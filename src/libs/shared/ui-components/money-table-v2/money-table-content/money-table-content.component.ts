@@ -14,9 +14,13 @@ import { CurrencyPipe, NgTemplateOutlet } from '@angular/common';
 import { NumberInputComponent } from '../editable-field/number-input/number-input.component';
 import { StringInputComponent } from '../editable-field/string-input/string-input.component';
 import { form, FormField, required } from '@angular/forms/signals';
-import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
+import {
+  HistoryEntry,
+  MonthlyCheckFacade,
+} from '@haushaltsbuch/monthly-check/domain';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MonthlyHistoryComponent } from '../history/monthly-history.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-money-table-content',
@@ -41,6 +45,7 @@ export class MoneyTableContentComponent<
 > {
   private readonly bottomSheet = inject(MatBottomSheet);
   private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly facade = inject(MonthlyCheckFacade);
 
   isExpanded = input.required<boolean>();
   data = input.required<DATA[]>();
@@ -84,10 +89,14 @@ export class MoneyTableContentComponent<
     this.setForm(row);
     this.selectedRow.set(row.id);
     if (row.history) {
-      this.bottomSheet.open(MonthlyHistoryComponent, {
-        data: { row, kind: this.valuesWithHistoryKind() },
-        viewContainerRef: this.viewContainerRef,
-      });
+      this.bottomSheet
+        .open(MonthlyHistoryComponent, {
+          data: { row, kind: this.valuesWithHistoryKind() },
+          viewContainerRef: this.viewContainerRef,
+        })
+        .afterDismissed()
+        .pipe(take(1))
+        .subscribe(() => this.facade.resetAddHistoryEntryProcessStatus());
     } else {
       this.selectedField.set('value');
     }

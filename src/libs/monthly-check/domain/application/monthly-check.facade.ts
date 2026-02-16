@@ -226,4 +226,8 @@ export class MonthlyCheckFacade {
     }
     this.router.navigate(['/monthly-check', year, month]);
   }
+
+  resetAddHistoryEntryProcessStatus() {
+    this.events.resetAddHistoryEntryProcessStatus();
+  }
 }
