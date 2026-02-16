@@ -34,7 +34,7 @@ export class BaseComponent {
   private readonly fixedCostsFacade = inject(FixedCostsFacade);
   private readonly revenueFacade = inject(RevenueFacade);
 
-  balance = computed(
+  balanceReal = computed(
     () => this.revenueFacade.total() - this.fixedCostsFacade.totalFixedCosts()
   );
 

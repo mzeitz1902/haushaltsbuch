@@ -75,6 +75,13 @@ export class MonthlyCheckFacade {
   );
 
   budgets = computed(() => this.currentMonth()?.budget_lines ?? []);
+  totalBudgetForecasts = computed(() => {
+    const budgets = this.budgets();
+    if (budgets.length === 0) {
+      return 0;
+    }
+    return budgets.reduce((sum, b) => sum + b.forecast!, 0);
+  });
   totalBudgets = computed(() => {
     const budgets = this.budgets();
     if (budgets.length === 0) {

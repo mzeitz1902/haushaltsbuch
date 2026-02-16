@@ -66,11 +66,15 @@ export class MonthlyHistoryComponent {
         if (list.length === 0) return;
 
         const newest = list.at(-1)!;
+        let category: 'value' | 'note' = 'value';
+        if (
+          this.data.row.category === 'Amazon' ||
+          this.data.row.category === 'Sonstige'
+        ) {
+          category = 'note';
+        }
 
-        this.edit(
-          newest,
-          this.data.row.category === 'Amazon' ? 'note' : 'value'
-        );
+        this.edit(newest, category);
 
         // scroll to bottom after DOM updates
         setTimeout(() => {

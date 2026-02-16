@@ -84,7 +84,18 @@ export class MonthlyCheckComponent {
   selectedMonth = computed(() => this.formModel().snapshot);
   selectedYear = computed(() => this.formModel().year);
 
-  balance = computed(() => {
+  balanceForecast = computed(() => {
+    const totalFixedCosts = this.monthlyCheckFacade.totalFixedCosts();
+    const totalVariableCosts = this.monthlyCheckFacade.totalVariableCosts();
+    const totalRevenue = this.monthlyCheckFacade.totalRevenue();
+    const totalBudgetForecasts = this.monthlyCheckFacade.totalBudgetForecasts();
+    return (
+      totalRevenue -
+      (totalFixedCosts + totalVariableCosts + totalBudgetForecasts)
+    );
+  });
+
+  balanceReal = computed(() => {
     const totalFixedCosts = this.monthlyCheckFacade.totalFixedCosts();
     const totalVariableCosts = this.monthlyCheckFacade.totalVariableCosts();
     const totalRevenue = this.monthlyCheckFacade.totalRevenue();

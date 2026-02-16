@@ -14,22 +14,33 @@ import { IconComponent } from '../icon/icon.component';
     IconComponent,
   ],
   template: `
-    <mat-card>
+    <mat-card class="h-18">
       <mat-card-content>
         <div
-          class="grid h-5 w-full grid-cols-[min-content_7rem_1fr_1rem] items-center gap-2"
+          class="mb-2 grid h-5 w-full grid-cols-[min-content_1fr_1fr_1rem] items-center gap-2"
         >
           <app-icon #col1 icon="Scale" size="medium" />
           <span #col2Title class="text-s font-semibold">Saldo</span>
 
-          <h1
-            #col3Value
-            class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
-            [class.text-green-500]="balance() >= 0"
-            [class.text-red-500]="balance() < 0"
-          >
-            {{ balance() | currency }}
-          </h1>
+          <div class="grid grid-cols-2" #col3>
+            <span class="text-right text-xs">Forecast</span>
+            <span class="text-right text-xs">Real</span>
+            <h1
+              class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
+              [class.text-green-500]="balanceReal() >= 0"
+              [class.text-red-500]="balanceReal() < 0"
+            >
+              {{ balanceForecast() | currency }}
+            </h1>
+            <h1
+              #col3Value
+              class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
+              [class.text-green-500]="balanceReal() >= 0"
+              [class.text-red-500]="balanceReal() < 0"
+            >
+              {{ balanceReal() | currency }}
+            </h1>
+          </div>
           <div></div>
         </div>
       </mat-card-content>
@@ -37,5 +48,6 @@ import { IconComponent } from '../icon/icon.component';
   `,
 })
 export class BalanceComponent {
-  balance = input.required<number>();
+  balanceReal = input.required<number>();
+  balanceForecast = input<number>();
 }

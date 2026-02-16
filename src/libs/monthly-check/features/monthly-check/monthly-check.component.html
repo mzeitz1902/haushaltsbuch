@@ -34,7 +34,10 @@
       <app-fixed-costs-month-table />
       <app-monthly-budgets-table />
       <app-variable-costs-table />
-      <app-balance [balance]="balance()" />
+      <app-balance
+        [balanceReal]="balanceReal()"
+        [balanceForecast]="balanceForecast()"
+      />
     }
   </cdk-accordion>
 </section>
