@@ -14,10 +14,7 @@ import { CurrencyPipe, NgTemplateOutlet } from '@angular/common';
 import { NumberInputComponent } from '../editable-field/number-input/number-input.component';
 import { StringInputComponent } from '../editable-field/string-input/string-input.component';
 import { form, FormField, required } from '@angular/forms/signals';
-import {
-  HistoryEntry,
-  MonthlyCheckFacade,
-} from '@haushaltsbuch/monthly-check/domain';
+import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MonthlyHistoryComponent } from '../history/monthly-history.component';
 import { take } from 'rxjs';
