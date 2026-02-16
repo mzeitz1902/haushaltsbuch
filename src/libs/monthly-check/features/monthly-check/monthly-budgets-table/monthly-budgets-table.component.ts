@@ -30,4 +30,8 @@ export class MonthlyBudgetsTableComponent {
   update(cost: VariableCost) {
     this.facade.updateBudget(cost);
   }
+
+  resetAddHistoryEntryProcessStatus() {
+    this.facade.resetAddHistoryEntryProcessStatus();
+  }
 }

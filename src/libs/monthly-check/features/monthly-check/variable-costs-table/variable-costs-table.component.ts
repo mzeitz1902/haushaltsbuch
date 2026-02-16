@@ -33,4 +33,8 @@ export class VariableCostsTableComponent {
   update(cost: VariableCost) {
     this.facade.updateVariableCost(cost);
   }
+
+  resetAddHistoryEntryProcessStatus() {
+    this.facade.resetAddHistoryEntryProcessStatus();
+  }
 }

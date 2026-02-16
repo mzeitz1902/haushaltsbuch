@@ -45,7 +45,6 @@ export class MoneyTableContentComponent<
 > {
   private readonly bottomSheet = inject(MatBottomSheet);
   private readonly viewContainerRef = inject(ViewContainerRef);
-  private readonly facade = inject(MonthlyCheckFacade);
 
   isExpanded = input.required<boolean>();
   data = input.required<DATA[]>();
@@ -65,9 +64,9 @@ export class MoneyTableContentComponent<
   updateRow = output<DATA>();
   deleteRow = output<number>();
   addRow = output<void>();
+  resetAddHistoryEntryProcessStatus = output<void>();
 
   categoryRef = viewChild<ElementRef>('category');
-  valueRef = viewChild<ElementRef>('value');
 
   selectedRow = signal<number | string | null>(null);
   selectedField = signal<'category' | 'value' | 'forecast' | null>(null);
@@ -96,7 +95,7 @@ export class MoneyTableContentComponent<
         })
         .afterDismissed()
         .pipe(take(1))
-        .subscribe(() => this.facade.resetAddHistoryEntryProcessStatus());
+        .subscribe(() => this.resetAddHistoryEntryProcessStatus.emit());
     } else {
       this.selectedField.set('value');
     }

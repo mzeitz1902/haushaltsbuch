@@ -43,4 +43,5 @@ export class MoneyTableV2Component<
   updateRow = output<DATA>();
   deleteRow = output<number>();
   addRow = output<void>();
+  resetAddHistoryEntryProcessStatus = output<void>();
 }
