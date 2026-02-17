@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  signal,
-  TemplateRef,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import {
   IconComponent,
   MoneyTableV2Component,
@@ -29,7 +22,6 @@ import { MtxPopover, MtxPopoverTrigger } from '@ng-matero/extensions/popover';
     MtxPopoverTrigger,
   ],
   templateUrl: './special-costs.component.html',
-  styles: ``,
 })
 export class SpecialCostsComponent {
   private readonly facade = inject(FixedCostsFacade);
@@ -39,13 +31,9 @@ export class SpecialCostsComponent {
   isLoading = this.facade.isLoading;
   isAdded = this.facade.isSpecialAdded;
 
-  dueInMonthsTmp = viewChild.required<TemplateRef<unknown>>('dueInMonth');
   selectTmpRef = viewChild<NgSelectComponent>(NgSelectComponent);
 
   selectedRow = signal<number | null>(null);
-  additionalColumns = computed(() => [
-    { name: 'due_in_month', template: this.dueInMonthsTmp() },
-  ]);
 
   dueInMonthControl = new FormControl<Month[]>([], { nonNullable: true });
 

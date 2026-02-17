@@ -34,17 +34,19 @@
             <span> Summe </span>
             <span class="text-right"> {{ total() | currency }}</span>
             <div><!--placeholder--></div>
+          } @else {
+            <div><!--placeholder--></div>
+            <div><!--placeholder--></div>
           }
           <button
-            class="w-5"
-            [class.justify-self-end]="hasSum()"
+            class="w-5 justify-self-end"
             maffiButton
             size="small"
-            (click)="addRow.emit(); $event.stopPropagation()"
+            (click)="onButtonClick(); $event.stopPropagation()"
             animate.enter="animate-fade-in"
             animate.leave="animate-fade-out"
           >
-            Hinzufügen
+            {{ selectedRow() === null ? 'Hinzufügen' : 'Speichern' }}
           </button>
         </div>
       }
@@ -71,7 +73,6 @@
         class="hidden"
         [class.block!]="isRowSelected && isValueField"
         [formField]="form.value"
-        (blurred)="submit()"
         (enterPress)="submit(); reset()"
       />
       <div
@@ -92,7 +93,7 @@
       />
       <!--placeholder-->
     </div>
-
+    <!--Delete-->
     <button
       maffiButton
       class="mb-1 h-full"
@@ -122,7 +123,6 @@
         <app-number-input
           class="*:w-20"
           [formField]="form.forecast"
-          (blurred)="submit(); selectedField.set(null)"
           (enterPress)="submit(); reset()"
         />
       } @else {
@@ -165,7 +165,6 @@
     class="hidden"
     [class.block!]="isRowSelected && isCategoryField"
     [formField]="form.category"
-    (blurred)="submit(); reset()"
     (enterPress)="submit(); reset()"
   />
   <div

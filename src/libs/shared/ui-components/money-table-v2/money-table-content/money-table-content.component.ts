@@ -104,6 +104,16 @@ export class MoneyTableContentComponent<
     this.selectedField.set('forecast');
   }
 
+  onButtonClick() {
+    if (this.selectedRow() === null) {
+      this.addRow.emit();
+      return;
+    }
+
+    this.submit();
+    this.reset();
+  }
+
   submit() {
     if (this.form().valid()) {
       this.updateRow.emit(this.formModel() as DATA);
