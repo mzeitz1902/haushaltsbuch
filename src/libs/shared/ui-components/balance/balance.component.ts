@@ -22,7 +22,7 @@ import { IconComponent } from '../icon/icon.component';
           <app-icon #col1 icon="Scale" size="medium" />
           <span #col2Title class="text-s font-semibold">Saldo</span>
 
-          <div class="grid grid-cols-2" #col3>
+          <div class="grid grid-cols-2 gap-x-4" #col3>
             <span class="text-right text-xs">Forecast</span>
             <span class="text-right text-xs">Real</span>
             <h1
