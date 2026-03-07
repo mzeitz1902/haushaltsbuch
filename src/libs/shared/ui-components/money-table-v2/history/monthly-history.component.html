@@ -28,6 +28,7 @@
           >
             {{ entry.value | currency }}
           </span>
+
           <input
             #noteInput
             [attr.data-id]="entry.id"
@@ -51,6 +52,7 @@
             (blur)="submit()"
             (keyup.enter)="submit(); reset()"
           />
+
           <button
             class="mr-2"
             maffiButton

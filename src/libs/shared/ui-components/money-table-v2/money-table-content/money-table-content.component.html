@@ -172,7 +172,7 @@
     [class.flex!]="!isRowSelected || (isRowSelected && !isCategoryField)"
     (click)="editCategory(row); categoryInput.select()"
   >
-    <span class="h-full">
+    <span class="h-full truncate">
       {{ row.category }}
     </span>
   </div>
