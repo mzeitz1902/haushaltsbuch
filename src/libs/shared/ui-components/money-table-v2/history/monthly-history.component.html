@@ -4,11 +4,15 @@
       @for (entry of currentHistory(); track entry.id) {
         @let styleClass = 'ml-2 my-2 p-4';
         <div
-          class="grid w-full grid-cols-[4rem_10em_6rem_min-content] items-center gap-2"
+          class="grid w-full grid-cols-[5.8rem_8em_6rem_min-content] items-center gap-2"
           [class.border-b-gray-50]="!$last"
           [class.border-b]="!$last"
         >
-          <span [class]="styleClass">
+          <span
+            [class]="styleClass"
+            [class.hidden]="selectedEntry() === entry.id"
+            (click)="edit(entry, 'date')"
+          >
             {{ entry.date | date: 'dd.MM.' }}
           </span>
           <span
@@ -29,10 +33,17 @@
             {{ entry.value | currency }}
           </span>
 
+          <hlm-date-picker
+            class="h-14 w-full border-blue-400 bg-gray-600 outline-none"
+            [class.hidden]="selectedEntry() !== entry.id"
+            [formField]="form.date"
+          />
+
           <input
             #noteInput
+            hlmInput
             [attr.data-id]="entry.id"
-            class="w-full rounded border border-blue-400 bg-gray-600 outline-none"
+            class="w-full rounded-md border border-blue-400 bg-gray-600 outline-none"
             [class]="styleClass"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.note"
@@ -43,8 +54,9 @@
           <input
             type="number"
             #valueInput
+            hlmInput
             [attr.data-id]="entry.id"
-            class="w-full rounded border border-blue-400 bg-gray-600 text-right outline-none"
+            class="w-full rounded-md border border-blue-400 bg-gray-600 text-right outline-none"
             [class]="styleClass"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.value"

@@ -19,11 +19,30 @@ import {
 import { form, FormField, required } from '@angular/forms/signals';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatTooltip } from '@angular/material/tooltip';
+import {
+  HlmDatePickerImports,
+  provideHlmDatePickerConfig,
+} from '@spartan-ng/helm/date-picker';
+import dayjs from 'dayjs';
+import { HlmInput } from '@spartan-ng/helm/input';
 
 @Component({
   selector: 'app-monthly-history',
-  imports: [ButtonComponent, CurrencyPipe, FormField, DatePipe, MatTooltip],
+  imports: [
+    ButtonComponent,
+    CurrencyPipe,
+    FormField,
+    DatePipe,
+    MatTooltip,
+    HlmDatePickerImports,
+    HlmInput,
+  ],
   templateUrl: './monthly-history.component.html',
+  providers: [
+    provideHlmDatePickerConfig({
+      formatDate: (date: Date) => dayjs(date).format('DD.MM.'),
+    }),
+  ],
 })
 export class MonthlyHistoryComponent {
   private readonly facade = inject(MonthlyCheckFacade);
@@ -127,7 +146,7 @@ export class MonthlyHistoryComponent {
     }
   }
 
-  edit(entry: HistoryEntry, field: 'note' | 'value') {
+  edit(entry: HistoryEntry, field: keyof Omit<Form, 'id'>) {
     this.selectedEntry.set(entry.id);
     this.setForm(entry);
 
@@ -170,7 +189,7 @@ export class MonthlyHistoryComponent {
     return {
       id: null!,
       value: null!,
-      date: null!,
+      date: new Date(),
       note: '',
     };
   }
@@ -179,7 +198,7 @@ export class MonthlyHistoryComponent {
     this.formModel.set({
       id: data.id,
       value: data.value!,
-      date: data.date!,
+      date: new Date(data.date),
       note: data.note ?? '',
     });
   }
