@@ -3,7 +3,6 @@ import {
   computed,
   inject,
   input,
-  signal,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -16,7 +15,7 @@ import {
   WeeklyHistoryComponent,
   WeeklyHistoryData,
 } from './weekly-history/weekly-history.component';
-import { take, tap } from 'rxjs';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-weekly-check-shop',
@@ -32,12 +31,9 @@ export class ShopComponent {
   entry = input.required<WeeklyCheckEntry>();
   shop = input.required<keyof WeeklyCheckShops>();
 
-  isOpened = signal(false);
-
   iconPath = computed(() => `assets/${this.shop()}.svg`);
 
   openBottomSheet() {
-    this.isOpened.set(true);
     const data: WeeklyHistoryData = {
       weeklyCheckId: this.weeklyCheckId(),
       shop: this.shop(),
@@ -48,10 +44,7 @@ export class ShopComponent {
         viewContainerRef: this.viewContainerRef,
       })
       .afterDismissed()
-      .pipe(
-        take(1),
-        tap(() => this.isOpened.set(false))
-      )
+      .pipe(take(1))
       .subscribe();
   }
 }
