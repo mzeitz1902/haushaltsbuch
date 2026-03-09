@@ -107,7 +107,7 @@ color-scheme: light;
 --secondary-foreground: var(--color-sky-900);
 --muted: var(--color-sky-50);
 --muted-foreground: var(--color-sky-700);
---accent: var(--color-sky-100);
+--accent: var(--color-gray-500);
 --accent-foreground: var(--color-sky-900);
 --destructive: oklch(0.577 0.245 27.325);
 --border: var(--color-sky-200);
