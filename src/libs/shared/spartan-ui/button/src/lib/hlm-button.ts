@@ -1,7 +1,7 @@
 import { Directive, input, signal } from '@angular/core';
 import { BrnButton } from '@spartan-ng/brain/button';
 import { classes } from '@spartan-ng/helm/utils';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectBrnButtonConfig } from './hlm-button.token';
 
@@ -18,7 +18,7 @@ export const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+          'hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
