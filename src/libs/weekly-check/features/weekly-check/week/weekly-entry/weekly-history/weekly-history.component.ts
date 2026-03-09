@@ -6,7 +6,10 @@ import {
   viewChildren,
 } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
+import {
+  ButtonComponent,
+  MenuDividerComponent,
+} from '@haushaltsbuch/shared/ui-components';
 import {
   WeeklyCheckFacade,
   WeeklyCheckShops,
@@ -14,11 +17,19 @@ import {
 } from '@haushaltsbuch/weekly-check/domain';
 import { form, FormField, required } from '@angular/forms/signals';
 import { HistoryEntryDto } from '@haushaltsbuch/shared/sdks';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { HlmInput } from '@spartan-ng/helm/input';
 
 @Component({
   selector: 'app-weekly-history',
-  imports: [ButtonComponent, FormField, CurrencyPipe],
+  imports: [
+    ButtonComponent,
+    FormField,
+    CurrencyPipe,
+    MenuDividerComponent,
+    HlmInput,
+    DatePipe,
+  ],
   templateUrl: './weekly-history.component.html',
 })
 export class WeeklyHistoryComponent {
@@ -53,12 +64,13 @@ export class WeeklyHistoryComponent {
     this.facade.addHistoryEntry();
   }
 
-  edit(entry: HistoryEntryDto, field: 'note' | 'value') {
+  edit(entry: HistoryEntryDto, field: keyof Omit<WeeklyHistoryForm, 'id'>) {
     this.selectedEntry.set(entry.id);
     this.formModel.set({
       id: entry.id,
-      value: entry.value,
-      note: entry.note,
+      value: entry.value!,
+      note: entry.note ?? '',
+      date: new Date(entry.date),
     });
     // Give the DOM time to render the inputs, then select the matching one
     setTimeout(() => {
@@ -101,6 +113,7 @@ export class WeeklyHistoryComponent {
       id: null!,
       value: null!,
       note: null!,
+      date: new Date(),
     };
   }
 }

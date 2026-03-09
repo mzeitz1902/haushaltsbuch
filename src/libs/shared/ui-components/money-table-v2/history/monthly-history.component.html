@@ -31,6 +31,7 @@
             class="w-full border-blue-400 bg-gray-600 outline-none"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.date"
+            (dateChange)="submit(); reset()"
           />
 
           <input

@@ -2,50 +2,51 @@
   <div class="max-h-64 overflow-auto">
     <div class="flex w-full flex-col items-center justify-center **:text-white">
       @for (entry of history(); track entry.id) {
-        @let styleClass = 'ml-2 my-2 p-4';
         <div
-          class="grid w-full grid-cols-[auto_6rem_min-content] items-center gap-2"
-          [class.border-b-gray-50]="!$last"
-          [class.border-b]="!$last"
+          class="grid w-full grid-cols-[5.8rem_8em_6rem_min-content] items-center gap-2 px-2 py-2 **:text-sm"
         >
+          <span>
+            {{ entry.date | date: 'dd.MM.' }}
+          </span>
           <span
-            [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"
+            [class.h-full]="entry.note === ''"
             (click)="edit(entry, 'note')"
           >
             {{ entry.note }}
           </span>
           <span
-            [class]="styleClass"
             [class.hidden]="selectedEntry() === entry.id"
             (click)="edit(entry, 'value')"
             class="m-0! my-0! w-full text-right"
           >
             {{ entry.value | currency }}
           </span>
+
           <input
+            hlmInput
             #noteInput
             [attr.data-id]="entry.id"
-            class="w-full rounded border border-blue-400 bg-gray-600 outline-none"
-            [class]="styleClass"
+            class="w-full rounded-md border border-blue-400 bg-gray-600 outline-none"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.note"
             (click)="noteInput.select()"
             (blur)="submit()"
             (keyup.enter)="submit(); reset()"
           />
-          <input
-            type="number"
-            #valueInput
-            [attr.data-id]="entry.id"
-            class="w-full rounded border border-blue-400 bg-gray-600 text-right outline-none"
-            [class]="styleClass"
-            [class.hidden]="selectedEntry() !== entry.id"
-            [formField]="form.value"
-            (click)="valueInput.select()"
-            (blur)="submit()"
-            (keyup.enter)="submit(); reset()"
-          />
+          @if (selectedEntry() === entry.id) {
+            <input
+              type="number"
+              #valueInput
+              hlmInput
+              [attr.data-id]="entry.id"
+              class="w-full rounded-md border border-blue-400 bg-gray-600 text-right outline-none"
+              [formField]="form.value"
+              (click)="valueInput.select()"
+              (blur)="submit()"
+              (keyup.enter)="submit(); reset()"
+            />
+          }
           <button
             class="mr-2"
             maffiButton
@@ -53,6 +54,9 @@
             (click)="deleteEntry(entry.id)"
           ></button>
         </div>
+        @if (!$last) {
+          <hr menuDivider />
+        }
       } @empty {
         <div class="p-2">Noch keine Einträge vorhanden.</div>
       }

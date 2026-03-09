@@ -18,4 +18,4 @@ export type WeeklyCheckShops = Pick<
   | 'baker_butcher'
 >;
 
-export type WeeklyHistoryForm = Omit<HistoryEntry, 'date'>;
+export type WeeklyHistoryForm = HistoryEntry;
