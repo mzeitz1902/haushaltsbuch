@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  input,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, input, viewChild } from '@angular/core';
 import {
   Week,
   WeeklyCheckEntry,
@@ -32,8 +25,6 @@ import { HlmCard, HlmCardContent } from '@spartan-ng/helm/card';
   templateUrl: './week.component.html',
 })
 export class WeekComponent {
-  private readonly host = inject(ElementRef<HTMLElement>);
-
   week = input.required<Week>();
 
   item = viewChild.required(CdkAccordionItem);
@@ -68,13 +59,6 @@ export class WeekComponent {
     const currentCw = dayjs().week();
     return week.cw === currentCw;
   });
-
-  scrollIntoView() {
-    this.host.nativeElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-    });
-  }
 }
 
 interface Entry {

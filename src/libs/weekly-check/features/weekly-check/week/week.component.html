@@ -1,4 +1,4 @@
-<hlm-card class="cursor-pointer">
+<hlm-card class="cursor-pointer" [class.bg-blue-950]="isCurrent()">
   <cdk-accordion-item
     hlmCardContent
     #accItem="cdkAccordionItem"
@@ -51,8 +51,6 @@
       <div class="grid grid-cols-3 gap-2">
         @for (entry of entries(); track $index) {
           <app-weekly-check-shop
-            [class.*:bg-sky-900]="isCurrent()"
-            [class.*:hover:bg-sky-800]="isCurrent()"
             [weeklyCheckId]="week().id"
             [label]="entry.label"
             [entry]="entry.entry"
