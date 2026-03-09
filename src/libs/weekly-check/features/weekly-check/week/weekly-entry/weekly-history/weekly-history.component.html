@@ -34,7 +34,7 @@
             (blur)="submit()"
             (keyup.enter)="submit(); reset()"
           />
-          @if (selectedEntry() === entry.id) {
+          <div [class.hidden]="selectedEntry() !== entry.id">
             <input
               type="number"
               #valueInput
@@ -46,7 +46,7 @@
               (blur)="submit()"
               (keyup.enter)="submit(); reset()"
             />
-          }
+          </div>
           <button
             class="mr-2"
             maffiButton
