@@ -1,63 +1,65 @@
-<mat-card [class.bg-gray-700!]="isCurrent()" class="cursor-pointer">
-  <mat-card-content>
-    <cdk-accordion-item #accItem="cdkAccordionItem" [expanded]="isCurrent()">
-      <header
-        class="grid w-full grid-cols-[5rem_1fr_1.5rem] gap-2"
-        (click)="accItem.toggle()"
-      >
-        <div class="flex items-center gap-4">
-          <div class="flex flex-col gap-2">
-            <h2 class="font-semibold">KW {{ week().cw }}</h2>
-            <h1 class="text-(length:--text-xs) font-medium">
-              {{ week().dateFrom | date: 'dd.MM.' }} -
-              {{ week().dateTo | date: 'dd.MM.' }}
-            </h1>
-          </div>
-        </div>
-
+<hlm-card class="cursor-pointer">
+  <cdk-accordion-item
+    hlmCardContent
+    #accItem="cdkAccordionItem"
+    [expanded]="isCurrent()"
+  >
+    <header
+      class="grid w-full grid-cols-[5rem_1fr_1.5rem] gap-2"
+      (click)="accItem.toggle()"
+    >
+      <div class="flex items-center gap-4">
         <div class="flex flex-col gap-2">
-          @let total = week().total;
-          @let diff = 250 - total;
-          <span
-            class="text-right"
-            [class.text-green-500]="total <= 250"
-            [class.text-red-500]="total > 250"
-          >
-            {{ total | currency }}
-          </span>
-          <span
-            class="text-right"
-            [class.text-green-500]="total <= 250"
-            [class.text-red-500]="total > 250"
-          >
-            {{ diff | currency }}
-          </span>
-        </div>
-
-        <app-icon
-          [icon]="accItem.expanded ? 'ChevronUp' : 'ChevronDown'"
-          size="small"
-          class="ml-1"
-        />
-      </header>
-
-      <div
-        class="overflow-hidden pt-4 transition-[max-height] duration-300 ease-in-out"
-        [style.max-height]="accItem.expanded ? '1000px' : '0px'"
-      >
-        <div class="grid grid-cols-3 gap-2">
-          @for (entry of entries(); track $index) {
-            <app-weekly-check-shop
-              [class.*:bg-gray-600]="isCurrent()"
-              [class.*:hover:bg-gray-500]="isCurrent()"
-              [weeklyCheckId]="week().id"
-              [label]="entry.label"
-              [entry]="entry.entry"
-              [shop]="entry.shop"
-            />
-          }
+          <h2 class="font-semibold">KW {{ week().cw }}</h2>
+          <h1 class="text-(length:--text-xs) font-medium">
+            {{ week().dateFrom | date: 'dd.MM.' }} -
+            {{ week().dateTo | date: 'dd.MM.' }}
+          </h1>
         </div>
       </div>
-    </cdk-accordion-item>
-  </mat-card-content>
-</mat-card>
+
+      <div class="flex flex-col gap-2">
+        @let total = week().total;
+        @let diff = 250 - total;
+        <span
+          class="text-right"
+          [class.text-green-500]="total <= 250"
+          [class.text-red-500]="total > 250"
+        >
+          {{ total | currency }}
+        </span>
+        <span
+          class="text-right"
+          [class.text-green-500]="total <= 250"
+          [class.text-red-500]="total > 250"
+        >
+          {{ diff | currency }}
+        </span>
+      </div>
+
+      <app-icon
+        [icon]="accItem.expanded ? 'ChevronUp' : 'ChevronDown'"
+        size="small"
+        class="ml-1"
+      />
+    </header>
+
+    <div
+      class="overflow-hidden pt-4 transition-[max-height] duration-300 ease-in-out"
+      [style.max-height]="accItem.expanded ? '1000px' : '0px'"
+    >
+      <div class="grid grid-cols-3 gap-2">
+        @for (entry of entries(); track $index) {
+          <app-weekly-check-shop
+            [class.*:bg-sky-900]="isCurrent()"
+            [class.*:hover:bg-sky-800]="isCurrent()"
+            [weeklyCheckId]="week().id"
+            [label]="entry.label"
+            [entry]="entry.entry"
+            [shop]="entry.shop"
+          />
+        }
+      </div>
+    </div>
+  </cdk-accordion-item>
+</hlm-card>

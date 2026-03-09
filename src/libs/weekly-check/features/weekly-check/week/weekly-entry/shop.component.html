@@ -1,7 +1,7 @@
 <div
   class="flex cursor-pointer items-center gap-2 rounded-lg p-1 hover:bg-gray-600 focus:bg-gray-600"
   [class.bg-gray-600]="isOpened()"
-  [class.bg-gray-700]="!isOpened()"
+  [class.bg-secondary]="!isOpened()"
   (click)="openBottomSheet()"
 >
   <img [src]="iconPath()" alt="icon" class="h-7 w-7 object-contain" />

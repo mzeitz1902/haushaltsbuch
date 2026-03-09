@@ -4,6 +4,8 @@ import { classes } from '@spartan-ng/helm/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectBrnButtonConfig } from './hlm-button.token';
+import { Icon } from '@haushaltsbuch/shared/util-icons';
+import { LucideAngularModule } from 'lucide-angular';
 
 export const buttonVariants = cva(
   "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&_i-lucide]:pointer-events-none [&_i-lucide]:shrink-0 [&_i-lucide:not([class*='text-'])]:text-base",
@@ -48,7 +50,13 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
   host: {
     'data-slot': 'button',
   },
-  template: `<ng-content />`,
+  template: `
+    @if (icon(); as icon) {
+      <i-lucide [name]="icon" size="16" />
+    }
+    <ng-content />
+  `,
+  imports: [LucideAngularModule],
 })
 export class HlmButton {
   private readonly _config = injectBrnButtonConfig();
@@ -60,6 +68,8 @@ export class HlmButton {
   );
 
   public readonly size = input<ButtonVariants['size']>(this._config.size);
+
+  icon = input<Icon>();
 
   constructor() {
     classes(() => [

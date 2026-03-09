@@ -1,30 +1,39 @@
-import { Component, computed, input, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import {
   Week,
   WeeklyCheckEntry,
   WeeklyCheckShops,
 } from '@haushaltsbuch/weekly-check/domain';
-import { MatCard, MatCardContent } from '@angular/material/card';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { IconComponent } from '@haushaltsbuch/shared/ui-components';
 import dayjs from 'dayjs';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ShopComponent } from './weekly-entry/shop.component';
+import { HlmCard, HlmCardContent } from '@spartan-ng/helm/card';
 
 @Component({
   selector: 'app-week',
   imports: [
-    MatCard,
-    MatCardContent,
     CdkAccordionItem,
     IconComponent,
     DatePipe,
     ShopComponent,
     CurrencyPipe,
+    HlmCard,
+    HlmCardContent,
   ],
   templateUrl: './week.component.html',
 })
 export class WeekComponent {
+  private readonly host = inject(ElementRef<HTMLElement>);
+
   week = input.required<Week>();
 
   item = viewChild.required(CdkAccordionItem);
@@ -59,6 +68,13 @@ export class WeekComponent {
     const currentCw = dayjs().week();
     return week.cw === currentCw;
   });
+
+  scrollIntoView() {
+    this.host.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }
 }
 
 interface Entry {

@@ -62,7 +62,8 @@
         "libs/shared/spartan-ui/popover/src/index.ts"
       ],
       "@spartan-ng/helm/input": ["libs/shared/spartan-ui/input/src/index.ts"],
-      "@spartan-ng/helm/dialog": ["libs/shared/spartan-ui/dialog/src/index.ts"]
+      "@spartan-ng/helm/dialog": ["libs/shared/spartan-ui/dialog/src/index.ts"],
+      "@spartan-ng/helm/card": ["libs/shared/spartan-ui/card/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

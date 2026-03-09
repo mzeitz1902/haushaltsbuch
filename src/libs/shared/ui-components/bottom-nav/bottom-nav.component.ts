@@ -24,36 +24,36 @@ import { NgClass } from '@angular/common';
           hlmBtn
           class="dark"
           variant="ghost"
+          icon="HandCoins"
           routerLink="base"
           routerLinkActive
           #base="routerLinkActive"
           [routerLinkActiveOptions]="{ exact: true }"
           [ngClass]="{ 'bg-accent/50': base.isActive }"
         >
-          <i-lucide name="HandCoins" />
           Basis
         </button>
         <button
           hlmBtn
           variant="ghost"
+          icon="ReceiptEuro"
           routerLink="weekly-check"
           routerLinkActive
           #weeklyCheck="routerLinkActive"
           [routerLinkActiveOptions]="{ exact: true }"
           [ngClass]="{ 'bg-accent/50': weeklyCheck.isActive }"
         >
-          <i-lucide name="ReceiptEuro" />
           Woche
         </button>
         <button
           hlmBtn
           variant="ghost"
+          icon="Calendar"
           routerLink="monthly-check"
           routerLinkActive
           #monthlyCheck="routerLinkActive"
           [ngClass]="{ 'bg-accent/50': monthlyCheck.isActive }"
         >
-          <i-lucide name="Calendar" />
           Monat
         </button>
       </div>

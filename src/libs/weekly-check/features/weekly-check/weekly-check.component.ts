@@ -6,10 +6,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import {
-  AppHeaderComponent,
-  ButtonComponent,
-} from '@haushaltsbuch/shared/ui-components';
+import { AppHeaderComponent } from '@haushaltsbuch/shared/ui-components';
 import { WeeklyCheckFacade } from '@haushaltsbuch/weekly-check/domain';
 import { WeekComponent } from './week/week.component';
 import { CdkAccordion } from '@angular/cdk/accordion';
@@ -21,6 +18,7 @@ import {
 import dayjs from 'dayjs';
 import { form, FormField } from '@angular/forms/signals';
 import { CurrencyPipe } from '@angular/common';
+import { HlmButton } from '@spartan-ng/helm/button';
 
 @Component({
   selector: 'app-weekly-check',
@@ -30,14 +28,14 @@ import { CurrencyPipe } from '@angular/common';
     CdkAccordion,
     NgSelectComponent,
     FormField,
-    ButtonComponent,
     CurrencyPipe,
     NgLabelTemplateDirective,
     NgOptionTemplateDirective,
+    HlmButton,
   ],
   templateUrl: './weekly-check.component.html',
   host: {
-    class: 'flex flex-col',
+    class: 'flex flex-col pb-2',
   },
 })
 export class WeeklyCheckComponent {
