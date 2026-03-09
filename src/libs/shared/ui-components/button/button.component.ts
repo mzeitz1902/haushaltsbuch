@@ -9,7 +9,6 @@ import { Icon } from '../../util-icons';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'button[maffiButton]',
   standalone: true,
   templateUrl: './button.component.html',
