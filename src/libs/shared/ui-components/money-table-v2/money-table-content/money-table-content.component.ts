@@ -18,6 +18,16 @@ import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MonthlyHistoryComponent } from '../history/monthly-history.component';
 import { take } from 'rxjs';
+import {
+  HlmDialog,
+  HlmDialogClose,
+  HlmDialogContent,
+  HlmDialogFooter,
+  HlmDialogHeader,
+  HlmDialogPortal,
+  HlmDialogTitle,
+  HlmDialogTrigger,
+} from '@spartan-ng/helm/dialog';
 
 @Component({
   selector: 'app-money-table-content',
@@ -28,6 +38,14 @@ import { take } from 'rxjs';
     StringInputComponent,
     FormField,
     NgTemplateOutlet,
+    HlmDialog,
+    HlmDialogTrigger,
+    HlmDialogHeader,
+    HlmDialogContent,
+    HlmDialogPortal,
+    HlmDialogTitle,
+    HlmDialogFooter,
+    HlmDialogClose,
   ],
   templateUrl: './money-table-content.component.html',
 })
