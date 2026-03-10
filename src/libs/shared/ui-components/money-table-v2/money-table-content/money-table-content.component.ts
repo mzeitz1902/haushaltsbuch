@@ -18,16 +18,7 @@ import { HistoryEntry } from '@haushaltsbuch/monthly-check/domain';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MonthlyHistoryComponent } from '../history/monthly-history.component';
 import { take } from 'rxjs';
-import {
-  HlmDialog,
-  HlmDialogClose,
-  HlmDialogContent,
-  HlmDialogFooter,
-  HlmDialogHeader,
-  HlmDialogPortal,
-  HlmDialogTitle,
-  HlmDialogTrigger,
-} from '@spartan-ng/helm/dialog';
+import { DeleteTableEntryComponent } from './delete/delete-table-entry.component';
 
 @Component({
   selector: 'app-money-table-content',
@@ -38,14 +29,7 @@ import {
     StringInputComponent,
     FormField,
     NgTemplateOutlet,
-    HlmDialog,
-    HlmDialogTrigger,
-    HlmDialogHeader,
-    HlmDialogContent,
-    HlmDialogPortal,
-    HlmDialogTitle,
-    HlmDialogFooter,
-    HlmDialogClose,
+    DeleteTableEntryComponent,
   ],
   templateUrl: './money-table-content.component.html',
 })

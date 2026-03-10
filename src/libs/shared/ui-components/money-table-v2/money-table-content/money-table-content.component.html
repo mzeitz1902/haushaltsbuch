@@ -94,27 +94,7 @@
       <!--placeholder-->
     </div>
     <!--Delete-->
-    <hlm-dialog>
-      <button
-        maffiButton
-        hlmDialogTrigger
-        class="mb-1 h-full"
-        icon="Trash"
-        size="mini"
-        theme="secondary"
-      ></button>
-      <hlm-dialog-content *hlmDialogPortal="let ctx" class="w-xs bg-gray-700">
-        <hlm-dialog-header>
-          <h1 hlmDialogTitle class="text-red-500">Eintrag löschen?</h1>
-        </hlm-dialog-header>
-        <hlm-dialog-footer class="flex flex-row items-center justify-end">
-          <button maffiButton hlmDialogClose theme="inactive">Abbrechen</button>
-          <button maffiButton type="submit" (click)="deleteRow.emit(row.id)">
-            Löschen
-          </button>
-        </hlm-dialog-footer>
-      </hlm-dialog-content>
-    </hlm-dialog>
+    <app-delete-table-entry (deleteClick)="deleteRow.emit(row.id)" />
   </div>
 </ng-template>
 

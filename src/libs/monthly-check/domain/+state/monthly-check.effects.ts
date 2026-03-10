@@ -45,6 +45,10 @@ export function monthlyCheckEffects(
       })
     ),
 
+    reloadMonthsOnCreateSuccess$: events
+      .on(monthlyCheckEvents.createSuccess)
+      .pipe(map(() => monthlyCheckEvents.getCreatedMonths())),
+
     getCreatedMonths$: events.on(monthlyCheckEvents.getCreatedMonths).pipe(
       switchMap(() =>
         dataService.getCreatedMonths().pipe(
