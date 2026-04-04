@@ -14,6 +14,7 @@ import {
   LogOut,
   Pill,
   ReceiptEuro,
+  Save,
   Scale,
   Trash,
 } from 'lucide-angular';
@@ -36,6 +37,7 @@ export const icons = {
   Scale,
   Info,
   Pill,
+  Save
 };
 
 export type Icon = keyof typeof icons;

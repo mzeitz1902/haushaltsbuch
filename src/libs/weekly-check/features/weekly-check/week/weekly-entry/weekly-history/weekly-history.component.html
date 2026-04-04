@@ -62,12 +62,24 @@
       }
     </div>
   </div>
-  <button
-    class="self-center"
-    maffiButton
-    icon="CirclePlus"
-    (click)="addEntry()"
-  >
-    Hinzufügen
-  </button>
+  @if (selectedEntry()) {
+    <button
+      class="self-center"
+      maffiButton
+      icon="Save"
+      (click)="submit(); reset()"
+    >
+      Speichern
+    </button>
+  }@else {
+    <button
+      class="self-center"
+      maffiButton
+      icon="CirclePlus"
+      (click)="addEntry()"
+    >
+      Hinzufügen
+    </button>
+  }
+
 </section>
