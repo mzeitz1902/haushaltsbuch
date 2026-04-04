@@ -50,7 +50,7 @@
               },
               "src/assets"
             ],
-            "styles": ["src/styles.css", "src/styles.scss", "src/styles.scss"],
+            "styles": ["src/styles.css", "src/styles.scss"],
             "outputPath": "dist/haushaltsbuch"
           },
           "configurations": {
