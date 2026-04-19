@@ -25,13 +25,16 @@ import { IconComponent } from '../icon/icon.component';
           <div class="grid grid-cols-2 gap-x-4" #col3>
             <span class="text-right text-xs">Forecast</span>
             <span class="text-right text-xs">Real</span>
-            <h1
-              class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
-              [class.text-green-500]="balanceReal() >= 0"
-              [class.text-red-500]="balanceReal() < 0"
-            >
-              {{ balanceForecast() | currency }}
-            </h1>
+            @let balanceForecast = this.balanceForecast();
+            @if (balanceForecast) {
+              <h1
+                class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
+                [class.text-green-500]="balanceForecast >= 0"
+                [class.text-red-500]="balanceForecast < 0"
+              >
+                {{ balanceForecast | currency }}
+              </h1>
+            }
             <h1
               #col3Value
               class="text-right text-(length:--text-s) leading-(--text-sm--line-height) font-semibold"
