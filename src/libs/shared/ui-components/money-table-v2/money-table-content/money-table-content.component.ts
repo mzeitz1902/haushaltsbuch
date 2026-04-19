@@ -84,8 +84,6 @@ export class MoneyTableContentComponent<
 
   editValue(row: DATA) {
     if (row.category === 'Einkauf') return;
-    this.setForm(row);
-    this.selectedRow.set(row.id);
     if (row.history) {
       this.bottomSheet
         .open(MonthlyHistoryComponent, {
@@ -95,9 +93,13 @@ export class MoneyTableContentComponent<
         .afterDismissed()
         .pipe(take(1))
         .subscribe(() => this.resetAddHistoryEntryProcessStatus.emit());
+      return;
     } else {
       this.selectedField.set('value');
     }
+
+    this.setForm(row);
+    this.selectedRow.set(row.id);
   }
 
   editForecast(row: DATA) {

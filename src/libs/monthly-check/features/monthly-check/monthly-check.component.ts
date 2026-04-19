@@ -5,6 +5,7 @@ import {
   inject,
   input,
   linkedSignal,
+  signal,
   untracked,
 } from '@angular/core';
 import { MonthlyCheckFacade } from '@haushaltsbuch/monthly-check/domain';
@@ -26,6 +27,7 @@ import { CreateMonthDialogComponent } from './create-month-dialog/create-month-d
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { take } from 'rxjs';
 import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-budgets-table.component';
+import { HlmInputImports } from '@spartan-ng/helm/input';
 
 @Component({
   selector: 'app-monthly-check',
@@ -42,6 +44,7 @@ import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-bu
     BalanceComponent,
     MonthlyBudgetsTableComponent,
     FormField,
+    HlmInputImports,
   ],
   templateUrl: './monthly-check.component.html',
 })
@@ -55,7 +58,7 @@ export class MonthlyCheckComponent {
   snapshots = this.monthlyCheckFacade.snapshots;
   createdYears = this.monthlyCheckFacade.createdYears;
 
-  formModel = linkedSignal<Form>(() => {
+  yearMonthFormModel = linkedSignal<Form>(() => {
     let snapshot = dayjs().format('YYYY-MM-DD');
     let year = this.year()!;
     if (this.year() && this.month()) {
@@ -70,8 +73,10 @@ export class MonthlyCheckComponent {
       year,
     };
   });
+  searchFormModel = signal('');
 
-  form = form(this.formModel);
+  yearMonthForm = form(this.yearMonthFormModel);
+  searchForm = form(this.searchFormModel);
 
   currentYearSnapshots = computed(() => {
     const year = this.selectedYear();
@@ -81,8 +86,8 @@ export class MonthlyCheckComponent {
         .includes(year || '')
     );
   });
-  selectedMonth = computed(() => this.formModel().snapshot);
-  selectedYear = computed(() => this.formModel().year);
+  selectedMonth = computed(() => this.yearMonthFormModel().snapshot);
+  selectedYear = computed(() => this.yearMonthFormModel().year);
 
   balanceForecast = computed(() => {
     const totalFixedCosts = this.monthlyCheckFacade.totalFixedCosts();
@@ -117,7 +122,7 @@ export class MonthlyCheckComponent {
   });
 
   navigateOnFormModelChange = effect(() => {
-    const { snapshot, year } = this.formModel();
+    const { snapshot, year } = this.yearMonthFormModel();
     const areMonthsLoaded = this.monthlyCheckFacade.areMonthsLoaded();
     untracked(() => {
       if (!areMonthsLoaded) return;

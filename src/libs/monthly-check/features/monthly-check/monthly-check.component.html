@@ -11,7 +11,7 @@
     <ng-select
       [items]="createdYears()"
       [clearable]="false"
-      [formField]="form.year"
+      [formField]="yearMonthForm.year"
       placeholder="Jahr auswählen"
     />
     <ng-select
@@ -20,9 +20,10 @@
       bindValue="month"
       [items]="currentYearSnapshots()"
       [clearable]="false"
-      [formField]="form.snapshot"
+      [formField]="yearMonthForm.snapshot"
       placeholder="Monat auswählen"
     />
+    <input type="text" hlmInput class="col-span-2 h-12" placeholder="Eintrag suchen..." [formField]="searchForm">
   </div>
 
   <cdk-accordion
