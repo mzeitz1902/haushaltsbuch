@@ -78,6 +78,66 @@ export class MonthlyCheckComponent {
   yearMonthForm = form(this.yearMonthFormModel);
   searchForm = form(this.searchFormModel);
 
+  searchTerm = computed(() => this.searchFormModel().toLowerCase());
+
+  filteredRevenue = computed(() => {
+    const term = this.searchTerm();
+    const data = this.monthlyCheckFacade.revenue();
+    if (!term) return data;
+    return data.filter((item) => item.category?.toLowerCase().includes(term));
+  });
+
+  filteredRevenueTotal = computed(() =>
+    this.filteredRevenue().reduce((sum, item) => sum + (item.value ?? 0), 0)
+  );
+
+  filteredFixedCosts = computed(() => {
+    const term = this.searchTerm();
+    const data = this.monthlyCheckFacade.fixedCosts();
+    if (!term) return data;
+    return data.filter((item) => item.category?.toLowerCase().includes(term));
+  });
+
+  filteredFixedCostsTotal = computed(() =>
+    this.filteredFixedCosts().reduce((sum, item) => sum + (item.value ?? 0), 0)
+  );
+
+  filteredBudgets = computed(() => {
+    const term = this.searchTerm();
+    const data = this.monthlyCheckFacade.budgets();
+    if (!term) return data;
+    return data.filter((item) => item.category?.toLowerCase().includes(term));
+  });
+
+  filteredBudgetsTotal = computed(() =>
+    this.filteredBudgets().reduce((sum, item) => sum + (item.value ?? 0), 0)
+  );
+
+  filteredVariableCosts = computed(() => {
+    const term = this.searchTerm();
+    const data = this.monthlyCheckFacade.variableCosts();
+    if (!term) return data;
+    return data.filter((item) => item.category?.toLowerCase().includes(term));
+  });
+
+  filteredVariableCostsTotal = computed(() =>
+    this.filteredVariableCosts().reduce(
+      (sum, item) => sum + (item.value ?? 0),
+      0
+    )
+  );
+
+  hasSearchResults = computed(() => {
+    const term = this.searchTerm();
+    if (!term) return true;
+    return (
+      this.filteredRevenue().length > 0 ||
+      this.filteredFixedCosts().length > 0 ||
+      this.filteredBudgets().length > 0 ||
+      this.filteredVariableCosts().length > 0
+    );
+  });
+
   currentYearSnapshots = computed(() => {
     const year = this.selectedYear();
     return this.snapshots().filter((m) =>

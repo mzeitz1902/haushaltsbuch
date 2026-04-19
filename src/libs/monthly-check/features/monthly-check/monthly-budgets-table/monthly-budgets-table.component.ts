@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
   MonthlyCheckFacade,
   VariableCost,
@@ -13,8 +13,12 @@ import { MoneyTableV2Component } from '@haushaltsbuch/shared/ui-components';
 export class MonthlyBudgetsTableComponent {
   private readonly facade = inject(MonthlyCheckFacade);
 
+  dataInput = input<VariableCost[]>(undefined, { alias: 'data' });
+  totalInput = input<number>(undefined, { alias: 'total' });
+  expanded = input(false);
+
   data = this.facade.budgets;
-  total = this.facade.totalBudgets;
+  totalBudgets = this.facade.totalBudgets;
   isLoading = this.facade.isMonthLoading;
   isSaving = this.facade.isSavingFixedCost;
   isAdded = this.facade.isBudgetAdded;

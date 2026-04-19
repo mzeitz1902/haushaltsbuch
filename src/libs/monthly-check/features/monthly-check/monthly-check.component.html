@@ -31,14 +31,46 @@
     animate.enter="animate-fade-in"
   >
     @if (selectedMonth()) {
-      <app-revenue-month-table />
-      <app-fixed-costs-month-table />
-      <app-monthly-budgets-table />
-      <app-variable-costs-table />
-      <app-balance
-        [balanceReal]="balanceReal()"
-        [balanceForecast]="balanceForecast()"
-      />
+      @if (hasSearchResults()) {
+        @if (filteredRevenue().length > 0) {
+          <app-revenue-month-table
+            [data]="filteredRevenue()"
+            [total]="filteredRevenueTotal()"
+            [expanded]="!!searchTerm()"
+          />
+        }
+        @if (filteredFixedCosts().length > 0) {
+          <app-fixed-costs-month-table
+            [data]="filteredFixedCosts()"
+            [total]="filteredFixedCostsTotal()"
+            [expanded]="!!searchTerm()"
+          />
+        }
+        @if (filteredBudgets().length > 0) {
+          <app-monthly-budgets-table
+            [data]="filteredBudgets()"
+            [total]="filteredBudgetsTotal()"
+            [expanded]="!!searchTerm()"
+          />
+        }
+        @if (filteredVariableCosts().length > 0) {
+          <app-variable-costs-table
+            [data]="filteredVariableCosts()"
+            [total]="filteredVariableCostsTotal()"
+            [expanded]="!!searchTerm()"
+          />
+        }
+        @if (!searchTerm()) {
+          <app-balance
+            [balanceReal]="balanceReal()"
+            [balanceForecast]="balanceForecast()"
+          />
+        }
+      } @else {
+        <div class="mt-8 flex flex-col items-center justify-center gap-4 text-gray-400">
+          <p class="text-lg font-medium">Kein Eintrag gefunden</p>
+        </div>
+      }
     }
   </cdk-accordion>
 </section>

@@ -35,6 +35,7 @@ export class MoneyTableV2Component<
   headerIcon = input.required<Icon>();
 
   headerTitle = input<string>();
+  expanded = input(false);
   hasSum = input(true);
   col3Template = input<TemplateRef<unknown>>();
   useDataTemplate = input<'values' | 'valuesWithHistory'>('values');

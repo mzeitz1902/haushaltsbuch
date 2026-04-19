@@ -4,6 +4,7 @@
       #accItem="cdkAccordionItem"
       class="flex flex-col"
       [class.gap-3]="accItem.expanded"
+      [expanded]="expanded()"
     >
       @if (headerTitle()) {
         <header

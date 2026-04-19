@@ -1,8 +1,9 @@
 <app-money-table-v2
   headerTitle="Einnahmen"
   headerIcon="BanknoteArrowUp"
-  [data]="revenue()"
-  [total]="total()"
+  [data]="data() ?? revenue()"
+  [total]="total() ?? totalRevenue()"
+  [expanded]="expanded()"
   [isLoading]="isLoading()"
   [isSaving]="isSaving()"
   [isAdded]="isAdded()"

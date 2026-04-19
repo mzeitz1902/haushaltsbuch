@@ -1,8 +1,9 @@
 <app-money-table-v2
   headerTitle="Fixkosten"
   headerIcon="BanknoteArrowDown"
-  [data]="fixedCosts()"
-  [total]="total()"
+  [data]="data() ?? fixedCosts()"
+  [total]="total() ?? totalFixedCosts()"
+  [expanded]="expanded()"
   [isLoading]="isLoading()"
   [isSaving]="isSaving()"
   [isAdded]="isAdded()"
