@@ -8,22 +8,34 @@
   class="container-max-sm mt-2 flex flex-col items-center gap-2 p-2 md:p-6"
 >
   <div class="grid w-full grid-cols-2 gap-4">
-    <ng-select
-      [items]="createdYears()"
-      [clearable]="false"
-      [formField]="yearMonthForm.year"
-      placeholder="Jahr auswählen"
+    <hlm-select [formField]="yearMonthForm.year">
+      <hlm-select-trigger>
+        <hlm-select-value>Jahr auswählen</hlm-select-value>
+      </hlm-select-trigger>
+      <hlm-select-content *hlmSelectPortal>
+        @for (year of createdYears(); track $index) {
+          <hlm-select-item [value]="year">{{ year }}</hlm-select-item>
+        }
+      </hlm-select-content>
+    </hlm-select>
+    
+    <hlm-select [formField]="yearMonthForm.snapshot" [itemToString]="snapshotAsMonth">
+      <hlm-select-trigger>
+        <hlm-select-value>Monat auswählen</hlm-select-value>
+      </hlm-select-trigger>
+      <hlm-select-content *hlmSelectPortal class="p-2">
+        @for (snapshot of currentYearSnapshots(); track $index) {
+          <hlm-select-item [value]="snapshot.month">{{ snapshot.translated }}</hlm-select-item>
+        }
+      </hlm-select-content>
+    </hlm-select>
+    <input
+      type="text"
+      hlmInput
+      class="col-span-2 h-12"
+      placeholder="Eintrag suchen..."
+      [formField]="searchForm"
     />
-    <ng-select
-      class="higher"
-      bindLabel="translated"
-      bindValue="month"
-      [items]="currentYearSnapshots()"
-      [clearable]="false"
-      [formField]="yearMonthForm.snapshot"
-      placeholder="Monat auswählen"
-    />
-    <input type="text" hlmInput class="col-span-2 h-12" placeholder="Eintrag suchen..." [formField]="searchForm">
   </div>
 
   <cdk-accordion
@@ -67,7 +79,9 @@
           />
         }
       } @else {
-        <div class="mt-8 flex flex-col items-center justify-center gap-4 text-gray-400">
+        <div
+          class="mt-8 flex flex-col items-center justify-center gap-4 text-gray-400"
+        >
           <p class="text-lg font-medium">Kein Eintrag gefunden</p>
         </div>
       }

@@ -25,7 +25,7 @@ import {
 } from '@spartan-ng/helm/date-picker';
 import dayjs from 'dayjs';
 import { HlmInput } from '@spartan-ng/helm/input';
-import { MenuDividerComponent } from '../../menu-divider/menu-divider.component';
+import { MenuDividerComponent } from '@haushaltsbuch/shared/ui-components';
 
 @Component({
   selector: 'app-monthly-history',

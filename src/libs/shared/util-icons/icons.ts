@@ -37,7 +37,7 @@ export const icons = {
   Scale,
   Info,
   Pill,
-  Save
+  Save,
 };
 
 export type Icon = keyof typeof icons;

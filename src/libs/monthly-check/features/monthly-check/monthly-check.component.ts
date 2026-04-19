@@ -28,13 +28,13 @@ import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { take } from 'rxjs';
 import { MonthlyBudgetsTableComponent } from './monthly-budgets-table/monthly-budgets-table.component';
 import { HlmInputImports } from '@spartan-ng/helm/input';
+import { HlmSelectImports } from '@spartan-ng/helm/select';
 
 @Component({
   selector: 'app-monthly-check',
   imports: [
     MatFormFieldModule,
     ReactiveFormsModule,
-    NgSelectComponent,
     AppHeaderComponent,
     RevenueMonthTableComponent,
     FixedCostsMonthTableComponent,
@@ -45,6 +45,7 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
     MonthlyBudgetsTableComponent,
     FormField,
     HlmInputImports,
+    HlmSelectImports,
   ],
   templateUrl: './monthly-check.component.html',
 })
@@ -196,6 +197,8 @@ export class MonthlyCheckComponent {
       }
     });
   });
+  protected snapshotAsMonth = (snapshot: string) =>
+    dayjs(snapshot).format('MMMM');
 
   constructor() {
     this.monthlyCheckFacade.getCreatedMonths();
