@@ -9,7 +9,8 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { ButtonComponent } from '@haushaltsbuch/shared/ui-components';
+import { ButtonComponent } from '../../button/button.component';
+import { MenuDividerComponent } from '../../menu-divider/menu-divider.component';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   HistoryEntry,
@@ -25,7 +26,6 @@ import {
 } from '@spartan-ng/helm/date-picker';
 import dayjs from 'dayjs';
 import { HlmInput } from '@spartan-ng/helm/input';
-import { MenuDividerComponent } from '@haushaltsbuch/shared/ui-components';
 
 @Component({
   selector: 'app-monthly-history',
