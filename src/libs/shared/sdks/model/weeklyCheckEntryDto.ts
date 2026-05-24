@@ -4,4 +4,5 @@ export interface WeeklyCheckEntryDto {
   id: string;
   value: number;
   history: HistoryEntryDto[];
+  read: boolean;
 }
