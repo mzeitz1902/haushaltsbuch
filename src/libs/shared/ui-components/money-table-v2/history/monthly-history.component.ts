@@ -193,6 +193,7 @@ export class MonthlyHistoryComponent {
       value: null!,
       date: new Date(),
       note: '',
+      read: false,
     };
   }
 
@@ -202,6 +203,7 @@ export class MonthlyHistoryComponent {
       value: data.value!,
       date: new Date(data.date),
       note: data.note ?? '',
+      read: data.read,
     });
   }
 }

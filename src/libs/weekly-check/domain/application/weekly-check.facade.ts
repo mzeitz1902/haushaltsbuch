@@ -47,6 +47,10 @@ export class WeeklyCheckFacade {
     this.events.updateHistoryEntry(payload);
   }
 
+  markAllHistoryAsRead() {
+    this.events.markAllHistoryAsRead();
+  }
+
   createWeek() {
     this.events.createWeek();
   }

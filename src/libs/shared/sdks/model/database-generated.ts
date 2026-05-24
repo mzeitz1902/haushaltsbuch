@@ -331,6 +331,10 @@ export interface Database {
         Args: { iso_week: number; iso_year: number };
         Returns: string;
       };
+      mark_weekly_check_shop_history_all_read: {
+        Args: { p_read?: boolean; p_shop: string; p_weekly_check_id: number };
+        Returns: undefined;
+      };
       update_budget_history_entry: {
         Args: {
           p_history_item: Json;
@@ -413,16 +417,28 @@ export interface Database {
           variable_costs_total: number;
         }[];
       };
-      update_weekly_check_history: {
-        Args: {
-          p_history_id: string;
-          p_new_note: string;
-          p_new_value: number;
-          p_shop: string;
-          p_weekly_check_id: number;
-        };
-        Returns: undefined;
-      };
+      update_weekly_check_history:
+        | {
+            Args: {
+              p_history_id: string;
+              p_new_note?: string;
+              p_new_read?: boolean;
+              p_new_value?: number;
+              p_shop: string;
+              p_weekly_check_id: number;
+            };
+            Returns: undefined;
+          }
+        | {
+            Args: {
+              p_history_id: string;
+              p_new_note: string;
+              p_new_value: number;
+              p_shop: string;
+              p_weekly_check_id: number;
+            };
+            Returns: undefined;
+          };
     };
     Enums: {
       due_date: '15' | '1';

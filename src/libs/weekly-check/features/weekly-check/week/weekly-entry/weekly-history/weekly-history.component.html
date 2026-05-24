@@ -1,22 +1,27 @@
-<section class="flex flex-col gap-2 overflow-hidden pb-2">
+<section class="flex flex-col gap-2 overflow-hidden pb-2 justify-center items-center w-full">
   <div class="max-h-64 overflow-auto">
     <div class="flex w-full flex-col items-center justify-center **:text-white">
       @for (entry of history(); track entry.id) {
         <div
           class="grid w-full grid-cols-[5.8rem_8em_6rem_min-content] items-center gap-2 px-2 py-2 **:text-sm"
+          [class.border-l-2]="!entry.read"
+          [class.border-blue-400]="!entry.read"
+          [class.bg-blue-500/10]="!entry.read"
         >
-          <span>
+          <span [class.text-blue-300]="!entry.read">
             {{ entry.date | date: 'dd.MM.' }}
           </span>
           <span
             [class.hidden]="selectedEntry() === entry.id"
             [class.h-full]="entry.note === ''"
+            [class.text-blue-300]="!entry.read"
             (click)="edit(entry, 'note')"
           >
             {{ entry.note }}
           </span>
           <span
             [class.hidden]="selectedEntry() === entry.id"
+            [class.text-blue-300]="!entry.read"
             (click)="edit(entry, 'value')"
             class="m-0! my-0! w-full text-right"
           >
@@ -62,23 +67,29 @@
       }
     </div>
   </div>
-  @if (selectedEntry()) {
-    <button
-      class="self-center"
-      maffiButton
-      icon="Save"
-      (click)="submit(); reset()"
-    >
-      Speichern
-    </button>
-  } @else {
-    <button
-      class="self-center"
-      maffiButton
-      icon="CirclePlus"
-      (click)="addEntry()"
-    >
-      Hinzufügen
-    </button>
-  }
+  <div class="flex items-center gap-2">
+    @if (selectedEntry()) {
+      <button
+        class="self-center"
+        maffiButton
+        icon="Save"
+        (click)="submit(); reset()"
+      >
+        Speichern
+      </button>
+    } @else {
+      <button
+        class="self-center"
+        maffiButton
+        icon="CirclePlus"
+        (click)="addEntry()"
+      >
+        Hinzufügen
+      </button>
+    }
+    @if (hasUnreadItems()) {
+      <button maffiButton icon="CircleCheck" theme="secondary" (click)="markAllAsRead()">Alle als gelesen markieren</button>
+    }
+  </div>
+
 </section>

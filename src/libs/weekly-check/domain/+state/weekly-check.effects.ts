@@ -44,7 +44,8 @@ export function weeklyCheckEffects(
         weeklyCheckEvents.addHistoryEntrySuccess,
         weeklyCheckEvents.deleteHistoryEntrySuccess,
         weeklyCheckEvents.updateHistoryEntrySuccess,
-        weeklyCheckEvents.createWeekSuccess
+        weeklyCheckEvents.createWeekSuccess,
+        weeklyCheckEvents.markAllHistoryAsReadSuccess
       )
       .pipe(
         switchMap(() =>
@@ -94,6 +95,20 @@ export function weeklyCheckEffects(
         )
       )
     ),
+
+    markAllHistoryAsRead$: events
+      .on(weeklyCheckEvents.markAllHistoryAsRead)
+      .pipe(
+        getWeekIdAndShop(),
+        switchMap(({ weeklyCheckId, shop }) =>
+          dataService.markEntriesAsRead(weeklyCheckId, shop).pipe(
+            mapResponse({
+              next: () => weeklyCheckEvents.markAllHistoryAsReadSuccess(),
+              error: console.error,
+            })
+          )
+        )
+      ),
 
     createWeek$: events.on(weeklyCheckEvents.createWeek).pipe(
       switchMap(() =>

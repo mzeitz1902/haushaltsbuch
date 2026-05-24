@@ -28,6 +28,9 @@ const events = eventGroup({
 
     createWeek: type<void>(),
     createWeekSuccess: type<void>(),
+
+    markAllHistoryAsRead: type<void>(),
+    markAllHistoryAsReadSuccess: type<void>(),
   },
 });
 
@@ -48,4 +51,7 @@ export const weeklyCheckEvents = {
 
   createWeek: events.createWeek,
   createWeekSuccess: events.createWeekSuccess,
+
+  markAllHistoryAsRead: events.markAllHistoryAsRead,
+  markAllHistoryAsReadSuccess: events.markAllHistoryAsReadSuccess,
 };

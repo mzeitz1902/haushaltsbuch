@@ -3,4 +3,5 @@ export interface HistoryEntryPayload {
   value: number;
   date: Date;
   note: string;
+  read: boolean;
 }

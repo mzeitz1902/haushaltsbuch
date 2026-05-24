@@ -54,6 +54,15 @@ export class WeeklyCheckDataService {
     );
   }
 
+  markEntriesAsRead(weeklyCheckId: number, shop: keyof WeeklyCheckShops) {
+    return from(
+      supabase.rpc('mark_weekly_check_shop_history_all_read', {
+        p_shop: shop,
+        p_weekly_check_id: weeklyCheckId,
+      })
+    );
+  }
+
   createWeek() {
     return from(supabase.rpc('insert_next_weekly_check'));
   }

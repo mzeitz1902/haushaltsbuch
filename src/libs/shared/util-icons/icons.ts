@@ -4,6 +4,7 @@ import {
   Calendar,
   ChevronDown,
   ChevronUp,
+  CircleCheck,
   CircleMinus,
   CirclePlus,
   EllipsisVertical,
@@ -38,6 +39,7 @@ export const icons = {
   Info,
   Pill,
   Save,
+  CircleCheck,
 };
 
 export type Icon = keyof typeof icons;

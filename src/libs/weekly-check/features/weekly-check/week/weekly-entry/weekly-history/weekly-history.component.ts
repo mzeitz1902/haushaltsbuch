@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   inject,
   signal,
@@ -49,11 +50,17 @@ export class WeeklyHistoryComponent {
     required(schemaPath.value);
   });
 
+  hasUnreadItems = computed(() => this.history()?.some((entry) => !entry.read));
+
   constructor() {
     this.facade.setCurrentHistoryInformation(
       this.data.weeklyCheckId,
       this.data.shop
     );
+  }
+
+  markAllAsRead() {
+    this.facade.markAllHistoryAsRead();
   }
 
   deleteEntry(id: string) {
@@ -71,6 +78,7 @@ export class WeeklyHistoryComponent {
       value: entry.value!,
       note: entry.note ?? '',
       date: new Date(entry.date),
+      read: entry.read ?? false,
     });
     // Give the DOM time to render the inputs, then select the matching one
     setTimeout(() => {
@@ -114,6 +122,7 @@ export class WeeklyHistoryComponent {
       value: null!,
       note: null!,
       date: new Date(),
+      read: false,
     };
   }
 }

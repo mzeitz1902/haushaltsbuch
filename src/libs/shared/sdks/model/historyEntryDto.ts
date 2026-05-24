@@ -3,4 +3,5 @@ export interface HistoryEntryDto {
   date: string;
   value: number;
   note: string;
+  read: boolean;
 }
