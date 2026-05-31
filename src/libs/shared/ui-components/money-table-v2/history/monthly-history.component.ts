@@ -26,6 +26,7 @@ import {
 } from '@spartan-ng/helm/date-picker';
 import dayjs from 'dayjs';
 import { HlmInput } from '@spartan-ng/helm/input';
+import { NumberInputComponent } from '../editable-field/number-input/number-input.component';
 
 @Component({
   selector: 'app-monthly-history',
@@ -38,6 +39,7 @@ import { HlmInput } from '@spartan-ng/helm/input';
     HlmDatePickerImports,
     HlmInput,
     MenuDividerComponent,
+    NumberInputComponent,
   ],
   templateUrl: './monthly-history.component.html',
   providers: [
@@ -61,7 +63,7 @@ export class MonthlyHistoryComponent {
     required(schema.id); // prevents empty form submission when blur is fired and submit already happened because of enter
   });
 
-  valueInputs = viewChildren<ElementRef>('valueInput');
+  valueInputs = viewChildren<NumberInputComponent>('valueInput');
   noteInputs = viewChildren<ElementRef<HTMLInputElement>>('noteInput');
   historyScroll = viewChild<ElementRef<HTMLDivElement>>('historyScroll');
 
@@ -166,10 +168,10 @@ export class MonthlyHistoryComponent {
           break;
         }
         case 'value': {
-          const el = this.valueInputs().find(
-            (ref) => ref.nativeElement.dataset['id'] === selectedId
-          )!.nativeElement;
-          el.select();
+          const entryIndex = this.currentHistory().findIndex(
+            (entry) => entry.id === selectedId
+          );
+          this.valueInputs()[entryIndex]?.select();
           break;
         }
       }

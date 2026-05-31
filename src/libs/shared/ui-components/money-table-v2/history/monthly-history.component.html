@@ -45,17 +45,15 @@
             (blur)="submit()"
             (keyup.enter)="submit(); reset()"
           />
-          <input
-            type="number"
+          <app-number-input
             #valueInput
-            hlmInput
             [attr.data-id]="entry.id"
-            class="w-full rounded-md border border-blue-400 bg-gray-600 text-right outline-none"
+            class="w-full"
             [class.hidden]="selectedEntry() !== entry.id"
             [formField]="form.value"
             (click)="valueInput.select()"
-            (blur)="submit()"
-            (keyup.enter)="submit(); reset()"
+            (blurred)="submit()"
+            (enterPress)="submit(); reset()"
           />
 
           <button
@@ -73,12 +71,25 @@
       }
     </div>
   </div>
-  <button
-    class="self-center"
-    maffiButton
-    icon="CirclePlus"
-    (click)="addHistory()"
-  >
-    Hinzufügen
-  </button>
+  @if (selectedEntry()) {
+    <button
+      class="self-center"
+      maffiButton
+      icon="Save"
+      (click)="submit(); reset()"
+    >
+      Speichern
+    </button>
+  } @else {
+
+
+    <button
+      class="self-center"
+      maffiButton
+      icon="CirclePlus"
+      (click)="addHistory()"
+    >
+      Hinzufügen
+    </button>
+  }
 </section>

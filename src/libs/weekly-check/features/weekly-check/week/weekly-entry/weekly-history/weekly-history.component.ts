@@ -10,6 +10,7 @@ import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import {
   ButtonComponent,
   MenuDividerComponent,
+  NumberInputComponent,
 } from '@haushaltsbuch/shared/ui-components';
 import {
   WeeklyCheckFacade,
@@ -30,6 +31,7 @@ import { HlmInput } from '@spartan-ng/helm/input';
     MenuDividerComponent,
     HlmInput,
     DatePipe,
+    NumberInputComponent,
   ],
   templateUrl: './weekly-history.component.html',
 })
@@ -41,7 +43,7 @@ export class WeeklyHistoryComponent {
   readonly data: WeeklyHistoryData = inject(MAT_BOTTOM_SHEET_DATA);
 
   noteInputs = viewChildren<ElementRef<HTMLInputElement>>('noteInput');
-  valueInputs = viewChildren<ElementRef<HTMLInputElement>>('valueInput');
+  valueInputs = viewChildren<NumberInputComponent>('valueInput');
 
   selectedEntry = signal<string | null>(null);
   formModel = signal<WeeklyHistoryForm>(this.initForm());
@@ -94,10 +96,9 @@ export class WeeklyHistoryComponent {
           break;
         }
         case 'value': {
-          const el = this.valueInputs().find(
-            (ref) => ref.nativeElement.dataset['id'] === selectedId
-          )!.nativeElement;
-          el.select();
+          const entryIndex =
+            this.history()?.findIndex((entry) => entry.id === selectedId) ?? -1;
+          this.valueInputs()[entryIndex]?.select();
           break;
         }
       }

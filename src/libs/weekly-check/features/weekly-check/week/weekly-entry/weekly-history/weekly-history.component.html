@@ -40,16 +40,14 @@
             (keyup.enter)="submit(); reset()"
           />
           <div [class.hidden]="selectedEntry() !== entry.id">
-            <input
-              type="number"
+            <app-number-input
               #valueInput
-              hlmInput
               [attr.data-id]="entry.id"
-              class="w-full rounded-md border border-blue-400 bg-gray-600 text-right outline-none"
+              class="w-full"
               [formField]="form.value"
               (click)="valueInput.select()"
-              (blur)="submit()"
-              (keyup.enter)="submit(); reset()"
+              (blurred)="submit()"
+              (enterPress)="submit(); reset()"
             />
           </div>
           <button

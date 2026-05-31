@@ -3,5 +3,6 @@ export * from './icon/icon.component';
 export * from './bottom-nav/bottom-nav.component';
 export * from './app-header/app-header.component';
 export * from './money-table-v2/money-table-v2.component';
+export * from './money-table-v2/editable-field/number-input/number-input.component';
 export * from './balance/balance.component';
 export * from './menu-divider/menu-divider.component';
