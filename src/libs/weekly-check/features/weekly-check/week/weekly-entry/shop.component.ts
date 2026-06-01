@@ -32,6 +32,7 @@ export class ShopComponent {
   shop = input.required<keyof WeeklyCheckShops>();
 
   iconPath = computed(() => `assets/${this.shop()}.svg`);
+  hasUnreadHistory = computed(() => this.entry().history.some((e) => !e.read));
 
   openBottomSheet() {
     const data: WeeklyHistoryData = {
