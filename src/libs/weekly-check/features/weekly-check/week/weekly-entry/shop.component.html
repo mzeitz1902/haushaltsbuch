@@ -1,9 +1,16 @@
 <div
-  class="flex cursor-pointer items-center gap-2 rounded-lg bg-sky-900 p-1 hover:bg-sky-800"
-  [class.ring-1]="hasUnreadHistory()"
-  [class.ring-blue-400]="hasUnreadHistory()"
+  class="relative flex cursor-pointer items-center gap-2 rounded-lg bg-sky-900 p-1 hover:bg-sky-800"
+  [class.border-blue-400]="hasUnreadHistory()"
+  [class.border]="hasUnreadHistory()"
   (click)="openBottomSheet()"
 >
+  @if (hasUnreadHistory()) {
+    <span
+      aria-hidden="true"
+      class="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-blue-400 ring-2 ring-sky-900"
+    ></span>
+  }
+
   <img [src]="iconPath()" alt="icon" class="h-7 w-7 object-contain" />
   <div class="flex min-w-0 flex-col gap-1">
     <span class="text-xs">{{ label() }}</span>
